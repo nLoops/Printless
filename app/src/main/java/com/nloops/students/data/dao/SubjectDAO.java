@@ -1,5 +1,6 @@
 package com.nloops.students.data.dao;
 
+import android.arch.lifecycle.LiveData;
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
@@ -18,7 +19,7 @@ import java.util.List;
 public interface SubjectDAO {
 
   @Query("SELECT * from subjects")
-  List<SubjectEntity> loadAllSubjects();
+  LiveData<List<SubjectEntity>> loadAllSubjects();
 
   @Insert
   void insertSubject(SubjectEntity subjectEntity);
