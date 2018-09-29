@@ -1,3 +1,12 @@
 <resources>
+  <!--General Strings-->
   <string name="app_name">students</string>
+  <string name="empty_state_content_description">Empty State Image</string>
+  <string name="empty_state_text_view">No data to display hit on (+) to save new data</string>
+  <string name="button_add_new">ADD</string>
+  <string name="button_cancel_new">Cancel</string>
+  <!--Subject Activity Strings-->
+  <string name="subject_name_hint">Basics of Consumer Behavior</string>
+  <string name="subject_school_hint">AUC University</string>
+
 </resources>
