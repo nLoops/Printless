@@ -6,7 +6,7 @@
   android:id="@+id/subject_layout_container"
   android:layout_width="match_parent"
   android:layout_height="match_parent"
-  tools:context=".activities.SubjectActivity">
+  tools:context=".subjects.SubjectActivity">
 
   <android.support.v7.widget.RecyclerView
     android:id="@+id/rv_subject_activity"

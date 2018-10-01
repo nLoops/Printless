@@ -5,8 +5,15 @@
   <string name="empty_state_text_view">No data to display hit on (+) to save new data</string>
   <string name="button_add_new">ADD</string>
   <string name="button_cancel_new">Cancel</string>
+  <string name="button_update_current">UPDATE</string>
+  <string name="snack_added_success">New item added successfully</string>
+  <string name="snack_edited_success">Item updated successfully</string>
+  <string name="snack_deleted_success">Item deleted successfully</string>
   <!--Subject Activity Strings-->
   <string name="subject_name_hint">Basics of Consumer Behavior</string>
   <string name="subject_school_hint">AUC University</string>
+  <string name="subject_add_edit_error_msg">Cannot reload data please try again.</string>
+  <string name="subject_add_edit_missing_date">Check missing field need to fill.</string>
+
 
 </resources>
