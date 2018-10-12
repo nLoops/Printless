@@ -7,12 +7,15 @@ import com.nloops.students.data.tables.SubjectEntity;
 import com.nloops.students.subjects.SubjectPresenterContract.Presenter;
 import com.nloops.students.subjects.SubjectPresenterContract.View;
 import java.util.List;
+import timber.log.Timber;
 
 public class SubjectPresenter implements Presenter {
 
   private final LocalDataSource mLocalDataSource;
 
   private final View mView;
+
+  private boolean refresh = true;
 
 
   public SubjectPresenter(@NonNull LocalDataSource dataSource,
@@ -26,29 +29,34 @@ public class SubjectPresenter implements Presenter {
 
   @Override
   public void loadSubjects(boolean forceUpdate) {
-    if (forceUpdate) {
-      mLocalDataSource.getSubjects(new LoadSubjectsCallBack() {
-        @Override
-        public void onSubjectsLoaded(List<SubjectEntity> subjects) {
-          mView.showSubjectsList(subjects);
-        }
+    Timber.d("force update value is %s", forceUpdate);
+    mLocalDataSource.getSubjects(new LoadSubjectsCallBack() {
+      @Override
+      public void onSubjectsLoaded(List<SubjectEntity> subjects) {
+        mView.showSubjectsList(subjects);
+        Timber.d("SubjectsLoaded");
+      }
 
-        @Override
-        public void onSubjectDataNotAvailable() {
-          mView.showEmptyState();
-        }
-      });
-    }
+      @Override
+      public void onSubjectDataNotAvailable() {
+        mView.showEmptyState();
+        Timber.d("SubjectNotAvailable");
+      }
+    });
+
   }
 
 
   @Override
   public void deleteSubject(SubjectEntity subject) {
     mLocalDataSource.deleteSubject(subject);
+    loadSubjects(refresh);
+    mView.showDeletedMessage();
   }
 
   @Override
   public void start() {
-    loadSubjects(true);
+    loadSubjects(refresh);
+    mView.setupPopupMenu();
   }
 }

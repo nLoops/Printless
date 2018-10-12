@@ -5,14 +5,16 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.ViewHolder;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.nloops.students.R;
-import com.nloops.students.activities.SubjectActivity;
 import com.nloops.students.adapters.SubjectAdapter.SubjectViewHolder;
 import com.nloops.students.data.tables.SubjectEntity;
+import com.nloops.students.subjects.SubjectActivity;
 import java.util.List;
 
 /**
@@ -20,12 +22,21 @@ import java.util.List;
  */
 public class SubjectAdapter extends RecyclerView.Adapter<SubjectViewHolder> {
 
+  public interface OnSubjectClickListener {
+
+    void onSubjectClicked(int subjectID, View view, int adapterPosition);
+  }
+
   // ref for List of Subjects.
   private List<SubjectEntity> subjectEntityList;
 
+  // ref of Adapter clickListener
+  private OnSubjectClickListener mClickListener;
 
-  public SubjectAdapter(List<SubjectEntity> dataList) {
+
+  public SubjectAdapter(List<SubjectEntity> dataList, OnSubjectClickListener listener) {
     this.subjectEntityList = dataList;
+    this.mClickListener = listener;
   }
 
   @NonNull
@@ -56,6 +67,27 @@ public class SubjectAdapter extends RecyclerView.Adapter<SubjectViewHolder> {
   }
 
   /**
+   * Helper method to return Subject item in specific position
+   *
+   * @param position the subject pos in the array-list
+   * @return {@link SubjectEntity}
+   */
+  public SubjectEntity getSubject(int position) {
+    return subjectEntityList.get(position);
+  }
+
+  /**
+   * This helper method will takes holder position and retrieve {@link SubjectEntity} in this
+   * position to get it's ID to allow us pass it to get Subject Details.
+   *
+   * @param holder {@link SubjectViewHolder}
+   */
+  private void performClickAction(SubjectViewHolder holder, View view) {
+    SubjectEntity entity = getSubject(holder.getAdapterPosition());
+    mClickListener.onSubjectClicked(entity.getSubjectID(), view, holder.getAdapterPosition());
+  }
+
+  /**
    * This void will help to replace data-set from outside adapter class
    *
    * @param data {@link List<SubjectEntity>}
@@ -70,7 +102,7 @@ public class SubjectAdapter extends RecyclerView.Adapter<SubjectViewHolder> {
   /**
    * This class will holds our xml file views we can access and assign values through it.
    */
-  class SubjectViewHolder extends ViewHolder {
+  class SubjectViewHolder extends ViewHolder implements OnClickListener {
 
     @BindView(R.id.tv_subject_name)
     TextView mSubjectTV;
@@ -78,10 +110,18 @@ public class SubjectAdapter extends RecyclerView.Adapter<SubjectViewHolder> {
     TextView mSchoolTV;
     @BindView(R.id.tv_class_count)
     TextView mClassTV;
+    @BindView(R.id.ib_overflow)
+    ImageButton mOverflowIB;
 
     public SubjectViewHolder(@NonNull View itemView) {
       super(itemView);
       ButterKnife.bind(this, itemView);
+      mOverflowIB.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View v) {
+      performClickAction(this, v);
     }
   }
 

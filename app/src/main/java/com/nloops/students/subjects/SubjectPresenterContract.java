@@ -18,6 +18,10 @@ public interface SubjectPresenterContract {
     void showEditSubject(int subjectID);
 
     void showResultMessage(String message);
+
+    void showDeletedMessage();
+
+    void setupPopupMenu();
   }
 
 
