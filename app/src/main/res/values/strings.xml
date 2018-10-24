@@ -15,11 +15,17 @@
   <string name="subject_school_hint">AUC University</string>
   <string name="subject_add_edit_error_msg">Cannot reload data please try again.</string>
   <string name="subject_add_edit_missing_date">Check missing field need to fill.</string>
+  <string name="zero_classes">Classes (0)</string>
+
+  <!--Classes Activity Strings-->
+  <string name="class_name_hint">Class Name or Number</string>
 
   <!--Popup menu strings-->
   <string name="pop_menu_rename">Rename</string>
   <string name="pop_menu_delete">Delete</string>
   <string name="pop_menu_preset">Preset Schedule</string>
+  <string name="pop_menu_new_att">Take New Attendance</string>
+  <string name="pop_menu_edit_att">Edit Previous Attendance</string>
 
 
 </resources>

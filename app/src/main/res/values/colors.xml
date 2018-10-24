@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-  <color name="colorPrimary">#80CBC4</color>
-  <color name="colorPrimaryDark">#80CBC4</color>
-  <color name="colorAccent">@color/colorPrimary</color>
+  <color name="colorPrimary">@color/colorFakeWhite</color>
+  <color name="colorPrimaryDark">@color/colorFakeWhite</color>
+  <color name="colorAccent">#80CBC4</color>
   <color name="colorTextView">#717171</color>
   <color name="colorRecyclerSeparator">#CBCBCB</color>
   <color name="colorFakeWhite">#F8F8F8</color>
