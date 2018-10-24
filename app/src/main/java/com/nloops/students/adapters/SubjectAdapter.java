@@ -1,5 +1,6 @@
 package com.nloops.students.adapters;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.ViewHolder;
@@ -13,6 +14,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.nloops.students.R;
 import com.nloops.students.adapters.SubjectAdapter.SubjectViewHolder;
+import com.nloops.students.data.mvp.StructureDataSource.LoadClassesCallBack;
+import com.nloops.students.data.mvp.local.LocalDataSource;
+import com.nloops.students.data.tables.ClassEntity;
 import com.nloops.students.data.tables.SubjectEntity;
 import com.nloops.students.subjects.SubjectActivity;
 import java.util.List;
@@ -25,6 +29,8 @@ public class SubjectAdapter extends RecyclerView.Adapter<SubjectViewHolder> {
   public interface OnSubjectClickListener {
 
     void onSubjectClicked(int subjectID, View view, int adapterPosition);
+
+    void onItemClicked(int subjectID);
   }
 
   // ref for List of Subjects.
@@ -33,10 +39,14 @@ public class SubjectAdapter extends RecyclerView.Adapter<SubjectViewHolder> {
   // ref of Adapter clickListener
   private OnSubjectClickListener mClickListener;
 
+  // ref of Context
+  private Context mContext;
 
-  public SubjectAdapter(List<SubjectEntity> dataList, OnSubjectClickListener listener) {
+  public SubjectAdapter(List<SubjectEntity> dataList, OnSubjectClickListener listener,
+      Context context) {
     this.subjectEntityList = dataList;
     this.mClickListener = listener;
+    this.mContext = context;
   }
 
   @NonNull
@@ -51,14 +61,28 @@ public class SubjectAdapter extends RecyclerView.Adapter<SubjectViewHolder> {
   }
 
   @Override
-  public void onBindViewHolder(@NonNull SubjectViewHolder holder, int i) {
+  public void onBindViewHolder(@NonNull final SubjectViewHolder holder, int i) {
 
     // get Current Subject on the loop position
     SubjectEntity currentSubject = subjectEntityList.get(i);
     // assign UI views Values
     holder.mSubjectTV.setText(currentSubject.getSubjectName());
     holder.mClassTV.setText(currentSubject.getSchoolName());
-    holder.mSchoolTV.setText("Classes (9)");
+    // calculate total of classes under this subject
+    LocalDataSource.getInstance(mContext).getClasses(currentSubject.getSubjectID(),
+        new LoadClassesCallBack() {
+          @Override
+          public void onClassesLoaded(List<ClassEntity> data) {
+            String count = "Classes " + "(" + data.size() + ")";
+            holder.mSchoolTV.setText(count);
+          }
+
+          @Override
+          public void onClassesDataNotAvailable() {
+            holder.mSchoolTV.setText(mContext.getString(R.string.zero_classes));
+          }
+        });
+
   }
 
   @Override
@@ -85,6 +109,12 @@ public class SubjectAdapter extends RecyclerView.Adapter<SubjectViewHolder> {
   private void performClickAction(SubjectViewHolder holder, View view) {
     SubjectEntity entity = getSubject(holder.getAdapterPosition());
     mClickListener.onSubjectClicked(entity.getSubjectID(), view, holder.getAdapterPosition());
+  }
+
+
+  private void performClickItem(SubjectViewHolder holder) {
+    SubjectEntity entity = getSubject(holder.getAdapterPosition());
+    mClickListener.onItemClicked(entity.getSubjectID());
   }
 
   /**
@@ -117,11 +147,16 @@ public class SubjectAdapter extends RecyclerView.Adapter<SubjectViewHolder> {
       super(itemView);
       ButterKnife.bind(this, itemView);
       mOverflowIB.setOnClickListener(this);
+      itemView.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
-      performClickAction(this, v);
+      if (v == mOverflowIB) {
+        performClickAction(this, v);
+      } else if (v == itemView) {
+        performClickItem(this);
+      }
     }
   }
 

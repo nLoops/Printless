@@ -1,7 +1,6 @@
 package com.nloops.students.subjects;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
@@ -18,11 +17,12 @@ import butterknife.ButterKnife;
 import com.nloops.students.R;
 import com.nloops.students.adapters.SubjectAdapter;
 import com.nloops.students.adapters.SubjectAdapter.OnSubjectClickListener;
+import com.nloops.students.classesdata.ClassesActivity;
 import com.nloops.students.data.mvp.local.LocalDataSource;
 import com.nloops.students.data.tables.SubjectEntity;
 import com.nloops.students.subjects.SubjectPresenterContract.Presenter;
 import com.nloops.students.utils.UtilsConstants;
-import com.skydoves.powermenu.MenuAnimation;
+import com.nloops.students.utils.UtilsMethods;
 import com.skydoves.powermenu.OnMenuItemClickListener;
 import com.skydoves.powermenu.PowerMenu;
 import com.skydoves.powermenu.PowerMenuItem;
@@ -80,7 +80,7 @@ public class SubjectActivity extends AppCompatActivity implements
     mSubjectRV.setLayoutManager(new LinearLayoutManager(this));
     mSubjectRV.setHasFixedSize(true);
     // Prepare Adapter
-    mAdapter = new SubjectAdapter(null, this);
+    mAdapter = new SubjectAdapter(null, this, this);
     mSubjectRV.setAdapter(mAdapter);
 
     mAddSubjectFAB.setOnClickListener(new OnClickListener() {
@@ -157,17 +157,15 @@ public class SubjectActivity extends AppCompatActivity implements
     items.add(new PowerMenuItem(getString(R.string.pop_menu_preset), false));
     items.add(new PowerMenuItem(getString(R.string.pop_menu_delete), false));
     items.add(new PowerMenuItem(getString(R.string.pop_menu_rename), false));
-    powerMenu = new PowerMenu.Builder(this)
-        .addItemList(items)
-        .setAnimation(MenuAnimation.SHOWUP_TOP_RIGHT) // Animation start point (TOP | RIGHT)
-        .setMenuRadius(10f)
-        .setMenuShadow(10f)
-        .setTextColor(this.getResources().getColor(R.color.colorTextView))
-        .setSelectedTextColor(Color.WHITE)
-        .setMenuColor(Color.WHITE)
-        .setSelectedMenuColor(this.getResources().getColor(R.color.colorPrimary))
-        .setOnMenuItemClickListener(onMenuItemClickListener)
-        .build();
+    powerMenu = UtilsMethods.getPowerMenu
+        (items, onMenuItemClickListener, SubjectActivity.this);
+  }
+
+  @Override
+  public void showClassesActivity(int subjectID) {
+    Intent classIntent = new Intent(SubjectActivity.this, ClassesActivity.class);
+    classIntent.putExtra(UtilsConstants.EXTRA_SUBJECT_ID_TO_CLASSES, subjectID);
+    startActivity(classIntent);
   }
 
   @Override
@@ -185,6 +183,11 @@ public class SubjectActivity extends AppCompatActivity implements
     handlePopupVisibility();
     // menu size and position.
     powerMenu.showAsDropDown(view, -370, 0);
+  }
+
+  @Override
+  public void onItemClicked(int subjectID) {
+    showClassesActivity(subjectID);
   }
 
 

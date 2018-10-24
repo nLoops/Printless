@@ -1,15 +1,11 @@
 package com.nloops.students.data.mvp.local;
 
-import android.app.Activity;
-import android.arch.lifecycle.LifecycleOwner;
-import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.Observer;
 import android.content.Context;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import com.nloops.students.data.AppDatabase;
 import com.nloops.students.data.AppExecutors;
 import com.nloops.students.data.mvp.StructureDataSource;
+import com.nloops.students.data.tables.ClassEntity;
 import com.nloops.students.data.tables.SubjectEntity;
 import java.util.List;
 
@@ -25,19 +21,16 @@ public class LocalDataSource implements StructureDataSource {
   // ref of AppDatabase
   private AppDatabase mDB;
 
-  // ref of Context
-  private Activity mActivity;
 
-  private LocalDataSource(@NonNull Context context, @NonNull Activity activity) {
-    this.mActivity = activity;
+  private LocalDataSource(@NonNull Context context) {
     mDB = AppDatabase.getInstance(context.getApplicationContext());
   }
 
-  public static LocalDataSource getInstance(@NonNull Context context, @NonNull Activity activity) {
+  public static LocalDataSource getInstance(@NonNull Context context) {
     if (INSTANCE == null) {
       synchronized (LocalDataSource.class) {
         if (INSTANCE == null) {
-          INSTANCE = new LocalDataSource(context, activity);
+          INSTANCE = new LocalDataSource(context);
         }
       }
     }
@@ -47,34 +40,50 @@ public class LocalDataSource implements StructureDataSource {
   @Override
   public void getSubjects(@NonNull final LoadSubjectsCallBack callBack) {
 
-    LiveData<List<SubjectEntity>> subjects = mDB.subjectDAO().loadAllSubjects();
-    subjects.observe((LifecycleOwner) mActivity, new Observer<List<SubjectEntity>>() {
+    Runnable runnable = new Runnable() {
       @Override
-      public void onChanged(@Nullable List<SubjectEntity> subjectEntities) {
-        if (subjectEntities.isEmpty()) {
-          callBack.onSubjectDataNotAvailable();
-        } else {
-          callBack.onSubjectsLoaded(subjectEntities);
-        }
+      public void run() {
+        final List<SubjectEntity> subjects = mDB.subjectDAO().loadAllSubjects();
+        AppExecutors.getInstance().mainThread().execute(new Runnable() {
+          @Override
+          public void run() {
+            if (subjects.isEmpty()) {
+              // This will be called if the table is new or just empty.
+              callBack.onSubjectDataNotAvailable();
+            } else {
+              callBack.onSubjectsLoaded(subjects);
+            }
+          }
+        });
       }
-    });
+    };
 
+    AppExecutors.getInstance().diskIO().execute(runnable);
   }
 
+
   @Override
-  public void getSubject(@NonNull int subjectID,
+  public void getSubject(@NonNull final int subjectID,
       @NonNull final LoadSingleSubjectCallBack callBack) {
-    LiveData<SubjectEntity> subejct = mDB.subjectDAO().loadSinglSubject(subjectID);
-    subejct.observe((LifecycleOwner) mActivity, new Observer<SubjectEntity>() {
+
+    Runnable runnable = new Runnable() {
       @Override
-      public void onChanged(@Nullable SubjectEntity subjectEntity) {
-        if (subjectEntity == null) {
-          callBack.onSubjectDataNotAvailable();
-        } else {
-          callBack.onSubjectLoaded(subjectEntity);
-        }
+      public void run() {
+        final SubjectEntity subject = mDB.subjectDAO().loadSingleSubject(subjectID);
+        AppExecutors.getInstance().mainThread().execute(new Runnable() {
+          @Override
+          public void run() {
+            if (subject != null) {
+              callBack.onSubjectLoaded(subject);
+            } else {
+              callBack.onSubjectDataNotAvailable();
+            }
+          }
+        });
       }
-    });
+    };
+
+    AppExecutors.getInstance().diskIO().execute(runnable);
   }
 
   @Override
@@ -106,4 +115,86 @@ public class LocalDataSource implements StructureDataSource {
       }
     });
   }
+
+  // Logic for ClassEntity.
+
+  @Override
+  public void getClasses(@NonNull final int subjectID,
+      @NonNull final LoadClassesCallBack callBack) {
+    Runnable runnable = new Runnable() {
+      @Override
+      public void run() {
+        final List<ClassEntity> classesData = mDB.subjectDAO().loadAllClasses(subjectID);
+        AppExecutors.getInstance().mainThread().execute(new Runnable() {
+          @Override
+          public void run() {
+            if (classesData.isEmpty()) {
+              // This will be called if the table is new or just empty.
+              callBack.onClassesDataNotAvailable();
+            } else {
+              callBack.onClassesLoaded(classesData);
+            }
+          }
+        });
+      }
+    };
+
+    AppExecutors.getInstance().diskIO().execute(runnable);
+  }
+
+  @Override
+  public void getClass(@NonNull final int classID,
+      @NonNull final LoadSingleClassCallBack callBack) {
+
+    Runnable runnable = new Runnable() {
+      @Override
+      public void run() {
+        final ClassEntity classEntity = mDB.subjectDAO().loadSingleClass(classID);
+        AppExecutors.getInstance().mainThread().execute(new Runnable() {
+          @Override
+          public void run() {
+            if (classEntity != null) {
+              callBack.onClassDataLoaded(classEntity);
+            } else {
+              callBack.onClassDataNotAvailable();
+            }
+          }
+        });
+      }
+    };
+
+    AppExecutors.getInstance().diskIO().execute(runnable);
+  }
+
+  @Override
+  public void insertClass(@NonNull final ClassEntity classEntity) {
+    AppExecutors.getInstance().diskIO().execute(new Runnable() {
+      @Override
+      public void run() {
+        mDB.subjectDAO().insertClass(classEntity);
+      }
+    });
+  }
+
+  @Override
+  public void updateClass(@NonNull final ClassEntity classEntity) {
+    AppExecutors.getInstance().diskIO().execute(new Runnable() {
+      @Override
+      public void run() {
+        mDB.subjectDAO().updateClass(classEntity);
+      }
+    });
+  }
+
+  @Override
+  public void deleteClass(@NonNull final ClassEntity classEntity) {
+
+    AppExecutors.getInstance().diskIO().execute(new Runnable() {
+      @Override
+      public void run() {
+        mDB.subjectDAO().deleteClass(classEntity);
+      }
+    });
+  }
+
 }

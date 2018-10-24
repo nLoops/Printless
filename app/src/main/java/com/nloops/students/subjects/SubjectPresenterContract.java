@@ -22,6 +22,8 @@ public interface SubjectPresenterContract {
     void showDeletedMessage();
 
     void setupPopupMenu();
+
+    void showClassesActivity(int subjectID);
   }
 
 
