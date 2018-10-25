@@ -2,7 +2,9 @@ package com.nloops.students.data.mvp;
 
 
 import android.support.annotation.NonNull;
+import com.nloops.students.data.tables.AbsenteeEntity;
 import com.nloops.students.data.tables.ClassEntity;
+import com.nloops.students.data.tables.StudentEntity;
 import com.nloops.students.data.tables.SubjectEntity;
 import java.util.List;
 
@@ -37,7 +39,6 @@ public interface StructureDataSource {
     void onClassesDataNotAvailable();
   }
 
-
   interface LoadSingleClassCallBack {
 
     void onClassDataLoaded(ClassEntity classEntity);
@@ -45,9 +46,39 @@ public interface StructureDataSource {
     void onClassDataNotAvailable();
   }
 
+  // The Same logic for Students Entity
+  interface LoadStudentsCallBack {
+
+    void onStudentsLoaded(List<StudentEntity> data);
+
+    void onStudentsDataNotAvailable();
+  }
+
+  interface LoadSingleStudentCallBack {
+
+    void onStudentsLoaded(StudentEntity studentEntity);
+
+    void onStudentsDataNotAvailable();
+  }
+
+  // The Same logic for Absentee Entity
+  interface LoadAbsenteeCallBack {
+
+    void onAbsenteeLoaded(List<AbsenteeEntity> data);
+
+    void onAbsenteeDataNotAvailable();
+  }
+
+  interface LoadSingleAbsenteeCallBack {
+
+    void onAbsenteeLoaded(AbsenteeEntity absenteeEntity);
+
+    void onAbsenteeDataNotAvailable();
+  }
+
   void getSubjects(@NonNull LoadSubjectsCallBack callBack);
 
-  void getSubject(@NonNull int subjectID, @NonNull LoadSingleSubjectCallBack callBack);
+  void getSubject(int subjectID, @NonNull LoadSingleSubjectCallBack callBack);
 
   void insertSubject(@NonNull SubjectEntity subject);
 
@@ -57,14 +88,40 @@ public interface StructureDataSource {
 
   // for ClassEntity
 
-  void getClasses(@NonNull int subjectID, @NonNull LoadClassesCallBack callBack);
+  void getClasses(int subjectID, @NonNull LoadClassesCallBack callBack);
 
-  void getClass(@NonNull int classID, @NonNull LoadSingleClassCallBack callBack);
+  void getClass(int classID, @NonNull LoadSingleClassCallBack callBack);
 
   void insertClass(@NonNull ClassEntity classEntity);
 
   void updateClass(@NonNull ClassEntity classEntity);
 
   void deleteClass(@NonNull ClassEntity classEntity);
+
+  // for StudentEntity
+
+  void getStudents(int classID, @NonNull LoadStudentsCallBack callBack);
+
+  void getStudent(int studentID, @NonNull LoadSingleStudentCallBack callBack);
+
+  void insertStudent(@NonNull StudentEntity studentEntity);
+
+  void updateStudent(@NonNull StudentEntity studentEntity);
+
+  void deleteStudent(@NonNull StudentEntity studentEntity);
+
+  // for Absentee Entity
+
+  void getAllAbsentee(@NonNull LoadAbsenteeCallBack callBack);
+
+  void getAbsentee(int absenteeID, @NonNull LoadSingleAbsenteeCallBack callBack);
+
+  void insertAbsentee(@NonNull AbsenteeEntity absenteeEntity);
+
+  void updateAbsentee(@NonNull AbsenteeEntity absenteeEntity);
+
+  void deleteAbsentee(@NonNull AbsenteeEntity absenteeEntity);
+
+  void getAbsenteeForStudent(int studentID, @NonNull LoadAbsenteeCallBack callBack);
 
 }

@@ -5,7 +5,9 @@ import android.support.annotation.NonNull;
 import com.nloops.students.data.AppDatabase;
 import com.nloops.students.data.AppExecutors;
 import com.nloops.students.data.mvp.StructureDataSource;
+import com.nloops.students.data.tables.AbsenteeEntity;
 import com.nloops.students.data.tables.ClassEntity;
+import com.nloops.students.data.tables.StudentEntity;
 import com.nloops.students.data.tables.SubjectEntity;
 import java.util.List;
 
@@ -39,7 +41,6 @@ public class LocalDataSource implements StructureDataSource {
 
   @Override
   public void getSubjects(@NonNull final LoadSubjectsCallBack callBack) {
-
     Runnable runnable = new Runnable() {
       @Override
       public void run() {
@@ -63,7 +64,7 @@ public class LocalDataSource implements StructureDataSource {
 
 
   @Override
-  public void getSubject(@NonNull final int subjectID,
+  public void getSubject(final int subjectID,
       @NonNull final LoadSingleSubjectCallBack callBack) {
 
     Runnable runnable = new Runnable() {
@@ -119,7 +120,7 @@ public class LocalDataSource implements StructureDataSource {
   // Logic for ClassEntity.
 
   @Override
-  public void getClasses(@NonNull final int subjectID,
+  public void getClasses(final int subjectID,
       @NonNull final LoadClassesCallBack callBack) {
     Runnable runnable = new Runnable() {
       @Override
@@ -143,7 +144,7 @@ public class LocalDataSource implements StructureDataSource {
   }
 
   @Override
-  public void getClass(@NonNull final int classID,
+  public void getClass(final int classID,
       @NonNull final LoadSingleClassCallBack callBack) {
 
     Runnable runnable = new Runnable() {
@@ -195,6 +196,186 @@ public class LocalDataSource implements StructureDataSource {
         mDB.subjectDAO().deleteClass(classEntity);
       }
     });
+  }
+
+  // Logic for ClassEntity.
+
+  @Override
+  public void getStudents(final int classID, @NonNull final LoadStudentsCallBack callBack) {
+    Runnable runnable = new Runnable() {
+      @Override
+      public void run() {
+        final List<StudentEntity> studentsData = mDB.subjectDAO().loadAllStudents(classID);
+        AppExecutors.getInstance().mainThread().execute(new Runnable() {
+          @Override
+          public void run() {
+            if (studentsData.isEmpty()) {
+              // This will be called if the table is new or just empty.
+              callBack.onStudentsDataNotAvailable();
+            } else {
+              callBack.onStudentsLoaded(studentsData);
+            }
+          }
+        });
+      }
+    };
+
+    AppExecutors.getInstance().diskIO().execute(runnable);
+  }
+
+  @Override
+  public void getStudent(final int studentID, @NonNull final LoadSingleStudentCallBack callBack) {
+    Runnable runnable = new Runnable() {
+      @Override
+      public void run() {
+        final StudentEntity studentEntity = mDB.subjectDAO().loadSingleStudent(studentID);
+        AppExecutors.getInstance().mainThread().execute(new Runnable() {
+          @Override
+          public void run() {
+            if (studentEntity != null) {
+              callBack.onStudentsLoaded(studentEntity);
+            } else {
+              callBack.onStudentsDataNotAvailable();
+            }
+          }
+        });
+      }
+    };
+
+    AppExecutors.getInstance().diskIO().execute(runnable);
+  }
+
+  @Override
+  public void insertStudent(@NonNull final StudentEntity studentEntity) {
+    AppExecutors.getInstance().diskIO().execute(new Runnable() {
+      @Override
+      public void run() {
+        mDB.subjectDAO().insertStudent(studentEntity);
+      }
+    });
+  }
+
+  @Override
+  public void updateStudent(@NonNull final StudentEntity studentEntity) {
+    AppExecutors.getInstance().diskIO().execute(new Runnable() {
+      @Override
+      public void run() {
+        mDB.subjectDAO().updateStudent(studentEntity);
+      }
+    });
+  }
+
+  @Override
+  public void deleteStudent(@NonNull final StudentEntity studentEntity) {
+    AppExecutors.getInstance().diskIO().execute(new Runnable() {
+      @Override
+      public void run() {
+        mDB.subjectDAO().deleteStudent(studentEntity);
+      }
+    });
+  }
+
+  // Logic for Absentee Entity.
+
+  @Override
+  public void getAllAbsentee(@NonNull final LoadAbsenteeCallBack callBack) {
+    Runnable runnable = new Runnable() {
+      @Override
+      public void run() {
+        final List<AbsenteeEntity> absenteeEntities = mDB.subjectDAO().loadAllAbsentee();
+        AppExecutors.getInstance().mainThread().execute(new Runnable() {
+          @Override
+          public void run() {
+            if (absenteeEntities.isEmpty()) {
+              // This will be called if the table is new or just empty.
+              callBack.onAbsenteeDataNotAvailable();
+            } else {
+              callBack.onAbsenteeLoaded(absenteeEntities);
+            }
+          }
+        });
+      }
+    };
+
+    AppExecutors.getInstance().diskIO().execute(runnable);
+  }
+
+  @Override
+  public void getAbsentee(final int absenteeID,
+      @NonNull final LoadSingleAbsenteeCallBack callBack) {
+    Runnable runnable = new Runnable() {
+      @Override
+      public void run() {
+        final AbsenteeEntity absenteeEntity = mDB.subjectDAO().loadSingleAbsentee(absenteeID);
+        AppExecutors.getInstance().mainThread().execute(new Runnable() {
+          @Override
+          public void run() {
+            if (absenteeEntity != null) {
+              callBack.onAbsenteeLoaded(absenteeEntity);
+            } else {
+              callBack.onAbsenteeDataNotAvailable();
+            }
+          }
+        });
+      }
+    };
+
+    AppExecutors.getInstance().diskIO().execute(runnable);
+  }
+
+  @Override
+  public void insertAbsentee(@NonNull final AbsenteeEntity absenteeEntity) {
+    AppExecutors.getInstance().diskIO().execute(new Runnable() {
+      @Override
+      public void run() {
+        mDB.subjectDAO().insertAbsentee(absenteeEntity);
+      }
+    });
+  }
+
+  @Override
+  public void updateAbsentee(@NonNull final AbsenteeEntity absenteeEntity) {
+    AppExecutors.getInstance().diskIO().execute(new Runnable() {
+      @Override
+      public void run() {
+        mDB.subjectDAO().updateAbsentee(absenteeEntity);
+      }
+    });
+  }
+
+  @Override
+  public void deleteAbsentee(@NonNull final AbsenteeEntity absenteeEntity) {
+    AppExecutors.getInstance().diskIO().execute(new Runnable() {
+      @Override
+      public void run() {
+        mDB.subjectDAO().deleteAbsentee(absenteeEntity);
+      }
+    });
+  }
+
+  @Override
+  public void getAbsenteeForStudent(final int studentID,
+      @NonNull final LoadAbsenteeCallBack callBack) {
+    Runnable runnable = new Runnable() {
+      @Override
+      public void run() {
+        final List<AbsenteeEntity> absenteeEntities =
+            mDB.subjectDAO().getAbsenteeForStudent(studentID);
+        AppExecutors.getInstance().mainThread().execute(new Runnable() {
+          @Override
+          public void run() {
+            if (absenteeEntities.isEmpty()) {
+              // This will be called if the table is new or just empty.
+              callBack.onAbsenteeDataNotAvailable();
+            } else {
+              callBack.onAbsenteeLoaded(absenteeEntities);
+            }
+          }
+        });
+      }
+    };
+
+    AppExecutors.getInstance().diskIO().execute(runnable);
   }
 
 }
