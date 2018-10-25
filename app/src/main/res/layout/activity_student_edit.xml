@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  android:id="@+id/student_edit_container"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:padding="@dimen/dimen_eight_dp">
+
+  <android.support.design.widget.TextInputLayout
+    android:id="@+id/tl_add_student_uid"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/dimen_twentyfour_dp"
+    app:layout_constraintLeft_toLeftOf="parent"
+    app:layout_constraintTop_toTopOf="parent">
+
+    <android.support.design.widget.TextInputEditText
+      android:id="@+id/ed_student_uid"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:hint="@string/student_uid_hint"
+      android:inputType="textAutoComplete"
+      />
+
+  </android.support.design.widget.TextInputLayout>
+
+  <android.support.design.widget.TextInputLayout
+    android:id="@+id/tl_add_student_name"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/dimen_eight_dp"
+    app:layout_constraintLeft_toLeftOf="@id/tl_add_student_uid"
+    app:layout_constraintTop_toBottomOf="@id/tl_add_student_uid">
+
+    <android.support.design.widget.TextInputEditText
+      android:id="@+id/ed_student_name"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:hint="@string/student_name_hint"
+      android:inputType="textAutoComplete"/>
+
+  </android.support.design.widget.TextInputLayout>
+
+  <Button
+    android:id="@+id/btn_add_student"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/dimen_twentyfour_dp"
+    android:layout_marginEnd="@dimen/dimen_sixteen_dp"
+    android:background="@drawable/add_btn_background"
+    android:text="@string/button_add_new"
+    android:textColor="@android:color/white"
+    android:textSize="@dimen/text_body_size"
+    app:layout_constraintRight_toRightOf="parent"
+    app:layout_constraintTop_toBottomOf="@id/tl_add_student_name"
+    />
+
+  <Button
+    android:id="@+id/btn_cancel_student"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/dimen_twentyfour_dp"
+    android:layout_marginStart="@dimen/dimen_sixteen_dp"
+    android:background="@drawable/add_btn_background_stroke"
+    android:text="@string/button_cancel_new"
+    android:textColor="@color/colorAccent"
+    android:textSize="@dimen/text_body_size"
+    app:layout_constraintLeft_toLeftOf="@id/tl_add_student_name"
+    app:layout_constraintTop_toBottomOf="@id/tl_add_student_name"
+    />
+
+
+</android.support.constraint.ConstraintLayout>

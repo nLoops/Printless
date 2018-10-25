@@ -14,11 +14,16 @@
   <string name="subject_name_hint">Basics of Consumer Behavior</string>
   <string name="subject_school_hint">AUC University</string>
   <string name="subject_add_edit_error_msg">Cannot reload data please try again.</string>
-  <string name="subject_add_edit_missing_date">Check missing field need to fill.</string>
+  <string name="subject_add_edit_missing_date">Missing fields need to fill.</string>
   <string name="zero_classes">Classes (0)</string>
 
   <!--Classes Activity Strings-->
   <string name="class_name_hint">Class Name or Number</string>
+
+  <!--Student Activity Strings-->
+  <string name="student_uid_hint">Student ID No.</string>
+  <string name="student_name_hint">Student Name</string>
+  <string name="zero_students">Students (0)</string>
 
   <!--Popup menu strings-->
   <string name="pop_menu_rename">Rename</string>
