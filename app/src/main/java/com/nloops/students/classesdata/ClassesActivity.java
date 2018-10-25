@@ -20,6 +20,7 @@ import com.nloops.students.adapters.ClassesAdapter.OnClassClickListener;
 import com.nloops.students.classesdata.ClassDataContract.ClassPresenter;
 import com.nloops.students.data.mvp.local.LocalDataSource;
 import com.nloops.students.data.tables.ClassEntity;
+import com.nloops.students.students.StudentActivity;
 import com.nloops.students.utils.UtilsConstants;
 import com.nloops.students.utils.UtilsMethods;
 import com.skydoves.powermenu.OnMenuItemClickListener;
@@ -80,7 +81,7 @@ public class ClassesActivity extends AppCompatActivity implements ClassDataContr
     mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
     mRecyclerView.setHasFixedSize(true);
     // prepare Adapter
-    mAdapter = new ClassesAdapter(null, this);
+    mAdapter = new ClassesAdapter(null, this, this);
     mRecyclerView.setAdapter(mAdapter);
 
     mClassFAB.setOnClickListener(new OnClickListener() {
@@ -165,6 +166,13 @@ public class ClassesActivity extends AppCompatActivity implements ClassDataContr
 
   }
 
+  @Override
+  public void showStudentsActivity(int classID) {
+    Intent studentIntent = new Intent(ClassesActivity.this, StudentActivity.class);
+    studentIntent.putExtra(UtilsConstants.EXTRA_CLASS_TO_STUDENT_ID, classID);
+    startActivity(studentIntent);
+  }
+
   private OnMenuItemClickListener<PowerMenuItem> onMenuItemClickListener = new OnMenuItemClickListener<PowerMenuItem>() {
     @Override
     public void onItemClick(int position, PowerMenuItem item) {
@@ -207,8 +215,7 @@ public class ClassesActivity extends AppCompatActivity implements ClassDataContr
 
   @Override
   public void onClassClicked(int classID) {
-
-    // to show students activity.
+    showStudentsActivity(classID);
   }
 
   /**

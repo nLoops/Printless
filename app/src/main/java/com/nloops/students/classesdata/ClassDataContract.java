@@ -23,6 +23,8 @@ public interface ClassDataContract {
 
     void setupPopupMenu();
 
+    void showStudentsActivity(int classID);
+
   }
 
 

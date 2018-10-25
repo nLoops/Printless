@@ -1,5 +1,6 @@
 package com.nloops.students.adapters;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView.Adapter;
 import android.support.v7.widget.RecyclerView.ViewHolder;
@@ -12,7 +13,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.nloops.students.R;
 import com.nloops.students.adapters.ClassesAdapter.ClassesViewHolder;
+import com.nloops.students.data.mvp.StructureDataSource.LoadStudentsCallBack;
+import com.nloops.students.data.mvp.local.LocalDataSource;
 import com.nloops.students.data.tables.ClassEntity;
+import com.nloops.students.data.tables.StudentEntity;
 import java.util.List;
 
 public class ClassesAdapter extends Adapter<ClassesViewHolder> {
@@ -26,16 +30,16 @@ public class ClassesAdapter extends Adapter<ClassesViewHolder> {
 
   // ref of list of classes data
   private List<ClassEntity> mClassEntities;
-
   // ref of listener
   private OnClassClickListener mListener;
+  // ref of Context
+  private Context mContext;
 
 
-  public ClassesAdapter(List<ClassEntity> data, OnClassClickListener listener) {
-
+  public ClassesAdapter(List<ClassEntity> data, OnClassClickListener listener, Context context) {
     this.mClassEntities = data;
-
     this.mListener = listener;
+    this.mContext = context;
   }
 
   @NonNull
@@ -59,11 +63,25 @@ public class ClassesAdapter extends Adapter<ClassesViewHolder> {
   }
 
   @Override
-  public void onBindViewHolder(@NonNull ClassesViewHolder holder, int i) {
+  public void onBindViewHolder(@NonNull final ClassesViewHolder holder, int i) {
 
     ClassEntity entity = getClassEntity(i);
     holder.mClassName.setText(entity.getClassName());
-    holder.mStudentsCount.setText("Students (35)");
+    // get Count of Class students
+    LocalDataSource.getInstance(mContext).getStudents(entity.getClassID(),
+        new LoadStudentsCallBack() {
+          @Override
+          public void onStudentsLoaded(List<StudentEntity> data) {
+            String count = "Students " + "(" + data.size() + ")";
+            holder.mStudentsCount.setText(count);
+          }
+
+          @Override
+          public void onStudentsDataNotAvailable() {
+            holder.mStudentsCount.setText(mContext.getString(R.string.zero_students));
+          }
+        });
+
   }
 
   @Override
