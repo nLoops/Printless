@@ -25,6 +25,10 @@
     </activity>
     <activity android:name=".classesdata.ClassAddEdit">
     </activity>
+    <activity android:name=".students.StudentEditActivity">
+    </activity>
+    <activity android:name=".students.StudentActivity">
+    </activity>
   </application>
 
 </manifest>
