@@ -10,6 +10,8 @@ public class UtilsConstants {
   public static final String EXTRA_SUBJECT_ID_TO_CLASSES = "com.nloops.studetns.EXTRA_INTENT_subjectID";
   public static final String EXTRA_CLASS_ID_INTENT = "com.nloops.students.EXTRA_INTENT_CLASS_id";
   public static final String EXTRA_CLASS_TO_EDIT_SUBJECT_ID = "com.nloops.students.EXTRA_INTENT_CLASS_EDIT_id";
+  public static final String EXTRA_STUDENT_ID_INTENT = "com.nloops.students.EXTRA_STUDENT_INTENT_ID";
+  public static final String EXTRA_CLASS_TO_STUDENT_ID = "com.nloops.students.EXTRA_CLASS_TO_STUDENT";
   // for Activity RESULTS messages
   public static final int RESULT_ADD_ITEM = 100;
   public static final int RESULT_EDIT_ITEM = 101;
