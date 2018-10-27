@@ -10,10 +10,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.RelativeLayout;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import com.nloops.students.R;
 import com.nloops.students.adapters.SubjectAdapter;
 import com.nloops.students.adapters.SubjectAdapter.OnSubjectClickListener;
@@ -42,8 +42,6 @@ public class SubjectActivity extends AppCompatActivity implements
   RecyclerView mSubjectRV;
   @BindView(R.id.subject_rv_empty_state)
   RelativeLayout mRecyclerEmptyState;
-  @BindView(R.id.subject_fab)
-  FloatingActionButton mAddSubjectFAB;
   @BindView(R.id.subject_layout_container)
   CoordinatorLayout layoutContainer;
 
@@ -71,26 +69,25 @@ public class SubjectActivity extends AppCompatActivity implements
     setContentView(R.layout.activity_subject);
     // link views using ButterKnife
     ButterKnife.bind(this);
+    // setup presenter
+    setupPresenter();
+  }
 
+  @OnClick(R.id.subject_fab)
+  public void showAddSubject(FloatingActionButton fab) {
+    showAddNewSubject();
+  }
+
+  private void setupPresenter() {
     mPresenter = new SubjectPresenter(LocalDataSource.getInstance
         (SubjectActivity.this)
         , this);
-
     // Prepare RecyclerView
     mSubjectRV.setLayoutManager(new LinearLayoutManager(this));
     mSubjectRV.setHasFixedSize(true);
     // Prepare Adapter
     mAdapter = new SubjectAdapter(null, this, this);
     mSubjectRV.setAdapter(mAdapter);
-
-    mAddSubjectFAB.setOnClickListener(new OnClickListener() {
-      @Override
-      public void onClick(View v) {
-        showAddNewSubject();
-      }
-    });
-
-
   }
 
   @Override

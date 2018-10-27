@@ -6,18 +6,21 @@ import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
-import android.view.View.OnClickListener;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.widget.Button;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import com.nloops.students.R;
 import com.nloops.students.data.mvp.local.LocalDataSource;
 import com.nloops.students.data.tables.SubjectEntity;
 import com.nloops.students.subjects.SubjectEditContract.Presenter;
 import com.nloops.students.utils.UtilsConstants;
+import com.nloops.students.utils.UtilsMethods;
 
 /**
  * This Activity Will handle Add, Edit Subjects it will cooperation with {@link SubjectActivity}
@@ -37,6 +40,10 @@ public class SubjectAddEdit extends AppCompatActivity implements
   Button mCancelSubjectBT;
   @BindView(R.id.subject_add_edit_container)
   ConstraintLayout layoutContainer;
+  @BindView(R.id.tl_add_class_name_holder)
+  TextInputLayout mClassLayoutED;
+  @BindView(R.id.tl_add_subject_name)
+  TextInputLayout mSubjectLayoutED;
 
   // ref of presenter
   private SubjectEditPresenter mPresenter;
@@ -50,6 +57,52 @@ public class SubjectAddEdit extends AppCompatActivity implements
     setContentView(R.layout.activity_add_edit_subject);
     // Link views to the activity
     ButterKnife.bind(this);
+    // setup presenter
+    setupPresenter();
+    // force keyboard to show
+    UtilsMethods.showKeyboard(this);
+    // clear error state
+    mSubjectNameED.addTextChangedListener(new TextWatcher() {
+      @Override
+      public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        //
+      }
+
+      @Override
+      public void onTextChanged(CharSequence s, int start, int before, int count) {
+        if (mSubjectLayoutED.isErrorEnabled()) {
+          mSubjectLayoutED.setErrorEnabled(false);
+        }
+      }
+
+      @Override
+      public void afterTextChanged(Editable s) {
+        //
+      }
+    });
+    mSchoolNameED.addTextChangedListener(new TextWatcher() {
+      @Override
+      public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        //
+      }
+
+      @Override
+      public void onTextChanged(CharSequence s, int start, int before, int count) {
+        if (mClassLayoutED.isErrorEnabled()) {
+          mClassLayoutED.setErrorEnabled(false);
+        }
+      }
+
+      @Override
+      public void afterTextChanged(Editable s) {
+        //
+      }
+    });
+
+  }
+
+
+  private void setupPresenter() {
     // preparing presenter for new subject or edit mode
     if (getIntent().hasExtra(UtilsConstants.EXTRA_SUBJECT_ID_INTENT)) {
       // getting passed value
@@ -63,31 +116,23 @@ public class SubjectAddEdit extends AppCompatActivity implements
       mPresenter = new SubjectEditPresenter(LocalDataSource.
           getInstance(this), this, subjectID);
     }
-
-    // link insert new subject to Add button.
-    mInsertSubjectBT.setOnClickListener(new OnClickListener() {
-      @Override
-      public void onClick(View v) {
-        SubjectEntity entity = new SubjectEntity(mSubjectNameED.getText().toString()
-            , mSchoolNameED.getText().toString());
-        if (isEditMode) {
-          mPresenter.updateSubject(entity);
-        } else {
-          mPresenter.insertSubject(entity);
-        }
-      }
-    });
-
-    mCancelSubjectBT.setOnClickListener(new OnClickListener() {
-      @Override
-      public void onClick(View v) {
-        finish();
-      }
-    });
-
-
   }
 
+  @OnClick(R.id.btn_add_subject)
+  public void insertSubject(Button button) {
+    SubjectEntity entity = new SubjectEntity(mSubjectNameED.getText().toString()
+        , mSchoolNameED.getText().toString());
+    if (isEditMode) {
+      mPresenter.updateSubject(entity);
+    } else {
+      mPresenter.insertSubject(entity);
+    }
+  }
+
+  @OnClick(R.id.btn_cancel_subject)
+  public void cancelSubject(Button button) {
+    finish();
+  }
 
   @Override
   protected void onResume() {
@@ -109,8 +154,18 @@ public class SubjectAddEdit extends AppCompatActivity implements
 
   @Override
   public void showMissingDataMessage() {
-    Snackbar.make(layoutContainer, getString(R.string.subject_add_edit_missing_date),
-        Snackbar.LENGTH_LONG).show();
+    if (mSchoolNameED.length() <= 0 && mSubjectNameED.length() > 0) {
+      mClassLayoutED.setErrorEnabled(true);
+      mClassLayoutED.setError(getText(R.string.missing_data_field_warn));
+    } else if (mSubjectNameED.length() <= 0 && mSchoolNameED.length() > 0) {
+      mSubjectLayoutED.setErrorEnabled(true);
+      mSubjectLayoutED.setError(getText(R.string.missing_data_field_warn));
+    } else {
+      mSubjectLayoutED.setErrorEnabled(true);
+      mSubjectLayoutED.setError(getText(R.string.missing_data_field_warn));
+      mClassLayoutED.setErrorEnabled(true);
+      mClassLayoutED.setError(getText(R.string.missing_data_field_warn));
+    }
   }
 
   @Override
@@ -135,7 +190,7 @@ public class SubjectAddEdit extends AppCompatActivity implements
 
   @Override
   public boolean isMissingData() {
-    return mSchoolNameED.length() <= 0 && mSubjectNameED.length() <= 0;
+    return mSchoolNameED.length() <= 0 || mSubjectNameED.length() <= 0;
   }
 
   @Override
