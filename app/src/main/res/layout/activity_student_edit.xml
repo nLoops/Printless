@@ -20,7 +20,7 @@
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:hint="@string/student_uid_hint"
-      android:inputType="textAutoComplete"
+      android:inputType="textAutoComplete|textCapSentences"
       />
 
   </android.support.design.widget.TextInputLayout>
@@ -38,7 +38,7 @@
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:hint="@string/student_name_hint"
-      android:inputType="textAutoComplete"/>
+      android:inputType="textAutoComplete|textCapSentences"/>
 
   </android.support.design.widget.TextInputLayout>
 

@@ -65,6 +65,11 @@ public class StudentActivity extends AppCompatActivity implements
     setContentView(R.layout.activity_student);
     // bind all Views
     ButterKnife.bind(this);
+    // setup presenter
+    setupPresenter();
+  }
+
+  private void setupPresenter() {
     // get passed classID
     if (getIntent().hasExtra(UtilsConstants.EXTRA_CLASS_TO_STUDENT_ID)) {
       passedClassID = getIntent().getIntExtra(UtilsConstants.EXTRA_CLASS_TO_STUDENT_ID, -1);
@@ -77,7 +82,6 @@ public class StudentActivity extends AppCompatActivity implements
     // prepare adapter
     mAdapter = new StudentAdapter(null, this);
     mStudentRV.setAdapter(mAdapter);
-
   }
 
   @Override

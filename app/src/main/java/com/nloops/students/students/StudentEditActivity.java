@@ -5,8 +5,11 @@ import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.widget.Button;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -16,6 +19,7 @@ import com.nloops.students.data.mvp.local.LocalDataSource;
 import com.nloops.students.data.tables.StudentEntity;
 import com.nloops.students.students.StudentEditContract.Presenter;
 import com.nloops.students.utils.UtilsConstants;
+import com.nloops.students.utils.UtilsMethods;
 import java.util.Objects;
 
 public class StudentEditActivity extends AppCompatActivity implements
@@ -32,6 +36,10 @@ public class StudentEditActivity extends AppCompatActivity implements
   Button mAddStudentBT;
   @BindView(R.id.btn_cancel_student)
   Button mCancelStudentBT;
+  @BindView(R.id.tl_add_student_name)
+  TextInputLayout mStudentNameTL;
+  @BindView(R.id.tl_add_student_uid)
+  TextInputLayout mStudentUidTL;
 
   // ref of presenter to handle data
   private StudentEditPresenter mPresenter;
@@ -47,6 +55,50 @@ public class StudentEditActivity extends AppCompatActivity implements
     setContentView(R.layout.activity_student_edit);
     // link views to class
     ButterKnife.bind(this);
+    // setup presenter
+    setupPresenter();
+    // force keyboard to appear
+    UtilsMethods.showKeyboard(this);
+    // hide error if enabled
+    mStudentName.addTextChangedListener(new TextWatcher() {
+      @Override
+      public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        //
+      }
+
+      @Override
+      public void onTextChanged(CharSequence s, int start, int before, int count) {
+        if (mStudentNameTL.isErrorEnabled()) {
+          mStudentNameTL.setErrorEnabled(false);
+        }
+      }
+
+      @Override
+      public void afterTextChanged(Editable s) {
+        //
+      }
+    });
+    mStudentUID.addTextChangedListener(new TextWatcher() {
+      @Override
+      public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        //
+      }
+
+      @Override
+      public void onTextChanged(CharSequence s, int start, int before, int count) {
+        if (mStudentUidTL.isErrorEnabled()) {
+          mStudentUidTL.setErrorEnabled(false);
+        }
+      }
+
+      @Override
+      public void afterTextChanged(Editable s) {
+        //
+      }
+    });
+  }
+
+  private void setupPresenter() {
     if (getIntent().hasExtra(UtilsConstants.EXTRA_STUDENT_ID_INTENT)) {
       // get passed id
       int studentID = getIntent().
@@ -57,9 +109,7 @@ public class StudentEditActivity extends AppCompatActivity implements
       mPresenter = new StudentEditPresenter(LocalDataSource.getInstance(this),
           this, studentID);
     }
-
   }
-
 
   @Override
   protected void onResume() {
@@ -104,8 +154,18 @@ public class StudentEditActivity extends AppCompatActivity implements
 
   @Override
   public void showMissingDataMessage() {
-    Snackbar.make(mLayoutContainer, getString(R.string.subject_add_edit_missing_date),
-        Snackbar.LENGTH_LONG).show();
+    if (mStudentName.length() <= 0 && mStudentUID.length() > 0) {
+      mStudentNameTL.setErrorEnabled(true);
+      mStudentNameTL.setError(getText(R.string.missing_data_field_warn));
+    } else if (mStudentUID.length() <= 0 && mStudentName.length() > 0) {
+      mStudentUidTL.setErrorEnabled(true);
+      mStudentUidTL.setError(getText(R.string.missing_data_field_warn));
+    } else {
+      mStudentNameTL.setErrorEnabled(true);
+      mStudentNameTL.setError(getText(R.string.missing_data_field_warn));
+      mStudentUidTL.setErrorEnabled(true);
+      mStudentUidTL.setError(getText(R.string.missing_data_field_warn));
+    }
   }
 
   @Override
@@ -130,7 +190,7 @@ public class StudentEditActivity extends AppCompatActivity implements
 
   @Override
   public boolean isMissingData() {
-    return mStudentUID.length() <= 0 && mStudentName.length() <= 0;
+    return mStudentUID.length() <= 0 || mStudentName.length() <= 0;
   }
 
   @Override
