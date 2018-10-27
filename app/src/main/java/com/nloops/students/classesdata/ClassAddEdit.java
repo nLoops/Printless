@@ -5,24 +5,29 @@ import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
-import android.view.View.OnClickListener;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.widget.Button;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import com.nloops.students.R;
 import com.nloops.students.classesdata.ClassEditContract.Presenter;
 import com.nloops.students.data.mvp.local.LocalDataSource;
 import com.nloops.students.data.tables.ClassEntity;
 import com.nloops.students.utils.UtilsConstants;
+import com.nloops.students.utils.UtilsMethods;
 
 public class ClassAddEdit extends AppCompatActivity implements ClassEditContract.View {
 
   // Classes Activity Views
   @BindView(R.id.ed_class_name)
   TextInputEditText mClassNameED;
+  @BindView(R.id.tl_class_name_holder)
+  TextInputLayout mEditTextLayout;
   @BindView(R.id.btn_add_class)
   Button mAddClassBT;
   @BindView(R.id.btn_cancel_class)
@@ -43,7 +48,33 @@ public class ClassAddEdit extends AppCompatActivity implements ClassEditContract
     setContentView(R.layout.activity_class_add_edit);
     // bind views
     ButterKnife.bind(this);
+    // setup presenter
+    setupPresenter();
+    // set on editor click listener.
+    mClassNameED.addTextChangedListener(new TextWatcher() {
+      @Override
+      public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        //
+      }
 
+      @Override
+      public void onTextChanged(CharSequence s, int start, int before, int count) {
+        if (mEditTextLayout.isErrorEnabled()) {
+          mEditTextLayout.setErrorEnabled(false);
+        }
+      }
+
+      @Override
+      public void afterTextChanged(Editable s) {
+        //
+      }
+    });
+    // force keyboard to appear.
+    UtilsMethods.showKeyboard(this);
+
+  }
+
+  private void setupPresenter() {
     if (getIntent().hasExtra(UtilsConstants.EXTRA_CLASS_ID_INTENT)) {
       int classID = getIntent().
           getIntExtra(UtilsConstants.EXTRA_CLASS_ID_INTENT, -1);
@@ -55,32 +86,27 @@ public class ClassAddEdit extends AppCompatActivity implements ClassEditContract
       mPresenter = new ClassEditPresenter(LocalDataSource.getInstance(this), this,
           classID);
     }
+  }
 
-    mAddClassBT.setOnClickListener(new OnClickListener() {
-      @Override
-      public void onClick(View v) {
-        if (getIntent().hasExtra(UtilsConstants.EXTRA_CLASS_TO_EDIT_SUBJECT_ID)) {
-          int parentSubjectID = getIntent().getIntExtra
-              (UtilsConstants.EXTRA_CLASS_TO_EDIT_SUBJECT_ID, -1);
-          // Create new Class Entity.
-          ClassEntity classEntity = new ClassEntity(mClassNameED.getText().toString(),
-              parentSubjectID);
-          if (isEditMode) {
-            mPresenter.updateClass(classEntity);
-          } else {
-            mPresenter.insertClass(classEntity);
-          }
-        }
+  @OnClick(R.id.btn_add_class)
+  public void addClass(Button button) {
+    if (getIntent().hasExtra(UtilsConstants.EXTRA_CLASS_TO_EDIT_SUBJECT_ID)) {
+      int parentSubjectID = getIntent().getIntExtra
+          (UtilsConstants.EXTRA_CLASS_TO_EDIT_SUBJECT_ID, -1);
+      // Create new Class Entity.
+      ClassEntity classEntity = new ClassEntity(mClassNameED.getText().toString(),
+          parentSubjectID);
+      if (isEditMode) {
+        mPresenter.updateClass(classEntity);
+      } else {
+        mPresenter.insertClass(classEntity);
       }
-    });
+    }
+  }
 
-    mCancelClassBT.setOnClickListener(new OnClickListener() {
-      @Override
-      public void onClick(View v) {
-        finish();
-      }
-    });
-
+  @OnClick(R.id.btn_cancel_class)
+  public void cancelClass(Button button) {
+    finish();
   }
 
   @Override
@@ -103,8 +129,8 @@ public class ClassAddEdit extends AppCompatActivity implements ClassEditContract
 
   @Override
   public void showMissingDataMessage() {
-    Snackbar.make(mLayoutContainer, getString(R.string.subject_add_edit_missing_date),
-        Snackbar.LENGTH_LONG).show();
+    mEditTextLayout.setErrorEnabled(true);
+    mEditTextLayout.setError(getString(R.string.missing_data_field_warn));
   }
 
   @Override

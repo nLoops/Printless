@@ -10,10 +10,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.RelativeLayout;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import com.nloops.students.R;
 import com.nloops.students.adapters.ClassesAdapter;
 import com.nloops.students.adapters.ClassesAdapter.OnClassClickListener;
@@ -37,8 +37,6 @@ public class ClassesActivity extends AppCompatActivity implements ClassDataContr
   RecyclerView mRecyclerView;
   @BindView(R.id.subject_rv_empty_state)
   RelativeLayout mRecyclerEmptyState;
-  @BindView(R.id.classes_fab)
-  FloatingActionButton mClassFAB;
   @BindView(R.id.classes_layout_container)
   CoordinatorLayout mLayoutContainer;
 
@@ -84,13 +82,12 @@ public class ClassesActivity extends AppCompatActivity implements ClassDataContr
     mAdapter = new ClassesAdapter(null, this, this);
     mRecyclerView.setAdapter(mAdapter);
 
-    mClassFAB.setOnClickListener(new OnClickListener() {
-      @Override
-      public void onClick(View v) {
-        showAddNewClass();
-      }
-    });
 
+  }
+
+  @OnClick(R.id.classes_fab)
+  public void addNewClass(FloatingActionButton fab) {
+    showAddNewClass();
   }
 
   @Override
@@ -162,8 +159,6 @@ public class ClassesActivity extends AppCompatActivity implements ClassDataContr
     // get power menu
     powerMenu = UtilsMethods
         .getPowerMenu(items, onMenuItemClickListener, ClassesActivity.this);
-
-
   }
 
   @Override
