@@ -9,6 +9,7 @@
   <string name="snack_added_success">New item added successfully</string>
   <string name="snack_edited_success">Item updated successfully</string>
   <string name="snack_deleted_success">Item deleted successfully</string>
+  <string name="missing_data_field_warn">This field is required</string>
 
   <!--Subject Activity Strings-->
   <string name="subject_name_hint">Basics of Consumer Behavior</string>

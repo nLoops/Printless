@@ -1,7 +1,9 @@
 package com.nloops.students.utils;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
+import android.view.WindowManager;
 import com.nloops.students.R;
 import com.skydoves.powermenu.MenuAnimation;
 import com.skydoves.powermenu.OnMenuItemClickListener;
@@ -38,6 +40,15 @@ public class UtilsMethods {
         .setSelectedMenuColor(context.getResources().getColor(R.color.colorPrimary))
         .setOnMenuItemClickListener(listener)
         .build();
+  }
+
+  /**
+   * This Helper method helps to force keyboard to appears
+   *
+   * @param activity {@link Activity}
+   */
+  public static void showKeyboard(Activity activity) {
+    activity.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
   }
 
 }
