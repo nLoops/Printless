@@ -25,18 +25,24 @@ public class StudentEntity {
 
   private int foreignClassID;
 
-  public StudentEntity(int studentID, String studentName, String studentUniID, int foreignClassID) {
+  private int attendanceState;
+
+  public StudentEntity(int studentID, String studentName, String studentUniID, int foreignClassID,
+      int attendanceState) {
     this.studentID = studentID;
     this.studentName = studentName;
     this.studentUniID = studentUniID;
     this.foreignClassID = foreignClassID;
+    this.attendanceState = attendanceState;
   }
 
   @Ignore
-  public StudentEntity(String studentName, String studentUniID, int foreignClassID) {
+  public StudentEntity(String studentName, String studentUniID, int foreignClassID,
+      int attendanceState) {
     this.studentName = studentName;
     this.studentUniID = studentUniID;
     this.foreignClassID = foreignClassID;
+    this.attendanceState = attendanceState;
   }
 
   public int getStudentID() {
@@ -69,5 +75,13 @@ public class StudentEntity {
 
   public void setForeignClassID(int foreignClassID) {
     this.foreignClassID = foreignClassID;
+  }
+
+  public int getAttendanceState() {
+    return attendanceState;
+  }
+
+  public void setAttendanceState(int attendanceState) {
+    this.attendanceState = attendanceState;
   }
 }

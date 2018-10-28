@@ -5,7 +5,6 @@ import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 import android.arch.persistence.room.TypeConverters;
 import com.nloops.students.utils.AbsenteeTypeConverter;
-import com.nloops.students.utils.StudentModel;
 import java.util.List;
 
 @Entity(tableName = "absentees")
@@ -17,10 +16,10 @@ public class AbsenteeEntity {
   private long absenteeDate;
 
   @TypeConverters(AbsenteeTypeConverter.class)
-  private List<StudentModel> studentsList;
+  private List<StudentEntity> studentsList;
 
   public AbsenteeEntity(int absenteeID, long absenteeDate,
-      List<StudentModel> studentsList) {
+      List<StudentEntity> studentsList) {
     this.absenteeID = absenteeID;
     this.absenteeDate = absenteeDate;
     this.studentsList = studentsList;
@@ -28,7 +27,7 @@ public class AbsenteeEntity {
 
   @Ignore
   public AbsenteeEntity(long absenteeDate,
-      List<StudentModel> students) {
+      List<StudentEntity> students) {
     this.absenteeDate = absenteeDate;
     this.studentsList = students;
   }
@@ -49,11 +48,11 @@ public class AbsenteeEntity {
     this.absenteeDate = absenteeDate;
   }
 
-  public List<StudentModel> getStudentsList() {
+  public List<StudentEntity> getStudentsList() {
     return studentsList;
   }
 
-  public void setStudentsList(List<StudentModel> students) {
+  public void setStudentsList(List<StudentEntity> students) {
     this.studentsList = students;
   }
 }

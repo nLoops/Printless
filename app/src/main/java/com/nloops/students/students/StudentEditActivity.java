@@ -126,7 +126,7 @@ public class StudentEditActivity extends AppCompatActivity implements
     StudentEntity entity = new StudentEntity(
         Objects.requireNonNull(mStudentName.getText()).toString(),
         mStudentUID.getText().toString(),
-        classID);
+        classID, UtilsConstants.STUDENT_ABSENTEE_NO);
     if (isEditMode) {
       mPresenter.updateStudent(entity);
     } else {
