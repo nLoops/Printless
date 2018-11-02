@@ -2,7 +2,7 @@
   <!--General Strings-->
   <string name="app_name">students</string>
   <string name="empty_state_content_description">Empty State Image</string>
-  <string name="empty_state_text_view">No data to display hit on (+) to save new data</string>
+  <string name="empty_state_text_view">No data to display hit on (+) to add new data</string>
   <string name="button_add_new">ADD</string>
   <string name="button_cancel_new">Cancel</string>
   <string name="button_update_current">UPDATE</string>
@@ -10,6 +10,8 @@
   <string name="snack_edited_success">Item updated successfully</string>
   <string name="snack_deleted_success">Item deleted successfully</string>
   <string name="missing_data_field_warn">This field is required</string>
+  <string name="overflow_content_description">Overflow Button for menu</string>
+  <string name="img_finished_content">Attendance Saved Successfully</string>
 
   <!--Subject Activity Strings-->
   <string name="subject_name_hint">Basics of Consumer Behavior</string>
@@ -20,6 +22,7 @@
 
   <!--Classes Activity Strings-->
   <string name="class_name_hint">Class Name or Number</string>
+  <string name="cannot_open_attendance">Cannot take attendance for zero students class</string>
 
   <!--Student Activity Strings-->
   <string name="student_uid_hint">Student ID No.</string>
@@ -32,6 +35,9 @@
   <string name="pop_menu_preset">Preset Schedule</string>
   <string name="pop_menu_new_att">Take New Attendance</string>
   <string name="pop_menu_edit_att">Edit Previous Attendance</string>
+
+  <!--Attendance Activity Strings-->
+  <string name="attendance_save_btn">Save &amp; Exit</string>
 
 
 </resources>
