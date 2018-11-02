@@ -3,7 +3,10 @@ package com.nloops.students.utils;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
+import android.view.View;
 import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import com.nloops.students.R;
 import com.skydoves.powermenu.MenuAnimation;
 import com.skydoves.powermenu.OnMenuItemClickListener;
@@ -49,6 +52,19 @@ public class UtilsMethods {
    */
   public static void showKeyboard(Activity activity) {
     activity.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+  }
+
+  /**
+   * Helper Method to add a beautiful {@link Animation} to View
+   *
+   * @param view passed {@link View}
+   * @param context passed {@link Context}
+   */
+  public static void slideInFromTop(View view, Context context) {
+    Animation animation = AnimationUtils.loadAnimation(context, R.anim.slide_in_from_top);
+    view.setAnimation(animation);
+    view.animate();
+    animation.start();
   }
 
 }
