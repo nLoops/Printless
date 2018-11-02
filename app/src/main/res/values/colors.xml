@@ -9,4 +9,5 @@
   <color name="colorYellow">#FFE1A0</color>
   <color name="colorCalendarBG">#F5F5F5</color>
   <color name="colorFinishedBG">#efefef</color>
+  <color name="colorBottomMenuSelected">#717171</color>
 </resources>

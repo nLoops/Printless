@@ -12,6 +12,9 @@
   <string name="missing_data_field_warn">This field is required</string>
   <string name="overflow_content_description">Overflow Button for menu</string>
   <string name="img_finished_content">Attendance Saved Successfully</string>
+  <string name="menu_home_string">Home</string>
+  <string name="menu_reports_string">Reports</string>
+  <string name="menu_settings_string">Settings</string>
 
   <!--Subject Activity Strings-->
   <string name="subject_name_hint">Basics of Consumer Behavior</string>
