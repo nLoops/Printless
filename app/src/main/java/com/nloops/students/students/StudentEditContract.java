@@ -29,7 +29,7 @@ public interface StudentEditContract {
 
     void insertStudent(StudentEntity studentEntity);
 
-    void updateStudent(StudentEntity studentEntity);
+    void updateStudent(String name);
 
     void populateData();
   }

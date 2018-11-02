@@ -10,6 +10,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.View;
 import android.widget.Button;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -108,6 +109,10 @@ public class StudentEditActivity extends AppCompatActivity implements
       }
       mPresenter = new StudentEditPresenter(LocalDataSource.getInstance(this),
           this, studentID);
+
+      if (!isEditMode) {
+        mStudentUidTL.setVisibility(View.VISIBLE);
+      }
     }
   }
 
@@ -123,13 +128,13 @@ public class StudentEditActivity extends AppCompatActivity implements
     if (getIntent().hasExtra(UtilsConstants.EXTRA_CLASS_TO_STUDENT_ID)) {
       classID = getIntent().getIntExtra(UtilsConstants.EXTRA_CLASS_TO_STUDENT_ID, -1);
     }
-    StudentEntity entity = new StudentEntity(
-        Objects.requireNonNull(mStudentName.getText()).toString(),
-        mStudentUID.getText().toString(),
-        classID, UtilsConstants.STUDENT_ABSENTEE_NO);
     if (isEditMode) {
-      mPresenter.updateStudent(entity);
+      mPresenter.updateStudent(Objects.requireNonNull(mStudentName.getText()).toString());
     } else {
+      StudentEntity entity = new StudentEntity(
+          Objects.requireNonNull(mStudentName.getText()).toString(),
+          mStudentUID.getText().toString(),
+          classID, UtilsConstants.STUDENT_ABSENTEE_NO);
       mPresenter.insertStudent(entity);
     }
   }
@@ -190,7 +195,11 @@ public class StudentEditActivity extends AppCompatActivity implements
 
   @Override
   public boolean isMissingData() {
-    return mStudentUID.length() <= 0 || mStudentName.length() <= 0;
+    if (!isEditMode) {
+      return mStudentUID.length() <= 0 || mStudentName.length() <= 0;
+    } else {
+      return mStudentName.length() <= 0;
+    }
   }
 
   @Override

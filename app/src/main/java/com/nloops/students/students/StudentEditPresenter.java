@@ -41,14 +41,11 @@ public class StudentEditPresenter implements StudentEditContract.Presenter {
   }
 
   @Override
-  public void updateStudent(StudentEntity studentEntity) {
+  public void updateStudent(String name) {
     if (mView.isMissingData()) {
       mView.showMissingDataMessage();
     } else {
-      // SET ID to update the exist student
-      studentEntity.setStudentID(mStudentID);
-      // perform update student on the background
-      mDataSource.updateStudent(studentEntity);
+      mDataSource.updateStudentName(name, mStudentID);
       // notify the user that update success.
       mView.showUpdateMessage();
     }

@@ -8,6 +8,7 @@ import android.arch.persistence.room.ForeignKey;
 import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.Index;
 import android.arch.persistence.room.PrimaryKey;
+import com.nloops.students.utils.UtilsConstants;
 
 @Entity(tableName = "students", foreignKeys = @ForeignKey(entity = ClassEntity.class,
     parentColumns = "classID",
@@ -41,6 +42,14 @@ public class StudentEntity {
       int attendanceState) {
     this.studentName = studentName;
     this.studentUniID = studentUniID;
+    this.foreignClassID = foreignClassID;
+    this.attendanceState = attendanceState;
+  }
+
+  @Ignore
+  public StudentEntity(String studentName, int foreignClassID,
+      int attendanceState) {
+    this.studentName = studentName;
     this.foreignClassID = foreignClassID;
     this.attendanceState = attendanceState;
   }
@@ -83,5 +92,9 @@ public class StudentEntity {
 
   public void setAttendanceState(int attendanceState) {
     this.attendanceState = attendanceState;
+  }
+
+  public boolean isAttendanceOkay() {
+    return attendanceState == UtilsConstants.STUDENT_ABSENTEE_OKAY;
   }
 }
