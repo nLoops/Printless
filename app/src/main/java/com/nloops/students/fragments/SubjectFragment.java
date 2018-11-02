@@ -162,6 +162,19 @@ public class SubjectFragment extends Fragment implements
   }
 
   @Override
+  public void onActivityResult(int requestCode, int resultCode, Intent data) {
+    if (requestCode == ACTIVITY_REQUEST_CODE) {
+      if (resultCode == UtilsConstants.RESULT_ADD_ITEM) {
+        showResultMessage(getString(R.string.snack_added_success));
+
+      } else if (resultCode == UtilsConstants.RESULT_EDIT_ITEM) {
+        showResultMessage(getString(R.string.snack_edited_success));
+
+      }
+    }
+  }
+
+  @Override
   public void showResultMessage(String message) {
     Snackbar.make(layoutContainer, message, Snackbar.LENGTH_LONG).show();
   }
