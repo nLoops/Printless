@@ -17,6 +17,7 @@ import butterknife.OnClick;
 import com.nloops.students.R;
 import com.nloops.students.adapters.ClassesAdapter;
 import com.nloops.students.adapters.ClassesAdapter.OnClassClickListener;
+import com.nloops.students.attendance.AttendanceActivity;
 import com.nloops.students.classesdata.ClassDataContract.ClassPresenter;
 import com.nloops.students.data.mvp.local.LocalDataSource;
 import com.nloops.students.data.tables.ClassEntity;
@@ -59,6 +60,8 @@ public class ClassesActivity extends AppCompatActivity implements ClassDataContr
   private int classID = -1;
 
   private int classPos = -1;
+
+  private boolean isZeroStudents = false;
 
 
   @Override
@@ -168,6 +171,21 @@ public class ClassesActivity extends AppCompatActivity implements ClassDataContr
     startActivity(studentIntent);
   }
 
+  @Override
+  public void showAttendanceActivity(int classID) {
+    Intent intent = new Intent(ClassesActivity.this, AttendanceActivity.class);
+    intent.putExtra(UtilsConstants.EXTRA_CLASS_ID_TO_ATTENDANCE, classID);
+    startActivity(intent);
+  }
+
+  @Override
+  public void showAttendanceEditMode() {
+    Intent intent = new Intent(ClassesActivity.this, AttendanceActivity.class);
+    intent.putExtra(UtilsConstants.EXTRA_CLASS_ID_TO_ATTENDANCE, classID);
+    intent.putExtra(UtilsConstants.EXTRA_SET_ATTENDANCE_EDIT_MODE, true);
+    startActivity(intent);
+  }
+
   private OnMenuItemClickListener<PowerMenuItem> onMenuItemClickListener = new OnMenuItemClickListener<PowerMenuItem>() {
     @Override
     public void onItemClick(int position, PowerMenuItem item) {
@@ -186,6 +204,24 @@ public class ClassesActivity extends AppCompatActivity implements ClassDataContr
         ClassEntity entity = mAdapter.getClassEntity(classPos);
         // perform delete
         mPresenter.deleteClass(entity);
+      } else if (item.getTitle().equals(getString(R.string.pop_menu_new_att))) {
+        if (!isZeroStudents) {
+          if (classID != -1) {
+            handlePopupVisibility();
+            showAttendanceActivity(classID);
+          }
+        } else {
+          handlePopupVisibility();
+          showResultMessage(getString(R.string.cannot_open_attendance));
+        }
+      } else if (item.getTitle().equals(getString(R.string.pop_menu_edit_att))) {
+        if (!isZeroStudents) {
+          handlePopupVisibility();
+          showAttendanceEditMode();
+        } else {
+          handlePopupVisibility();
+          showResultMessage(getString(R.string.cannot_open_attendance));
+        }
       }
     }
   };
@@ -196,9 +232,11 @@ public class ClassesActivity extends AppCompatActivity implements ClassDataContr
   }
 
   @Override
-  public void onOverFlowClicked(int classID, View view, int adapterPosition) {
+  public void onOverFlowClicked(int classID, View view, int adapterPosition,
+      boolean isZeroStudents) {
     this.classID = classID;
     this.classPos = adapterPosition;
+    this.isZeroStudents = isZeroStudents;
     // if menu is visible we hide it, if not we show it.
     handlePopupVisibility();
     // menu size and position.

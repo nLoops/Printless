@@ -25,6 +25,10 @@ public interface ClassDataContract {
 
     void showStudentsActivity(int classID);
 
+    void showAttendanceActivity(int classID);
+
+    void showAttendanceEditMode();
+
   }
 
 

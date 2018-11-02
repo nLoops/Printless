@@ -23,7 +23,7 @@ public class ClassesAdapter extends Adapter<ClassesViewHolder> {
 
   public interface OnClassClickListener {
 
-    void onOverFlowClicked(int classID, View view, int adapterPosition);
+    void onOverFlowClicked(int classID, View view, int adapterPosition, boolean isZeroStudents);
 
     void onClassClicked(int classID);
   }
@@ -53,7 +53,9 @@ public class ClassesAdapter extends Adapter<ClassesViewHolder> {
 
   private void performClickAction(ClassesViewHolder holder, View view) {
     ClassEntity entity = getClassEntity(holder.getAdapterPosition());
-    mListener.onOverFlowClicked(entity.getClassID(), view, holder.getAdapterPosition());
+    boolean isEmpty = holder.mStudentsCount.getText()
+        .equals(mContext.getString(R.string.zero_students));
+    mListener.onOverFlowClicked(entity.getClassID(), view, holder.getAdapterPosition(), isEmpty);
   }
 
 
