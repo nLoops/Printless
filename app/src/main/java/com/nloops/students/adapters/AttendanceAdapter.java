@@ -93,11 +93,15 @@ public class AttendanceAdapter extends Adapter<AttendanceViewHolder> {
       super(itemView);
       ButterKnife.bind(this, itemView);
       mStudentActionCB.setOnClickListener(this);
+      itemView.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
       if (v == mStudentActionCB) {
+        checkBoxClicked(this);
+      } else if (v == itemView) {
+        mStudentActionCB.setChecked(!mStudentActionCB.isChecked());
         checkBoxClicked(this);
       }
     }
