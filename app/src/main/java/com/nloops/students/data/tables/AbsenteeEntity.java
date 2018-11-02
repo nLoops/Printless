@@ -1,13 +1,21 @@
 package com.nloops.students.data.tables;
 
+import static android.arch.persistence.room.ForeignKey.CASCADE;
+
 import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.ForeignKey;
 import android.arch.persistence.room.Ignore;
+import android.arch.persistence.room.Index;
 import android.arch.persistence.room.PrimaryKey;
 import android.arch.persistence.room.TypeConverters;
 import com.nloops.students.utils.AbsenteeTypeConverter;
 import java.util.List;
 
-@Entity(tableName = "absentees")
+@Entity(tableName = "absentees", foreignKeys = @ForeignKey(entity = ClassEntity.class,
+    parentColumns = "classID",
+    childColumns = "foreignAttClassID",
+    onDelete = CASCADE),
+    indices = {@Index("foreignAttClassID")})
 public class AbsenteeEntity {
 
   @PrimaryKey(autoGenerate = true)
@@ -18,18 +26,22 @@ public class AbsenteeEntity {
   @TypeConverters(AbsenteeTypeConverter.class)
   private List<StudentEntity> studentsList;
 
+  private int foreignAttClassID;
+
   public AbsenteeEntity(int absenteeID, long absenteeDate,
-      List<StudentEntity> studentsList) {
+      List<StudentEntity> studentsList, int foreignAttClassID) {
     this.absenteeID = absenteeID;
     this.absenteeDate = absenteeDate;
     this.studentsList = studentsList;
+    this.foreignAttClassID = foreignAttClassID;
   }
 
   @Ignore
   public AbsenteeEntity(long absenteeDate,
-      List<StudentEntity> students) {
+      List<StudentEntity> students, int classID) {
     this.absenteeDate = absenteeDate;
     this.studentsList = students;
+    this.foreignAttClassID = classID;
   }
 
   public int getAbsenteeID() {
@@ -54,5 +66,13 @@ public class AbsenteeEntity {
 
   public void setStudentsList(List<StudentEntity> students) {
     this.studentsList = students;
+  }
+
+  public int getForeignAttClassID() {
+    return foreignAttClassID;
+  }
+
+  public void setForeignAttClassID(int foreignAttClassID) {
+    this.foreignAttClassID = foreignAttClassID;
   }
 }
