@@ -2,6 +2,7 @@
 <android.support.constraint.ConstraintLayout
   xmlns:android="http://schemas.android.com/apk/res/android"
   xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:tools="http://schemas.android.com/tools"
   android:id="@+id/student_edit_container"
   android:layout_width="match_parent"
   android:layout_height="match_parent"
@@ -11,7 +12,9 @@
     android:id="@+id/tl_add_student_uid"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:visibility="gone"
     android:layout_marginTop="@dimen/dimen_twentyfour_dp"
+    tools:visibility="visible"
     app:layout_constraintLeft_toLeftOf="parent"
     app:layout_constraintTop_toTopOf="parent">
 
@@ -20,7 +23,7 @@
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:hint="@string/student_uid_hint"
-      android:inputType="textAutoComplete|textCapSentences"
+      android:inputType="textAutoComplete|text|textCapWords"
       />
 
   </android.support.design.widget.TextInputLayout>
@@ -38,7 +41,7 @@
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:hint="@string/student_name_hint"
-      android:inputType="textAutoComplete|textCapSentences"/>
+      android:inputType="textAutoComplete|text|textCapWords"/>
 
   </android.support.design.widget.TextInputLayout>
 
@@ -52,6 +55,8 @@
     android:text="@string/button_add_new"
     android:textColor="@android:color/white"
     android:textSize="@dimen/text_body_size"
+    android:foreground="?android:attr/selectableItemBackground"
+    android:focusable="true"
     app:layout_constraintRight_toRightOf="parent"
     app:layout_constraintTop_toBottomOf="@id/tl_add_student_name"
     />
@@ -66,6 +71,8 @@
     android:text="@string/button_cancel_new"
     android:textColor="@color/colorAccent"
     android:textSize="@dimen/text_body_size"
+    android:foreground="?android:attr/selectableItemBackground"
+    android:focusable="true"
     app:layout_constraintLeft_toLeftOf="@id/tl_add_student_name"
     app:layout_constraintTop_toBottomOf="@id/tl_add_student_name"
     />

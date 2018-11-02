@@ -27,7 +27,7 @@
     android:layout_height="wrap_content"
     android:layout_margin="@dimen/dimen_sixteen_dp"
     android:layout_gravity="bottom|end"
-    android:elevation="@dimen/dimen_two_dp"
+    android:elevation="@dimen/dimen_six_dp"
     android:src="@drawable/ic_add_new"
     app:fabSize="normal"
     />

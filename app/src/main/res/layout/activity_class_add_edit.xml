@@ -20,7 +20,7 @@
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:hint="@string/class_name_hint"
-      android:inputType="textAutoComplete|textCapSentences"
+      android:inputType="textAutoComplete|text|textCapWords"
       />
 
   </android.support.design.widget.TextInputLayout>
@@ -36,6 +36,8 @@
     android:text="@string/button_add_new"
     android:textColor="@android:color/white"
     android:textSize="@dimen/text_body_size"
+    android:foreground="?android:attr/selectableItemBackground"
+    android:focusable="true"
     app:layout_constraintRight_toRightOf="parent"
     app:layout_constraintTop_toBottomOf="@id/tl_class_name_holder"
     />
@@ -50,6 +52,8 @@
     android:text="@string/button_cancel_new"
     android:textColor="@color/colorAccent"
     android:textSize="@dimen/text_body_size"
+    android:foreground="?android:attr/selectableItemBackground"
+    android:focusable="true"
     app:layout_constraintLeft_toLeftOf="@id/tl_class_name_holder"
     app:layout_constraintTop_toBottomOf="@id/tl_class_name_holder"
     />
