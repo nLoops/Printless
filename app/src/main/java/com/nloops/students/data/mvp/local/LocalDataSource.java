@@ -275,6 +275,18 @@ public class LocalDataSource implements StructureDataSource {
     });
   }
 
+  @Override
+  public int updateStudentName(final String name, final int id) {
+    final int[] updated = new int[1];
+    AppExecutors.getInstance().diskIO().execute(new Runnable() {
+      @Override
+      public void run() {
+        updated[0] = mDB.subjectDAO().updateStudentName(name, id);
+      }
+    });
+    return updated[0];
+  }
+
   // Logic for Absentee Entity.
 
   @Override
@@ -301,12 +313,37 @@ public class LocalDataSource implements StructureDataSource {
   }
 
   @Override
-  public void getAbsentee(final int absenteeID,
+  public void getAbsentee(final int absenteeID, final int classID,
       @NonNull final LoadSingleAbsenteeCallBack callBack) {
     Runnable runnable = new Runnable() {
       @Override
       public void run() {
-        final AbsenteeEntity absenteeEntity = mDB.subjectDAO().loadSingleAbsentee(absenteeID);
+        final AbsenteeEntity absenteeEntity = mDB.subjectDAO()
+            .loadSingleAbsentee(absenteeID, classID);
+        AppExecutors.getInstance().mainThread().execute(new Runnable() {
+          @Override
+          public void run() {
+            if (absenteeEntity != null) {
+              callBack.onAbsenteeLoaded(absenteeEntity);
+            } else {
+              callBack.onAbsenteeDataNotAvailable();
+            }
+          }
+        });
+      }
+    };
+
+    AppExecutors.getInstance().diskIO().execute(runnable);
+  }
+
+  @Override
+  public void getAbsenteeByDate(final long dateValue, final int classID,
+      @NonNull final LoadingAbsenteeByDateCallBack callBack) {
+    Runnable runnable = new Runnable() {
+      @Override
+      public void run() {
+        final AbsenteeEntity absenteeEntity = mDB.subjectDAO()
+            .getAbsenteeByDate(dateValue, classID);
         AppExecutors.getInstance().mainThread().execute(new Runnable() {
           @Override
           public void run() {

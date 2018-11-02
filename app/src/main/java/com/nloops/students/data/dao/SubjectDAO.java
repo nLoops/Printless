@@ -64,6 +64,9 @@ public interface SubjectDAO {
   @Update(onConflict = OnConflictStrategy.REPLACE)
   void updateStudent(StudentEntity studentEntity);
 
+  @Query("UPDATE students SET studentName =:newName WHERE studentID= :stuID")
+  int updateStudentName(String newName, int stuID);
+
   @Delete
   void deleteStudent(StudentEntity studentEntity);
 
@@ -71,8 +74,11 @@ public interface SubjectDAO {
   @Query("SELECT * from absentees")
   List<AbsenteeEntity> loadAllAbsentee();
 
-  @Query("SELECT * from absentees WHERE absenteeID = :id")
-  AbsenteeEntity loadSingleAbsentee(int id);
+  @Query("SELECT * from absentees WHERE absenteeID = :id AND foreignAttClassID = :classID")
+  AbsenteeEntity loadSingleAbsentee(int id, int classID);
+
+  @Query("SELECT * from absentees WHERE absenteeDate = :dateValue AND foreignAttClassID = :classID ")
+  AbsenteeEntity getAbsenteeByDate(long dateValue, int classID);
 
   @Insert
   void insertAbsentee(AbsenteeEntity absenteeEntity);

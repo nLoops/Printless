@@ -76,6 +76,13 @@ public interface StructureDataSource {
     void onAbsenteeDataNotAvailable();
   }
 
+  interface LoadingAbsenteeByDateCallBack {
+
+    void onAbsenteeLoaded(AbsenteeEntity entity);
+
+    void onAbsenteeDataNotAvailable();
+  }
+
   void getSubjects(@NonNull LoadSubjectsCallBack callBack);
 
   void getSubject(int subjectID, @NonNull LoadSingleSubjectCallBack callBack);
@@ -110,11 +117,16 @@ public interface StructureDataSource {
 
   void deleteStudent(@NonNull StudentEntity studentEntity);
 
+  int updateStudentName(String name, int id);
+
   // for Absentee Entity
 
   void getAllAbsentee(@NonNull LoadAbsenteeCallBack callBack);
 
-  void getAbsentee(int absenteeID, @NonNull LoadSingleAbsenteeCallBack callBack);
+  void getAbsentee(int absenteeID, int classID, @NonNull LoadSingleAbsenteeCallBack callBack);
+
+  void getAbsenteeByDate(long dateValue, int classID,
+      @NonNull LoadingAbsenteeByDateCallBack callBack);
 
   void insertAbsentee(@NonNull AbsenteeEntity absenteeEntity);
 
