@@ -10,4 +10,6 @@
   <color name="colorCalendarBG">#F5F5F5</color>
   <color name="colorFinishedBG">#efefef</color>
   <color name="colorBottomMenuSelected">#717171</color>
+  <color name="colorReportText">#346BFF</color>
+  <color name="colorToolbarText">#C1C1C1</color>
 </resources>

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
   <dimen name="text_general_size">24sp</dimen>
+  <dimen name="text_toolbar_size">20sp</dimen>
   <dimen name="text_body_size">16sp</dimen>
   <dimen name="dimen_two_dp">2dp</dimen>
   <dimen name="dimen_five_dp">5dp</dimen>

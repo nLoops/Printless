@@ -22,6 +22,10 @@
   <string name="subject_add_edit_error_msg">Cannot reload data please try again.</string>
   <string name="subject_add_edit_missing_date">Missing fields need to fill.</string>
   <string name="zero_classes">Classes (0)</string>
+  <!--Subject ToolBar Tabs-->
+  <string name="toolbar_subjects">All Subjects</string>
+  <string name="toolbar_reports">Reports</string>
+  <string name="toolbar_settings">Settings</string>
 
   <!--Classes Activity Strings-->
   <string name="class_name_hint">Class Name or Number</string>
@@ -41,6 +45,11 @@
 
   <!--Attendance Activity Strings-->
   <string name="attendance_save_btn">Save &amp; Exit</string>
+
+  <!--Reports Fragment-->
+  <string name="report_student_count">Total Students (%1$d)</string>
+  <string name="report_absentee_count">Number of Absenteeism (%1$d)</string>
+  <string name="report_empty_state_msg">Still no generated reports data to display</string>
 
 
 </resources>
