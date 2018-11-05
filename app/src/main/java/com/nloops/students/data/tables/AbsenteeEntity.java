@@ -11,11 +11,16 @@ import android.arch.persistence.room.TypeConverters;
 import com.nloops.students.utils.AbsenteeTypeConverter;
 import java.util.List;
 
-@Entity(tableName = "absentees", foreignKeys = @ForeignKey(entity = ClassEntity.class,
-    parentColumns = "classID",
-    childColumns = "foreignAttClassID",
-    onDelete = CASCADE),
-    indices = {@Index("foreignAttClassID")})
+@Entity(tableName = "absentees", foreignKeys = {
+    @ForeignKey(entity = ClassEntity.class,
+        parentColumns = "classID",
+        childColumns = "foreignAttClassID",
+        onDelete = CASCADE),
+    @ForeignKey(entity = SubjectEntity.class,
+        parentColumns = "subjectID",
+        childColumns = "foreignAttSubjectID",
+        onDelete = CASCADE)},
+    indices = {@Index("foreignAttClassID"), @Index("foreignAttSubjectID")})
 public class AbsenteeEntity {
 
   @PrimaryKey(autoGenerate = true)
@@ -28,20 +33,24 @@ public class AbsenteeEntity {
 
   private int foreignAttClassID;
 
+  private int foreignAttSubjectID;
+
   public AbsenteeEntity(int absenteeID, long absenteeDate,
-      List<StudentEntity> studentsList, int foreignAttClassID) {
+      List<StudentEntity> studentsList, int foreignAttClassID, int foreignAttSubjectID) {
     this.absenteeID = absenteeID;
     this.absenteeDate = absenteeDate;
     this.studentsList = studentsList;
     this.foreignAttClassID = foreignAttClassID;
+    this.foreignAttSubjectID = foreignAttSubjectID;
   }
 
   @Ignore
   public AbsenteeEntity(long absenteeDate,
-      List<StudentEntity> students, int classID) {
+      List<StudentEntity> students, int classID, int foreignAttSubjectID) {
     this.absenteeDate = absenteeDate;
     this.studentsList = students;
     this.foreignAttClassID = classID;
+    this.foreignAttSubjectID = foreignAttSubjectID;
   }
 
   public int getAbsenteeID() {
@@ -74,5 +83,13 @@ public class AbsenteeEntity {
 
   public void setForeignAttClassID(int foreignAttClassID) {
     this.foreignAttClassID = foreignAttClassID;
+  }
+
+  public int getForeignAttSubjectID() {
+    return foreignAttSubjectID;
+  }
+
+  public void setForeignAttSubjectID(int foreignAttSubjectID) {
+    this.foreignAttSubjectID = foreignAttSubjectID;
   }
 }

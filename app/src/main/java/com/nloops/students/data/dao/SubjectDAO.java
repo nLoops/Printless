@@ -55,6 +55,9 @@ public interface SubjectDAO {
   @Query("SELECT * from students WHERE foreignClassID = :classID")
   List<StudentEntity> loadAllStudents(int classID);
 
+  @Query("SELECT * from students WHERE foreignSubjectID = :subjectID")
+  List<StudentEntity> loadAllStudentsBySubject(int subjectID);
+
   @Query("SELECT * from students WHERE studentID = :id")
   StudentEntity loadSingleStudent(int id);
 
@@ -73,6 +76,9 @@ public interface SubjectDAO {
   // CRUD for Absentee Entity
   @Query("SELECT * from absentees")
   List<AbsenteeEntity> loadAllAbsentee();
+
+  @Query("SELECT * from absentees WHERE foreignAttSubjectID = :subjectID")
+  List<AbsenteeEntity> loadAllAbsenteeBySubject(int subjectID);
 
   @Query("SELECT * from absentees WHERE absenteeID = :id AND foreignAttClassID = :classID")
   AbsenteeEntity loadSingleAbsentee(int id, int classID);

@@ -49,6 +49,8 @@ public class AttendanceActivity extends AppCompatActivity implements
   private long mAttendanceLong = Long.MAX_VALUE;
   // class id
   int classID;
+  // subject id
+  int passedSubjectID;
 
 
   @Override
@@ -72,6 +74,8 @@ public class AttendanceActivity extends AppCompatActivity implements
   private void preparePresenter() {
     if (getIntent().hasExtra(UtilsConstants.EXTRA_CLASS_ID_TO_ATTENDANCE)) {
       classID = getIntent().getIntExtra(UtilsConstants.EXTRA_CLASS_ID_TO_ATTENDANCE, -1);
+      passedSubjectID = getIntent()
+          .getIntExtra(UtilsConstants.EXTRA_SUBJECT_ID_CLASS_TO_ATTENDANCE, -1);
       mPresenter = new AttendancePresenter(LocalDataSource.getInstance(this),
           this, classID);
       mAttRV.setLayoutManager(new LinearLayoutManager(this));
@@ -84,7 +88,7 @@ public class AttendanceActivity extends AppCompatActivity implements
   @OnClick(R.id.attendance_finish_bt)
   public void saveAttendance(Button button) {
     AbsenteeEntity entity = new AbsenteeEntity(getAttendanceDate(), mAdapter.getStudentEntity(),
-        classID);
+        classID, passedSubjectID);
     mPresenter.insertAttendance(entity);
     FragmentManager fm = getSupportFragmentManager();
     FinishDialog finishDialog = new FinishDialog();
@@ -114,7 +118,8 @@ public class AttendanceActivity extends AppCompatActivity implements
       StudentEntity entity = new StudentEntity(data.get(i).getStudentID(),
           data.get(i).getStudentName(), data.get(i).getStudentUniID(),
           data.get(i).getForeignClassID(),
-          data.get(i).getAttendanceState());
+          data.get(i).getAttendanceState(),
+          data.get(i).getForeignSubjectID());
       studentEntities.add(entity);
     }
     mAdapter.setStudentData(studentEntities);

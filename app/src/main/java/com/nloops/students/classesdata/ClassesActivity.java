@@ -168,6 +168,7 @@ public class ClassesActivity extends AppCompatActivity implements ClassDataContr
   public void showStudentsActivity(int classID) {
     Intent studentIntent = new Intent(ClassesActivity.this, StudentActivity.class);
     studentIntent.putExtra(UtilsConstants.EXTRA_CLASS_TO_STUDENT_ID, classID);
+    studentIntent.putExtra(UtilsConstants.EXTRA_SUBJECT_ID_CLASS_TO_STUDENT, passedSubjectID);
     startActivity(studentIntent);
   }
 
@@ -175,6 +176,7 @@ public class ClassesActivity extends AppCompatActivity implements ClassDataContr
   public void showAttendanceActivity(int classID) {
     Intent intent = new Intent(ClassesActivity.this, AttendanceActivity.class);
     intent.putExtra(UtilsConstants.EXTRA_CLASS_ID_TO_ATTENDANCE, classID);
+    intent.putExtra(UtilsConstants.EXTRA_SUBJECT_ID_CLASS_TO_ATTENDANCE, passedSubjectID);
     startActivity(intent);
   }
 
@@ -183,6 +185,7 @@ public class ClassesActivity extends AppCompatActivity implements ClassDataContr
     Intent intent = new Intent(ClassesActivity.this, AttendanceActivity.class);
     intent.putExtra(UtilsConstants.EXTRA_CLASS_ID_TO_ATTENDANCE, classID);
     intent.putExtra(UtilsConstants.EXTRA_SET_ATTENDANCE_EDIT_MODE, true);
+    intent.putExtra(UtilsConstants.EXTRA_SUBJECT_ID_CLASS_TO_ATTENDANCE, passedSubjectID);
     startActivity(intent);
   }
 

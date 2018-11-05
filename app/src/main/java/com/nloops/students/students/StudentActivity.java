@@ -48,6 +48,9 @@ public class StudentActivity extends AppCompatActivity implements
   // ref of passed class id
   private int passedClassID = -1;
 
+  // subject ID
+  private int passedSubjectID = -1;
+
   // constants for activity request
   private static final int ACTIVITY_REQUEST_CODE = 301;
 
@@ -73,6 +76,11 @@ public class StudentActivity extends AppCompatActivity implements
     // get passed classID
     if (getIntent().hasExtra(UtilsConstants.EXTRA_CLASS_TO_STUDENT_ID)) {
       passedClassID = getIntent().getIntExtra(UtilsConstants.EXTRA_CLASS_TO_STUDENT_ID, -1);
+    }
+    // get passed subject ID
+    if (getIntent().hasExtra(UtilsConstants.EXTRA_SUBJECT_ID_CLASS_TO_STUDENT)) {
+      passedSubjectID = getIntent()
+          .getIntExtra(UtilsConstants.EXTRA_SUBJECT_ID_CLASS_TO_STUDENT, -1);
     }
     // Define Presenter
     mPresenter = new StudentPresenter(LocalDataSource.getInstance(this), this, passedClassID);
@@ -113,6 +121,7 @@ public class StudentActivity extends AppCompatActivity implements
     Intent studentIntent = new Intent(StudentActivity.this, StudentEditActivity.class);
     studentIntent.putExtra(UtilsConstants.EXTRA_STUDENT_ID_INTENT, -1);
     studentIntent.putExtra(UtilsConstants.EXTRA_CLASS_TO_STUDENT_ID, passedClassID);
+    studentIntent.putExtra(UtilsConstants.EXTRA_SUBJECT_ID_CLASS_TO_STUDENT, passedSubjectID);
     startActivityForResult(studentIntent, ACTIVITY_REQUEST_CODE);
   }
 

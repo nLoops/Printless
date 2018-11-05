@@ -224,6 +224,31 @@ public class LocalDataSource implements StructureDataSource {
   }
 
   @Override
+  public void getStudentsBySubject(final int subjectID,
+      @NonNull final LoadStudentsCallBack callBack) {
+    Runnable runnable = new Runnable() {
+      @Override
+      public void run() {
+        final List<StudentEntity> studentsData = mDB.subjectDAO()
+            .loadAllStudentsBySubject(subjectID);
+        AppExecutors.getInstance().mainThread().execute(new Runnable() {
+          @Override
+          public void run() {
+            if (studentsData.isEmpty()) {
+              // This will be called if the table is new or just empty.
+              callBack.onStudentsDataNotAvailable();
+            } else {
+              callBack.onStudentsLoaded(studentsData);
+            }
+          }
+        });
+      }
+    };
+
+    AppExecutors.getInstance().diskIO().execute(runnable);
+  }
+
+  @Override
   public void getStudent(final int studentID, @NonNull final LoadSingleStudentCallBack callBack) {
     Runnable runnable = new Runnable() {
       @Override
@@ -295,6 +320,31 @@ public class LocalDataSource implements StructureDataSource {
       @Override
       public void run() {
         final List<AbsenteeEntity> absenteeEntities = mDB.subjectDAO().loadAllAbsentee();
+        AppExecutors.getInstance().mainThread().execute(new Runnable() {
+          @Override
+          public void run() {
+            if (absenteeEntities.isEmpty()) {
+              // This will be called if the table is new or just empty.
+              callBack.onAbsenteeDataNotAvailable();
+            } else {
+              callBack.onAbsenteeLoaded(absenteeEntities);
+            }
+          }
+        });
+      }
+    };
+
+    AppExecutors.getInstance().diskIO().execute(runnable);
+  }
+
+  @Override
+  public void getAllAbsenteeBySubject(final int subjectID,
+      @NonNull final LoadAbsenteeCallBack callBack) {
+    Runnable runnable = new Runnable() {
+      @Override
+      public void run() {
+        final List<AbsenteeEntity> absenteeEntities =
+            mDB.subjectDAO().loadAllAbsenteeBySubject(subjectID);
         AppExecutors.getInstance().mainThread().execute(new Runnable() {
           @Override
           public void run() {

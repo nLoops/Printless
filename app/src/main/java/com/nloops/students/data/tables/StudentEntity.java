@@ -10,11 +10,16 @@ import android.arch.persistence.room.Index;
 import android.arch.persistence.room.PrimaryKey;
 import com.nloops.students.utils.UtilsConstants;
 
-@Entity(tableName = "students", foreignKeys = @ForeignKey(entity = ClassEntity.class,
-    parentColumns = "classID",
-    childColumns = "foreignClassID",
-    onDelete = CASCADE),
-    indices = {@Index("foreignClassID")})
+@Entity(tableName = "students", foreignKeys = {
+    @ForeignKey(entity = ClassEntity.class,
+        parentColumns = "classID",
+        childColumns = "foreignClassID",
+        onDelete = CASCADE),
+    @ForeignKey(entity = SubjectEntity.class,
+        parentColumns = "subjectID",
+        childColumns = "foreignSubjectID",
+        onDelete = CASCADE)},
+    indices = {@Index("foreignClassID"), @Index("foreignSubjectID")})
 public class StudentEntity {
 
   @PrimaryKey(autoGenerate = true)
@@ -28,30 +33,35 @@ public class StudentEntity {
 
   private int attendanceState;
 
+  private int foreignSubjectID;
+
   public StudentEntity(int studentID, String studentName, String studentUniID, int foreignClassID,
-      int attendanceState) {
+      int attendanceState, int foreignSubjectID) {
     this.studentID = studentID;
     this.studentName = studentName;
     this.studentUniID = studentUniID;
     this.foreignClassID = foreignClassID;
     this.attendanceState = attendanceState;
+    this.foreignSubjectID = foreignSubjectID;
   }
 
   @Ignore
   public StudentEntity(String studentName, String studentUniID, int foreignClassID,
-      int attendanceState) {
+      int attendanceState, int foreignSubjectID) {
     this.studentName = studentName;
     this.studentUniID = studentUniID;
     this.foreignClassID = foreignClassID;
     this.attendanceState = attendanceState;
+    this.foreignSubjectID = foreignSubjectID;
   }
 
   @Ignore
   public StudentEntity(String studentName, int foreignClassID,
-      int attendanceState) {
+      int attendanceState, int foreignSubjectID) {
     this.studentName = studentName;
     this.foreignClassID = foreignClassID;
     this.attendanceState = attendanceState;
+    this.foreignSubjectID = foreignSubjectID;
   }
 
   public int getStudentID() {
@@ -96,5 +106,13 @@ public class StudentEntity {
 
   public boolean isAttendanceOkay() {
     return attendanceState == UtilsConstants.STUDENT_ABSENTEE_OKAY;
+  }
+
+  public int getForeignSubjectID() {
+    return foreignSubjectID;
+  }
+
+  public void setForeignSubjectID(int foreignSubjectID) {
+    this.foreignSubjectID = foreignSubjectID;
   }
 }

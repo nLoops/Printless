@@ -109,6 +109,8 @@ public interface StructureDataSource {
 
   void getStudents(int classID, @NonNull LoadStudentsCallBack callBack);
 
+  void getStudentsBySubject(int subjectID, @NonNull LoadStudentsCallBack callBack);
+
   void getStudent(int studentID, @NonNull LoadSingleStudentCallBack callBack);
 
   void insertStudent(@NonNull StudentEntity studentEntity);
@@ -122,6 +124,8 @@ public interface StructureDataSource {
   // for Absentee Entity
 
   void getAllAbsentee(@NonNull LoadAbsenteeCallBack callBack);
+
+  void getAllAbsenteeBySubject(int subjectID, @NonNull LoadAbsenteeCallBack callBack);
 
   void getAbsentee(int absenteeID, int classID, @NonNull LoadSingleAbsenteeCallBack callBack);
 

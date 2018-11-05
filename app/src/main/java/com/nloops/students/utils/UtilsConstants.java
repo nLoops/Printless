@@ -14,6 +14,8 @@ public class UtilsConstants {
   public static final String EXTRA_CLASS_TO_STUDENT_ID = "com.nloops.students.EXTRA_CLASS_TO_STUDENT";
   public static final String EXTRA_CLASS_ID_TO_ATTENDANCE = "com.nloops.students.EXTRA_CLASS_TO_ATT";
   public static final String EXTRA_SET_ATTENDANCE_EDIT_MODE = "com.nloops.students.EXTRA_ATT_EDIT_MODE";
+  public static final String EXTRA_SUBJECT_ID_CLASS_TO_STUDENT = "com.nloops.students.EXTRA_SUBJECT_TO_STUDENT";
+  public static final String EXTRA_SUBJECT_ID_CLASS_TO_ATTENDANCE = "com.nloops.students.EXTRA_SUBJECT_TO_ATTENDANCE";
   // for Activity RESULTS messages
   public static final int RESULT_ADD_ITEM = 100;
   public static final int RESULT_EDIT_ITEM = 101;

@@ -125,16 +125,24 @@ public class StudentEditActivity extends AppCompatActivity implements
   @OnClick(R.id.btn_add_student)
   public void insertStudent(Button button) {
     int classID = -1;
+    int subjectID = -1;
+    // get passed ClassID
     if (getIntent().hasExtra(UtilsConstants.EXTRA_CLASS_TO_STUDENT_ID)) {
       classID = getIntent().getIntExtra(UtilsConstants.EXTRA_CLASS_TO_STUDENT_ID, -1);
     }
+    // get passed SubjectID
+    if (getIntent().hasExtra(UtilsConstants.EXTRA_SUBJECT_ID_CLASS_TO_STUDENT)) {
+      subjectID = getIntent().getIntExtra(UtilsConstants.EXTRA_SUBJECT_ID_CLASS_TO_STUDENT, -1);
+    }
+    // check if we are in edit mode then we will call update method, instead we will call
+    // insert new student method.
     if (isEditMode) {
       mPresenter.updateStudent(Objects.requireNonNull(mStudentName.getText()).toString());
     } else {
       StudentEntity entity = new StudentEntity(
           Objects.requireNonNull(mStudentName.getText()).toString(),
           mStudentUID.getText().toString(),
-          classID, UtilsConstants.STUDENT_ABSENTEE_NO);
+          classID, UtilsConstants.STUDENT_ABSENTEE_NO, subjectID);
       mPresenter.insertStudent(entity);
     }
   }
@@ -209,6 +217,6 @@ public class StudentEditActivity extends AppCompatActivity implements
 
   @Override
   public void setPresenter(Presenter presenter) {
-    //
+    mPresenter = (StudentEditPresenter) presenter;
   }
 }
