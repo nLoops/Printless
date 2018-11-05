@@ -1,6 +1,7 @@
 package com.nloops.students.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -15,14 +16,17 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.nloops.students.R;
 import com.nloops.students.adapters.ReportSubjectAdapter;
+import com.nloops.students.adapters.ReportSubjectAdapter.OnSubjectReportClickListener;
 import com.nloops.students.data.mvp.StructureDataSource.LoadSubjectsCallBack;
 import com.nloops.students.data.mvp.local.LocalDataSource;
 import com.nloops.students.data.tables.SubjectEntity;
+import com.nloops.students.reports.ClassReports;
+import com.nloops.students.utils.UtilsConstants;
 import java.util.List;
 import java.util.Objects;
 
 
-public class ReportsFragment extends Fragment {
+public class ReportsFragment extends Fragment implements OnSubjectReportClickListener {
 
   // bind views to class
   @BindView(R.id.rv_report_activity)
@@ -67,7 +71,7 @@ public class ReportsFragment extends Fragment {
         mReportsRV.setVisibility(View.VISIBLE);
         mReportsRV.setLayoutManager(new LinearLayoutManager(mContext));
         mReportsRV.setHasFixedSize(true);
-        mAdapter = new ReportSubjectAdapter(subjects, mContext);
+        mAdapter = new ReportSubjectAdapter(subjects, mContext, ReportsFragment.this);
         mReportsRV.setAdapter(mAdapter);
       }
 
@@ -80,4 +84,11 @@ public class ReportsFragment extends Fragment {
   }
 
 
+  @Override
+  public void onSubjectClicked(int subjectID, String subjectName) {
+    Intent intent = new Intent(mContext, ClassReports.class);
+    intent.putExtra(UtilsConstants.EXTRA_SUBJECT_TO_CLASS_REPORT, subjectID);
+    intent.putExtra(UtilsConstants.EXTRA_SUBJECT_NAME_TO_CLASS_REPORT, subjectName);
+    startActivity(intent);
+  }
 }

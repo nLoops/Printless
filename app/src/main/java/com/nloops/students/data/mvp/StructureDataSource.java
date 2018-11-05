@@ -127,6 +127,8 @@ public interface StructureDataSource {
 
   void getAllAbsenteeBySubject(int subjectID, @NonNull LoadAbsenteeCallBack callBack);
 
+  void getAllAbsenteeByClass(int classID, @NonNull LoadAbsenteeCallBack callBack);
+
   void getAbsentee(int absenteeID, int classID, @NonNull LoadSingleAbsenteeCallBack callBack);
 
   void getAbsenteeByDate(long dateValue, int classID,

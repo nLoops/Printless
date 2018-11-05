@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  tools:context=".fragments.ReportsFragment">
+
+  <android.support.design.widget.AppBarLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/colorFakeWhite">
+
+    <android.support.v7.widget.Toolbar
+      android:id="@+id/class_report_toolbar"
+      android:layout_width="match_parent"
+      android:layout_height="?android:attr/actionBarSize">
+
+      <TextView
+        android:id="@+id/tv_class_report_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/text_toolbar_size"
+        tools:text="Subject Name"
+        android:textColor="@color/colorToolbarText"
+        android:maxLines="1"
+        android:ellipsize="end"
+        />
+
+    </android.support.v7.widget.Toolbar>
+
+  </android.support.design.widget.AppBarLayout>
+
+  <android.support.v7.widget.RecyclerView
+    android:id="@+id/rv_class_report_activity"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="?android:attr/actionBarSize"
+    />
+
+  <include
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    layout="@layout/reports_empty_state"
+    android:layout_gravity="center"
+    />
+
+</android.support.design.widget.CoordinatorLayout>

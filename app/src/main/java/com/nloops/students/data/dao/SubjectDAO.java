@@ -80,6 +80,9 @@ public interface SubjectDAO {
   @Query("SELECT * from absentees WHERE foreignAttSubjectID = :subjectID")
   List<AbsenteeEntity> loadAllAbsenteeBySubject(int subjectID);
 
+  @Query("SELECT * from absentees WHERE foreignAttClassID = :classID")
+  List<AbsenteeEntity> loadAllAbsenteeByClass(int classID);
+
   @Query("SELECT * from absentees WHERE absenteeID = :id AND foreignAttClassID = :classID")
   AbsenteeEntity loadSingleAbsentee(int id, int classID);
 

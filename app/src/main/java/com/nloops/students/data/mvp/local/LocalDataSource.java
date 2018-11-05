@@ -363,6 +363,31 @@ public class LocalDataSource implements StructureDataSource {
   }
 
   @Override
+  public void getAllAbsenteeByClass(final int classID,
+      @NonNull final LoadAbsenteeCallBack callBack) {
+    Runnable runnable = new Runnable() {
+      @Override
+      public void run() {
+        final List<AbsenteeEntity> absenteeEntities =
+            mDB.subjectDAO().loadAllAbsenteeByClass(classID);
+        AppExecutors.getInstance().mainThread().execute(new Runnable() {
+          @Override
+          public void run() {
+            if (absenteeEntities.isEmpty()) {
+              // This will be called if the table is new or just empty.
+              callBack.onAbsenteeDataNotAvailable();
+            } else {
+              callBack.onAbsenteeLoaded(absenteeEntities);
+            }
+          }
+        });
+      }
+    };
+
+    AppExecutors.getInstance().diskIO().execute(runnable);
+  }
+
+  @Override
   public void getAbsentee(final int absenteeID, final int classID,
       @NonNull final LoadSingleAbsenteeCallBack callBack) {
     Runnable runnable = new Runnable() {

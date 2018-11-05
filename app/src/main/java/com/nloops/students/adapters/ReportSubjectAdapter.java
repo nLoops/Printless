@@ -23,14 +23,22 @@ import java.util.List;
 
 public class ReportSubjectAdapter extends Adapter<ReportSubjectVH> {
 
+  public interface OnSubjectReportClickListener {
+
+    void onSubjectClicked(int subjectID, String subjectName);
+  }
   // ref of List that holds subject data, will passed in constructor
   private List<SubjectEntity> mSubjectsList;
   // ref of context
   private Context mContext;
+  // ref of listener
+  private OnSubjectReportClickListener mListener;
 
-  public ReportSubjectAdapter(List<SubjectEntity> data, Context context) {
+  public ReportSubjectAdapter(List<SubjectEntity> data, Context context,
+      OnSubjectReportClickListener listener) {
     this.mSubjectsList = data;
     this.mContext = context;
+    this.mListener = listener;
   }
 
   @NonNull
@@ -105,6 +113,11 @@ public class ReportSubjectAdapter extends Adapter<ReportSubjectVH> {
 
   }
 
+  private void performClicked(ReportSubjectVH holder) {
+    SubjectEntity entity = getSubject(holder.getAdapterPosition());
+    mListener.onSubjectClicked(entity.getSubjectID(), entity.getSubjectName());
+  }
+
   class ReportSubjectVH extends ViewHolder implements OnClickListener {
 
     // bind views to class
@@ -118,11 +131,14 @@ public class ReportSubjectAdapter extends Adapter<ReportSubjectVH> {
     public ReportSubjectVH(@NonNull View itemView) {
       super(itemView);
       ButterKnife.bind(this, itemView);
+      itemView.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
-
+      if (v == itemView) {
+        performClicked(this);
+      }
     }
   }
 

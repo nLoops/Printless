@@ -31,6 +31,12 @@
     </activity>
     <activity android:name=".attendance.AttendanceActivity">
     </activity>
+    <activity android:name=".reports.ClassReports">
+      <meta-data
+        android:name="android.support.PARENT_ACTIVITY"
+        android:value=".subjects.SubjectActivity"
+        />
+    </activity>
   </application>
 
 </manifest>
