@@ -4,7 +4,7 @@
   <color name="colorPrimaryDark">@color/colorFakeWhite</color>
   <color name="colorAccent">#80CBC4</color>
   <color name="colorTextView">#717171</color>
-  <color name="colorRecyclerSeparator">#CBCBCB</color>
+  <color name="colorRecyclerSeparator">#80CBCBCB</color>
   <color name="colorFakeWhite">#F8F8F8</color>
   <color name="colorYellow">#FFE1A0</color>
   <color name="colorCalendarBG">#F5F5F5</color>
@@ -12,4 +12,5 @@
   <color name="colorBottomMenuSelected">#717171</color>
   <color name="colorReportText">#346BFF</color>
   <color name="colorToolbarText">#C1C1C1</color>
+  <color name="colorRed">#BE4444</color>
 </resources>

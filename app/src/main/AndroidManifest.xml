@@ -34,8 +34,12 @@
     <activity android:name=".reports.ClassReports">
       <meta-data
         android:name="android.support.PARENT_ACTIVITY"
-        android:value=".subjects.SubjectActivity"
-        />
+        android:value=".subjects.SubjectActivity"/>
+    </activity>
+    <activity android:name=".reports.StudentsReports">
+      <meta-data
+        android:name="android.support.PARENT_ACTIVITY"
+        android:value=".reports.ClassReports"/>
     </activity>
   </application>
 

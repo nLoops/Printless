@@ -35,6 +35,7 @@
   <string name="student_uid_hint">Student ID No.</string>
   <string name="student_name_hint">Student Name</string>
   <string name="zero_students">Students (0)</string>
+  <string name="export_report_string">EXPORT REPORT</string>
 
   <!--Popup menu strings-->
   <string name="pop_menu_rename">Rename</string>
@@ -49,7 +50,14 @@
   <!--Reports Fragment-->
   <string name="report_student_count">Total Students (%1$d)</string>
   <string name="report_absentee_count">Number of Absenteeism (%1$d)</string>
+  <string name="report_absentee_percentage">Percentage of Absenteeism (%1$d</string>
   <string name="report_empty_state_msg">Still no generated reports data to display</string>
+
+  <!--Settings Activity Strings-->
+  <string name="settings_password">Password</string>
+  <string name="settings_email">Email</string>
+  <string name="settings_absentee">Absenteeism Alert</string>
+  <string name="settings_logout">Log Out</string>
 
 
 </resources>
