@@ -21,14 +21,22 @@ import java.util.List;
 
 public class ClassReportAdapter extends Adapter<ClassReportVH> {
 
+  public interface OnClassReportClick {
+
+    void onClick(int classID, String className);
+  }
+
   // ref of list of data
   private List<ClassEntity> mClassesData;
   // ref of context
   private Context mContext;
+  // ref of listener
+  private OnClassReportClick mListener;
 
-  public ClassReportAdapter(List<ClassEntity> data, Context context) {
+  public ClassReportAdapter(List<ClassEntity> data, Context context, OnClassReportClick listener) {
     this.mClassesData = data;
     this.mContext = context;
+    this.mListener = listener;
   }
 
   @NonNull
@@ -87,6 +95,11 @@ public class ClassReportAdapter extends Adapter<ClassReportVH> {
 
   }
 
+  private void performOnClick(ClassReportVH holder) {
+    ClassEntity entity = getClass(holder.getAdapterPosition());
+    mListener.onClick(entity.getClassID(), entity.getClassName());
+  }
+
   class ClassReportVH extends ViewHolder implements OnClickListener {
 
     @BindView(R.id.report_list_class_name)
@@ -99,11 +112,14 @@ public class ClassReportAdapter extends Adapter<ClassReportVH> {
     public ClassReportVH(@NonNull View itemView) {
       super(itemView);
       ButterKnife.bind(this, itemView);
+      itemView.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
-      //
+      if (v == itemView) {
+        performOnClick(this);
+      }
     }
   }
 
