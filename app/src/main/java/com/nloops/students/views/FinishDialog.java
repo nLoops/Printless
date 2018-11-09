@@ -2,6 +2,7 @@ package com.nloops.students.views;
 
 import android.content.Intent;
 import android.graphics.drawable.Animatable;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
@@ -32,6 +33,8 @@ public class FinishDialog extends DialogFragment {
   @Override
   public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
       @Nullable Bundle savedInstanceState) {
+    Objects.requireNonNull(getDialog().getWindow())
+        .setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.colorFinishedBG)));
     return inflater.inflate(R.layout.attendance_finished, container, false);
   }
 

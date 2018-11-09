@@ -17,8 +17,8 @@
   <string name="menu_settings_string">Settings</string>
 
   <!--Subject Activity Strings-->
-  <string name="subject_name_hint">Basics of Consumer Behavior</string>
-  <string name="subject_school_hint">AUC University</string>
+  <string name="subject_name_hint">Subject Name</string>
+  <string name="subject_school_hint">Subject School or University Name</string>
   <string name="subject_add_edit_error_msg">Cannot reload data please try again.</string>
   <string name="subject_add_edit_missing_date">Missing fields need to fill.</string>
   <string name="zero_classes">Classes (0)</string>
