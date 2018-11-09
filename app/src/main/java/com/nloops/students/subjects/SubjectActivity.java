@@ -31,6 +31,8 @@ public class SubjectActivity extends AppCompatActivity {
 
   private MenuItem prevMenuItem;
 
+  HomeFragmentsAdapter adapter;
+
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -72,6 +74,7 @@ public class SubjectActivity extends AppCompatActivity {
           mToolBarTV.setText(getString(R.string.toolbar_subjects));
         } else if (position == 1) {
           mToolBarTV.setText(getString(R.string.toolbar_reports));
+          adapter.getItem(position).onResume();
         } else if (position == 2) {
           mToolBarTV.setText(getString(R.string.toolbar_settings));
         }
@@ -100,7 +103,7 @@ public class SubjectActivity extends AppCompatActivity {
    * @param viewPager {@link ViewPager}
    */
   private void setupViewPager(ViewPager viewPager) {
-    HomeFragmentsAdapter adapter = new HomeFragmentsAdapter(getSupportFragmentManager());
+    adapter = new HomeFragmentsAdapter(getSupportFragmentManager());
     SubjectFragment subjectFragment = new SubjectFragment();
     ReportsFragment reportsFragment = new ReportsFragment();
     SettingsFragment settingsFragment = new SettingsFragment();
