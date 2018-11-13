@@ -8,7 +8,7 @@
   <color name="colorFakeWhite">#F8F8F8</color>
   <color name="colorYellow">#FFE1A0</color>
   <color name="colorCalendarBG">#F5F5F5</color>
-  <color name="colorFinishedBG">#50e4e4e4</color>
+  <color name="colorFinishedBG">#ffffff</color>
   <color name="colorBottomMenuSelected">#717171</color>
   <color name="colorReportText">#346BFF</color>
   <color name="colorToolbarText">#C1C1C1</color>
