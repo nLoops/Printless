@@ -5,8 +5,16 @@
   xmlns:tools="http://schemas.android.com/tools"
   android:id="@+id/student_edit_container"
   android:layout_width="match_parent"
-  android:layout_height="match_parent"
-  android:padding="@dimen/dimen_eight_dp">
+  android:layout_height="match_parent">
+
+  <include
+    android:id="@+id/toolbar_holder"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    layout="@layout/general_toolbar_layout"
+    app:layout_constraintLeft_toLeftOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    />
 
   <android.support.design.widget.TextInputLayout
     android:id="@+id/tl_add_student_uid"
@@ -14,9 +22,10 @@
     android:layout_height="wrap_content"
     android:visibility="gone"
     android:layout_marginTop="@dimen/dimen_twentyfour_dp"
+    android:padding="@dimen/dimen_eight_dp"
     tools:visibility="visible"
     app:layout_constraintLeft_toLeftOf="parent"
-    app:layout_constraintTop_toTopOf="parent">
+    app:layout_constraintTop_toBottomOf="@id/toolbar_holder">
 
     <android.support.design.widget.TextInputEditText
       android:id="@+id/ed_student_uid"
@@ -32,6 +41,7 @@
     android:id="@+id/tl_add_student_name"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:padding="@dimen/dimen_eight_dp"
     android:layout_marginTop="@dimen/dimen_eight_dp"
     app:layout_constraintLeft_toLeftOf="@id/tl_add_student_uid"
     app:layout_constraintTop_toBottomOf="@id/tl_add_student_uid">

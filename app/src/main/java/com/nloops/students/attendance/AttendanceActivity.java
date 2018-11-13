@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.widget.Button;
 import android.widget.TextView;
 import butterknife.BindView;
@@ -32,6 +33,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.Executors;
 
 public class AttendanceActivity extends AppCompatActivity implements
@@ -43,6 +45,10 @@ public class AttendanceActivity extends AppCompatActivity implements
   MaterialCalendarView mCalendarView;
   @BindView(R.id.tv_att_date_today)
   TextView mSelectedDateTV;
+  @BindView(R.id.general_toolbar)
+  Toolbar mToolBar;
+  @BindView(R.id.tv_general_toolbar)
+  TextView mToolBarTV;
 
   // ref of data adapter
   private AttendanceAdapter mAdapter;
@@ -68,6 +74,12 @@ public class AttendanceActivity extends AppCompatActivity implements
     setContentView(R.layout.activity_attendance);
     // bind views
     ButterKnife.bind(this);
+    // Setup toolbar
+    setSupportActionBar(mToolBar);
+    Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
+    if (getIntent().hasExtra(UtilsConstants.EXTRA_CLASS_NAME_TO_STUDENT)) {
+      mToolBarTV.setText(getIntent().getStringExtra(UtilsConstants.EXTRA_CLASS_NAME_TO_STUDENT));
+    }
     // prepare presenter
     preparePresenter();
     // setup calendar
@@ -116,7 +128,7 @@ public class AttendanceActivity extends AppCompatActivity implements
       mPresenter.loadStudents();
     } else {
       mPresenter.loadAbsenteeByDate(mAttendanceLong, classID);
-      mPresenter.loadAllAbsentee();
+      mPresenter.loadAllAbsentee(classID);
       isEditMode = true;
     }
   }

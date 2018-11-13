@@ -8,10 +8,17 @@
   android:layout_height="match_parent"
   tools:context=".subjects.SubjectActivity">
 
+  <include
+    android:id="@+id/toolbar_holder"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    layout="@layout/general_toolbar_layout"/>
+
   <android.support.v7.widget.RecyclerView
     android:id="@+id/rv_classes_activity"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginTop="?android:attr/actionBarSize"
     />
 
   <include

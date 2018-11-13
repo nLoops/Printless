@@ -27,16 +27,24 @@
   <string name="toolbar_subjects">All Subjects</string>
   <string name="toolbar_reports">Reports</string>
   <string name="toolbar_settings">Settings</string>
+  <string name="toolbar_new_subject">Add New Subject</string>
+  <string name="toolbar_edit_subject">Edit Subject Info</string>
 
   <!--Classes Activity Strings-->
   <string name="class_name_hint">Class Name or Number</string>
   <string name="cannot_open_attendance">Cannot take attendance for zero students class</string>
+  <string name="toolbar_new_class">Add New Class</string>
+  <string name="toolbar_edit_class">Edit Class Info</string>
 
   <!--Student Activity Strings-->
   <string name="student_uid_hint">Student ID No.</string>
   <string name="student_name_hint">Student Name</string>
   <string name="zero_students">Students (0)</string>
   <string name="export_report_string">EXPORT REPORT</string>
+  <!--Student Toolbar Tabs-->
+  <string name="toolbar_new_student">Add New Student</string>
+  <string name="toolbar_edit_student">Edit Student Info</string>
+
 
   <!--Popup menu strings-->
   <string name="pop_menu_rename">Rename</string>

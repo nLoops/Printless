@@ -69,8 +69,8 @@ public class AttendancePresenter implements AttendanceContract.Presenter {
   }
 
   @Override
-  public void loadAllAbsentee() {
-    mDataSource.getAllAbsentee(new LoadAbsenteeCallBack() {
+  public void loadAllAbsentee(int classID) {
+    mDataSource.getAllAbsenteeByClass(classID, new LoadAbsenteeCallBack() {
       @Override
       public void onAbsenteeLoaded(List<AbsenteeEntity> data) {
         mView.showAllAbsentee(data);

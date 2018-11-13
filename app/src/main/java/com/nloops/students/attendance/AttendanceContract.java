@@ -31,7 +31,7 @@ public interface AttendanceContract {
 
     void loadAbsenteeByDate(long dateValue, int classID);
 
-    void loadAllAbsentee();
+    void loadAllAbsentee(int classID);
 
   }
 

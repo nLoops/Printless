@@ -9,9 +9,11 @@ import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.widget.Button;
+import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -21,6 +23,7 @@ import com.nloops.students.data.tables.SubjectEntity;
 import com.nloops.students.subjects.SubjectEditContract.Presenter;
 import com.nloops.students.utils.UtilsConstants;
 import com.nloops.students.utils.UtilsMethods;
+import java.util.Objects;
 
 /**
  * This Activity Will handle Add, Edit Subjects it will cooperation with {@link SubjectActivity}
@@ -44,6 +47,10 @@ public class SubjectAddEdit extends AppCompatActivity implements
   TextInputLayout mClassLayoutED;
   @BindView(R.id.tl_add_subject_name)
   TextInputLayout mSubjectLayoutED;
+  @BindView(R.id.general_toolbar)
+  Toolbar mToolBar;
+  @BindView(R.id.tv_general_toolbar)
+  TextView mToolBarTV;
 
   // ref of presenter
   private SubjectEditPresenter mPresenter;
@@ -57,6 +64,9 @@ public class SubjectAddEdit extends AppCompatActivity implements
     setContentView(R.layout.activity_add_edit_subject);
     // Link views to the activity
     ButterKnife.bind(this);
+    // Setup toolbar
+    setSupportActionBar(mToolBar);
+    Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
     // setup presenter
     setupPresenter();
     // force keyboard to show
@@ -111,6 +121,11 @@ public class SubjectAddEdit extends AppCompatActivity implements
       // update flag to be true we are in Edit_MODE
       if (subjectID > -1) {
         isEditMode = true;
+        // set toolbar title
+        mToolBarTV.setText(getString(R.string.toolbar_edit_subject));
+      } else {
+        // set toolbar title
+        mToolBarTV.setText(getString(R.string.toolbar_new_subject));
       }
       // if passed value > -1 that's mean we have exist subject and we should active EDIT_MODE
       mPresenter = new SubjectEditPresenter(LocalDataSource.

@@ -23,7 +23,7 @@ public interface ClassDataContract {
 
     void setupPopupMenu();
 
-    void showStudentsActivity(int classID);
+    void showStudentsActivity(int classID, String className);
 
     void showAttendanceActivity(int classID);
 

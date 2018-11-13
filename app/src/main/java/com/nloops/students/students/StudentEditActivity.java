@@ -8,10 +8,12 @@ import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -41,6 +43,10 @@ public class StudentEditActivity extends AppCompatActivity implements
   TextInputLayout mStudentNameTL;
   @BindView(R.id.tl_add_student_uid)
   TextInputLayout mStudentUidTL;
+  @BindView(R.id.general_toolbar)
+  Toolbar mToolBar;
+  @BindView(R.id.tv_general_toolbar)
+  TextView mToolBarTV;
 
   // ref of presenter to handle data
   private StudentEditPresenter mPresenter;
@@ -56,6 +62,9 @@ public class StudentEditActivity extends AppCompatActivity implements
     setContentView(R.layout.activity_student_edit);
     // link views to class
     ButterKnife.bind(this);
+    // Setup toolbar
+    setSupportActionBar(mToolBar);
+    Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
     // setup presenter
     setupPresenter();
     // force keyboard to appear
@@ -106,6 +115,11 @@ public class StudentEditActivity extends AppCompatActivity implements
           getIntExtra(UtilsConstants.EXTRA_STUDENT_ID_INTENT, -1);
       if (studentID > -1) {
         isEditMode = true;
+        // set toolbar title
+        mToolBarTV.setText(getString(R.string.toolbar_edit_student));
+      } else {
+        // set toolbar title
+        mToolBarTV.setText(getString(R.string.toolbar_new_student));
       }
       mPresenter = new StudentEditPresenter(LocalDataSource.getInstance(this),
           this, studentID);

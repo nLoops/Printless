@@ -30,7 +30,7 @@ public class SubjectAdapter extends RecyclerView.Adapter<SubjectViewHolder> {
 
     void onSubjectClicked(int subjectID, View view, int adapterPosition);
 
-    void onItemClicked(int subjectID);
+    void onItemClicked(int subjectID, String subjectName);
   }
 
   // ref for List of Subjects.
@@ -114,7 +114,7 @@ public class SubjectAdapter extends RecyclerView.Adapter<SubjectViewHolder> {
 
   private void performClickItem(SubjectViewHolder holder) {
     SubjectEntity entity = getSubject(holder.getAdapterPosition());
-    mClickListener.onItemClicked(entity.getSubjectID());
+    mClickListener.onItemClicked(entity.getSubjectID(), entity.getSubjectName());
   }
 
   /**

@@ -23,7 +23,7 @@ public interface SubjectPresenterContract {
 
     void setupPopupMenu();
 
-    void showClassesActivity(int subjectID);
+    void showClassesActivity(int subjectID, String subjectName);
   }
 
 

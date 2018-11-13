@@ -25,7 +25,7 @@ public class ClassesAdapter extends Adapter<ClassesViewHolder> {
 
     void onOverFlowClicked(int classID, View view, int adapterPosition, boolean isZeroStudents);
 
-    void onClassClicked(int classID);
+    void onClassClicked(int classID, String className);
   }
 
   // ref of list of classes data
@@ -61,7 +61,7 @@ public class ClassesAdapter extends Adapter<ClassesViewHolder> {
 
   private void performClickItem(ClassesViewHolder holder) {
     ClassEntity entity = getClassEntity(holder.getAdapterPosition());
-    mListener.onClassClicked(entity.getClassID());
+    mListener.onClassClicked(entity.getClassID(), entity.getClassName());
   }
 
   @Override

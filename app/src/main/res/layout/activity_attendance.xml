@@ -5,8 +5,16 @@
   xmlns:tools="http://schemas.android.com/tools"
   android:layout_width="match_parent"
   android:layout_height="match_parent"
-  android:padding="@dimen/dimen_five_dp"
   tools:context=".attendance.AttendanceActivity">
+
+  <include
+    android:id="@+id/toolbar_holder"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    layout="@layout/general_toolbar_layout"
+    app:layout_constraintLeft_toLeftOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    />
 
   <TextView
     android:id="@+id/tv_att_date_today"
@@ -15,7 +23,7 @@
     tools:text="Monday 27-9"
     android:layout_marginTop="@dimen/dimen_sixteen_dp"
     android:layout_marginStart="@dimen/dimen_five_dp"
-    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintTop_toBottomOf="@id/toolbar_holder"
     app:layout_constraintLeft_toLeftOf="parent"
     android:textSize="@dimen/text_body_size"
     />
@@ -43,6 +51,7 @@
     android:id="@+id/attendance_rv"
     android:layout_width="match_parent"
     android:layout_height="0dp"
+    android:padding="@dimen/dimen_five_dp"
     app:layout_constraintLeft_toLeftOf="@id/calendar_holder"
     app:layout_constraintRight_toRightOf="@id/calendar_holder"
     app:layout_constraintTop_toBottomOf="@id/calendar_holder"

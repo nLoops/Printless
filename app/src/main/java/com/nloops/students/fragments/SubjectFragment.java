@@ -130,8 +130,8 @@ public class SubjectFragment extends Fragment implements
   }
 
   @Override
-  public void onItemClicked(int subjectID) {
-    showClassesActivity(subjectID);
+  public void onItemClicked(int subjectID, String subjectName) {
+    showClassesActivity(subjectID, subjectName);
   }
 
   @Override
@@ -195,9 +195,10 @@ public class SubjectFragment extends Fragment implements
   }
 
   @Override
-  public void showClassesActivity(int subjectID) {
+  public void showClassesActivity(int subjectID, String subjectName) {
     Intent classIntent = new Intent(mContext, ClassesActivity.class);
     classIntent.putExtra(UtilsConstants.EXTRA_SUBJECT_ID_TO_CLASSES, subjectID);
+    classIntent.putExtra(UtilsConstants.EXTRA_SUBJECT_NAME_TO_CLASS, subjectName);
     startActivity(classIntent);
   }
 

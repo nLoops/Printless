@@ -9,8 +9,10 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -27,6 +29,7 @@ import com.skydoves.powermenu.PowerMenu;
 import com.skydoves.powermenu.PowerMenuItem;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class StudentActivity extends AppCompatActivity implements
     StudentContract.View, OnStudentClickListener {
@@ -38,6 +41,10 @@ public class StudentActivity extends AppCompatActivity implements
   RelativeLayout mRecyclerViewEmptyView;
   @BindView(R.id.student_layout_container)
   CoordinatorLayout mLayoutContainer;
+  @BindView(R.id.general_toolbar)
+  Toolbar mToolBar;
+  @BindView(R.id.tv_general_toolbar)
+  TextView mToolBarTV;
 
   // ref of StudentAdapter
   private StudentAdapter mAdapter;
@@ -68,6 +75,12 @@ public class StudentActivity extends AppCompatActivity implements
     setContentView(R.layout.activity_student);
     // bind all Views
     ButterKnife.bind(this);
+    // Setup toolbar
+    setSupportActionBar(mToolBar);
+    Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
+    if (getIntent().hasExtra(UtilsConstants.EXTRA_CLASS_NAME_TO_STUDENT)) {
+      mToolBarTV.setText(getIntent().getStringExtra(UtilsConstants.EXTRA_CLASS_NAME_TO_STUDENT));
+    }
     // setup presenter
     setupPresenter();
   }

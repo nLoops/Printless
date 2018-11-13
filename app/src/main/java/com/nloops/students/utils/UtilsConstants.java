@@ -20,6 +20,9 @@ public class UtilsConstants {
   public static final String EXTRA_SUBJECT_NAME_TO_CLASS_REPORT = "com.nloops.students.EXTRA_SUBJECT_NAME_CLASS_REPORT";
   public static final String EXTRA_CLASS_TO_STUDENT_REPORT = "com.nloops.students.EXTRA_CLASS_Student_report";
   public static final String EXTRA_CLASS_NAME_TO_STUDENT_REPORT = "com.nloops.students.EXTRA_CLASS_NAME_STUDENT_REPORT";
+  // values for toolbars
+  public static final String EXTRA_SUBJECT_NAME_TO_CLASS = "com.nloops.students.EXTRA_SUBJECT_NAME";
+  public static final String EXTRA_CLASS_NAME_TO_STUDENT = "com.nloops.students.EXTRA_CLASS_NAME";
   // for Activity RESULTS messages
   public static final int RESULT_ADD_ITEM = 100;
   public static final int RESULT_EDIT_ITEM = 101;

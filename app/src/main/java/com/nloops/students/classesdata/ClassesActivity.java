@@ -9,8 +9,10 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -29,6 +31,7 @@ import com.skydoves.powermenu.PowerMenu;
 import com.skydoves.powermenu.PowerMenuItem;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class ClassesActivity extends AppCompatActivity implements ClassDataContract.ClassView,
     OnClassClickListener {
@@ -40,6 +43,10 @@ public class ClassesActivity extends AppCompatActivity implements ClassDataContr
   RelativeLayout mRecyclerEmptyState;
   @BindView(R.id.classes_layout_container)
   CoordinatorLayout mLayoutContainer;
+  @BindView(R.id.general_toolbar)
+  Toolbar mToolBar;
+  @BindView(R.id.tv_general_toolbar)
+  TextView mToolBarTV;
 
   // ref of data adapter
   private ClassesAdapter mAdapter;
@@ -61,6 +68,8 @@ public class ClassesActivity extends AppCompatActivity implements ClassDataContr
 
   private int classPos = -1;
 
+  private String className;
+
   private boolean isZeroStudents = false;
 
 
@@ -70,6 +79,12 @@ public class ClassesActivity extends AppCompatActivity implements ClassDataContr
     setContentView(R.layout.activity_classes);
     // bind all views to the code
     ButterKnife.bind(this);
+    // Setup toolbar
+    setSupportActionBar(mToolBar);
+    Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
+    if (getIntent().hasExtra(UtilsConstants.EXTRA_SUBJECT_NAME_TO_CLASS)) {
+      mToolBarTV.setText(getIntent().getStringExtra(UtilsConstants.EXTRA_SUBJECT_NAME_TO_CLASS));
+    }
     // get passed subjectID
     if (getIntent().hasExtra(UtilsConstants.EXTRA_SUBJECT_ID_TO_CLASSES)) {
       passedSubjectID = getIntent().getIntExtra(UtilsConstants.EXTRA_SUBJECT_ID_TO_CLASSES, -1);
@@ -165,10 +180,11 @@ public class ClassesActivity extends AppCompatActivity implements ClassDataContr
   }
 
   @Override
-  public void showStudentsActivity(int classID) {
+  public void showStudentsActivity(int classID, String className) {
     Intent studentIntent = new Intent(ClassesActivity.this, StudentActivity.class);
     studentIntent.putExtra(UtilsConstants.EXTRA_CLASS_TO_STUDENT_ID, classID);
     studentIntent.putExtra(UtilsConstants.EXTRA_SUBJECT_ID_CLASS_TO_STUDENT, passedSubjectID);
+    studentIntent.putExtra(UtilsConstants.EXTRA_CLASS_NAME_TO_STUDENT, className);
     startActivity(studentIntent);
   }
 
@@ -177,6 +193,7 @@ public class ClassesActivity extends AppCompatActivity implements ClassDataContr
     Intent intent = new Intent(ClassesActivity.this, AttendanceActivity.class);
     intent.putExtra(UtilsConstants.EXTRA_CLASS_ID_TO_ATTENDANCE, classID);
     intent.putExtra(UtilsConstants.EXTRA_SUBJECT_ID_CLASS_TO_ATTENDANCE, passedSubjectID);
+    intent.putExtra(UtilsConstants.EXTRA_CLASS_NAME_TO_STUDENT, className);
     startActivity(intent);
   }
 
@@ -186,6 +203,7 @@ public class ClassesActivity extends AppCompatActivity implements ClassDataContr
     intent.putExtra(UtilsConstants.EXTRA_CLASS_ID_TO_ATTENDANCE, classID);
     intent.putExtra(UtilsConstants.EXTRA_SET_ATTENDANCE_EDIT_MODE, true);
     intent.putExtra(UtilsConstants.EXTRA_SUBJECT_ID_CLASS_TO_ATTENDANCE, passedSubjectID);
+    intent.putExtra(UtilsConstants.EXTRA_CLASS_NAME_TO_STUDENT, className);
     startActivity(intent);
   }
 
@@ -240,6 +258,7 @@ public class ClassesActivity extends AppCompatActivity implements ClassDataContr
     this.classID = classID;
     this.classPos = adapterPosition;
     this.isZeroStudents = isZeroStudents;
+    this.className = mAdapter.getClassEntity(adapterPosition).getClassName();
     // if menu is visible we hide it, if not we show it.
     handlePopupVisibility();
     // menu size and position.
@@ -250,8 +269,8 @@ public class ClassesActivity extends AppCompatActivity implements ClassDataContr
   }
 
   @Override
-  public void onClassClicked(int classID) {
-    showStudentsActivity(classID);
+  public void onClassClicked(int classID, String className) {
+    showStudentsActivity(classID, className);
   }
 
   /**

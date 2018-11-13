@@ -8,9 +8,11 @@ import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.widget.Button;
+import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -20,6 +22,7 @@ import com.nloops.students.data.mvp.local.LocalDataSource;
 import com.nloops.students.data.tables.ClassEntity;
 import com.nloops.students.utils.UtilsConstants;
 import com.nloops.students.utils.UtilsMethods;
+import java.util.Objects;
 
 public class ClassAddEdit extends AppCompatActivity implements ClassEditContract.View {
 
@@ -34,6 +37,10 @@ public class ClassAddEdit extends AppCompatActivity implements ClassEditContract
   Button mCancelClassBT;
   @BindView(R.id.class_add_edit_container)
   ConstraintLayout mLayoutContainer;
+  @BindView(R.id.general_toolbar)
+  Toolbar mToolBar;
+  @BindView(R.id.tv_general_toolbar)
+  TextView mToolBarTV;
 
   // ref of class presenter
   private ClassEditPresenter mPresenter;
@@ -48,6 +55,9 @@ public class ClassAddEdit extends AppCompatActivity implements ClassEditContract
     setContentView(R.layout.activity_class_add_edit);
     // bind views
     ButterKnife.bind(this);
+    // Setup toolbar
+    setSupportActionBar(mToolBar);
+    Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
     // setup presenter
     setupPresenter();
     // set on editor click listener.
@@ -81,6 +91,11 @@ public class ClassAddEdit extends AppCompatActivity implements ClassEditContract
 
       if (classID > -1) {
         isEditMode = true;
+        // set toolbar title
+        mToolBarTV.setText(getString(R.string.toolbar_edit_class));
+      } else {
+        // set toolbar title
+        mToolBarTV.setText(getString(R.string.toolbar_new_class));
       }
 
       mPresenter = new ClassEditPresenter(LocalDataSource.getInstance(this), this,
