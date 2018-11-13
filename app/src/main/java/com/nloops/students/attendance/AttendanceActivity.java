@@ -1,5 +1,8 @@
 package com.nloops.students.attendance;
 
+import android.annotation.SuppressLint;
+import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentManager;
@@ -20,6 +23,7 @@ import com.nloops.students.data.tables.StudentEntity;
 import com.nloops.students.utils.UtilsConstants;
 import com.nloops.students.utils.UtilsMethods;
 import com.nloops.students.views.FinishDialog;
+import com.nloops.students.views.StudentEventDecorator;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
@@ -28,6 +32,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.concurrent.Executors;
 
 public class AttendanceActivity extends AppCompatActivity implements
     AttendanceContract.View, OnDateSelectedListener {
@@ -51,6 +56,10 @@ public class AttendanceActivity extends AppCompatActivity implements
   int classID;
   // subject id
   int passedSubjectID;
+  // flag to check current mode
+  private boolean isEditMode = false;
+  // ref of List Absentee in edit mode
+  private AbsenteeEntity absenteeEntity;
 
 
   @Override
@@ -87,9 +96,14 @@ public class AttendanceActivity extends AppCompatActivity implements
 
   @OnClick(R.id.attendance_finish_bt)
   public void saveAttendance(Button button) {
-    AbsenteeEntity entity = new AbsenteeEntity(getAttendanceDate(), mAdapter.getStudentEntity(),
-        classID, passedSubjectID);
-    mPresenter.insertAttendance(entity);
+    if (isEditMode) {
+      absenteeEntity.setStudentsList(mAdapter.getStudentEntity());
+      mPresenter.updateAttendance(absenteeEntity);
+    } else {
+      AbsenteeEntity entity = new AbsenteeEntity(getAttendanceDate(), mAdapter.getStudentEntity(),
+          classID, passedSubjectID);
+      mPresenter.insertAttendance(entity);
+    }
     FragmentManager fm = getSupportFragmentManager();
     FinishDialog finishDialog = new FinishDialog();
     finishDialog.show(fm, "finished");
@@ -102,6 +116,8 @@ public class AttendanceActivity extends AppCompatActivity implements
       mPresenter.loadStudents();
     } else {
       mPresenter.loadAbsenteeByDate(mAttendanceLong, classID);
+      mPresenter.loadAllAbsentee();
+      isEditMode = true;
     }
   }
 
@@ -126,8 +142,13 @@ public class AttendanceActivity extends AppCompatActivity implements
   }
 
   @Override
-  public void showAbsenteeList(List<AbsenteeEntity> data) {
+  public void showAbsenteeList(AbsenteeEntity data) {
+    absenteeEntity = data;
+  }
 
+  @Override
+  public void showAllAbsentee(List<AbsenteeEntity> entities) {
+    new ApiSimulator().executeOnExecutor(Executors.newSingleThreadExecutor(), entities);
   }
 
   @Override
@@ -151,4 +172,32 @@ public class AttendanceActivity extends AppCompatActivity implements
   private long getAttendanceDate() {
     return mAttendanceLong;
   }
+
+  @SuppressLint("StaticFieldLeak")
+  private class ApiSimulator extends AsyncTask<List<AbsenteeEntity>, Void, List<CalendarDay>> {
+
+    @SafeVarargs
+    @Override
+    protected final List<CalendarDay> doInBackground(List<AbsenteeEntity>... data) {
+      Calendar calendar = Calendar.getInstance();
+      ArrayList<CalendarDay> dates = new ArrayList<>();
+      for (AbsenteeEntity entity : data[0]) {
+        calendar.setTimeInMillis(entity.getAbsenteeDate());
+        CalendarDay day = CalendarDay.from(calendar);
+        dates.add(day);
+      }
+      return dates;
+    }
+
+    @Override
+    protected void onPostExecute(List<CalendarDay> calendarDays) {
+      super.onPostExecute(calendarDays);
+      if (isFinishing()) {
+        return;
+      }
+      mCalendarView.addDecorator(new StudentEventDecorator(Color.BLACK, calendarDays));
+    }
+  }
+
 }
+

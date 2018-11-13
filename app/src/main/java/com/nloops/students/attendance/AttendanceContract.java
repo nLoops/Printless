@@ -12,7 +12,9 @@ public interface AttendanceContract {
 
     void showStudentsList(List<StudentEntity> data);
 
-    void showAbsenteeList(List<AbsenteeEntity> data);
+    void showAbsenteeList(AbsenteeEntity data);
+
+    void showAllAbsentee(List<AbsenteeEntity> entities);
 
     void clearAdapter();
 
@@ -24,6 +26,8 @@ public interface AttendanceContract {
     void loadStudents();
 
     void insertAttendance(AbsenteeEntity entity);
+
+    void updateAttendance(AbsenteeEntity entity);
 
     void loadAbsenteeByDate(long dateValue, int classID);
 

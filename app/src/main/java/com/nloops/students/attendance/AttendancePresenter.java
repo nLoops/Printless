@@ -47,11 +47,18 @@ public class AttendancePresenter implements AttendanceContract.Presenter {
   }
 
   @Override
+  public void updateAttendance(AbsenteeEntity entity) {
+    mDataSource.updateAbsentee(entity);
+  }
+
+
+  @Override
   public void loadAbsenteeByDate(long dateValue, int classID) {
     mDataSource.getAbsenteeByDate(dateValue, classID, new LoadingAbsenteeByDateCallBack() {
       @Override
       public void onAbsenteeLoaded(AbsenteeEntity entity) {
         mView.showStudentsList(entity.getStudentsList());
+        mView.showAbsenteeList(entity);
       }
 
       @Override
@@ -66,7 +73,7 @@ public class AttendancePresenter implements AttendanceContract.Presenter {
     mDataSource.getAllAbsentee(new LoadAbsenteeCallBack() {
       @Override
       public void onAbsenteeLoaded(List<AbsenteeEntity> data) {
-        mView.showAbsenteeList(data);
+        mView.showAllAbsentee(data);
       }
 
       @Override
