@@ -1,7 +1,9 @@
 package com.nloops.students.reports;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -9,17 +11,26 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import com.nloops.students.R;
 import com.nloops.students.adapters.StudentsReportAdapter;
 import com.nloops.students.data.mvp.StructureDataSource.LoadStudentsCallBack;
 import com.nloops.students.data.mvp.local.LocalDataSource;
 import com.nloops.students.data.tables.StudentEntity;
+import com.nloops.students.utils.StudentReportModel;
 import com.nloops.students.utils.UtilsConstants;
+import com.shidian.excel.ExcelUtils;
+import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 
 public class StudentsReports extends AppCompatActivity {
@@ -38,6 +49,12 @@ public class StudentsReports extends AppCompatActivity {
   private StudentsReportAdapter mAdapter;
   // ref of passed ClassID
   private int passedClassID = -1;
+
+  private ArrayList<ArrayList<String>> recordList;
+  private static String[] title = {"StudentName", "StudentUID", "Total Lectures", "AbsenteeCount",
+      "Absentee Percentage"};
+  private File file;
+  private String fileName;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +82,11 @@ public class StudentsReports extends AppCompatActivity {
   protected void onResume() {
     super.onResume();
     displayData(passedClassID);
+  }
+
+  @OnClick(R.id.export_excel_bt)
+  public void createExcel(Button button) {
+    exportExcel();
   }
 
   private void displayData(int classID) {
@@ -107,4 +129,67 @@ public class StudentsReports extends AppCompatActivity {
     }
     return super.onOptionsItemSelected(item);
   }
+
+  private String getSDPath() {
+    File sdDir = null;
+    boolean sdCardExist = Environment.getExternalStorageState().equals(
+        android.os.Environment.MEDIA_MOUNTED);
+    if (sdCardExist) {
+      sdDir = Environment.getExternalStorageDirectory();
+    }
+    String dir = null;
+    if (sdDir != null) {
+      dir = sdDir.toString();
+    }
+    return dir;
+  }
+
+  public void makeDir(File dir) {
+    if (!dir.getParentFile().exists()) {
+      makeDir(dir.getParentFile());
+    }
+    dir.mkdir();
+  }
+
+  private void exportExcel() {
+    file = new File(getSDPath() + "/studentapp");
+    makeDir(file);
+    String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss",
+        Locale.getDefault()).format(new Date());
+    String filePath = "/Report_" + timeStamp + ".xls";
+    ExcelUtils.initExcel(file.toString() + filePath, title);
+    fileName = getSDPath() + "/studentapp" + filePath;
+    ExcelUtils.writeObjListToExcel(getRecordData(), fileName, this);
+    Uri mailUri = Uri.parse("file:///" + fileName);
+    String[] sendTo = new String[]{"a.elgammal112@gmail.com"};
+    composeEmail(sendTo, "Students Report", mailUri);
+  }
+
+  private ArrayList<ArrayList<String>> getRecordData() {
+    recordList = new ArrayList<>();
+    for (int i = 0; i < mAdapter.getmStudentModels().size(); i++) {
+      StudentReportModel student = mAdapter.getmStudentModels().get(i);
+      ArrayList<String> beanList = new ArrayList<String>();
+      beanList.add(student.getStudentName());
+      beanList.add(student.getStudentUID());
+      beanList.add(student.getTotalLectures());
+      beanList.add(student.getAbsenteeCount());
+      beanList.add(student.getAbsenteePercantge());
+      recordList.add(beanList);
+    }
+    return recordList;
+  }
+
+
+  public void composeEmail(String[] addresses, String subject, Uri attachment) {
+    Intent intent = new Intent(Intent.ACTION_SEND);
+    intent.setType("application/excel");
+    intent.putExtra(Intent.EXTRA_EMAIL, addresses);
+    intent.putExtra(Intent.EXTRA_SUBJECT, subject);
+    intent.putExtra(Intent.EXTRA_STREAM, attachment);
+    if (intent.resolveActivity(getPackageManager()) != null) {
+      startActivity(intent);
+    }
+  }
+
 }

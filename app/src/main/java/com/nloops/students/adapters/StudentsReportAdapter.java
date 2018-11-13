@@ -16,6 +16,8 @@ import com.nloops.students.data.mvp.StructureDataSource.LoadAbsenteeCallBack;
 import com.nloops.students.data.mvp.local.LocalDataSource;
 import com.nloops.students.data.tables.AbsenteeEntity;
 import com.nloops.students.data.tables.StudentEntity;
+import com.nloops.students.utils.StudentReportModel;
+import java.util.ArrayList;
 import java.util.List;
 
 public class StudentsReportAdapter extends Adapter<StudentReportVH> {
@@ -27,10 +29,13 @@ public class StudentsReportAdapter extends Adapter<StudentReportVH> {
   // ref of class
   private int passedClass;
 
+  List<StudentReportModel> mStudentModels;
+
   public StudentsReportAdapter(List<StudentEntity> data, Context context, int classID) {
     this.mStudentsData = data;
     this.mContext = context;
     this.passedClass = classID;
+    this.mStudentModels = new ArrayList<>();
   }
 
   @NonNull
@@ -75,6 +80,12 @@ public class StudentsReportAdapter extends Adapter<StudentReportVH> {
             String strPercentage = mContext.getString
                 (R.string.report_absentee_percentage, percentage) + "%)";
             holder.mAbsenteePercentage.setText(strPercentage);
+
+            // add new StudentModel
+            mStudentModels
+                .add(new StudentReportModel(entity.getStudentName(), entity.getStudentUniID(),
+                    String.valueOf(data.size()), String.valueOf(counter),
+                    String.valueOf(percentage)));
           }
 
           @Override
@@ -99,6 +110,14 @@ public class StudentsReportAdapter extends Adapter<StudentReportVH> {
     mStudentsData = data;
     notifyDataSetChanged();
 
+  }
+
+  public List<StudentEntity> getmStudentsData() {
+    return mStudentsData;
+  }
+
+  public List<StudentReportModel> getmStudentModels() {
+    return mStudentModels;
   }
 
   class StudentReportVH extends ViewHolder {
