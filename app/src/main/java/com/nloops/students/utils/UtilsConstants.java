@@ -32,4 +32,13 @@ public class UtilsConstants {
   public static final int STUDENT_ABSENTEE_OKAY = 1;
   public static final int STUDENT_ABSENTEE_NO = 0;
 
+  // week days
+  public static final String DAY_SATURDAY = "Saturday";
+  public static final String DAY_SUNDAY = "Sunday";
+  public static final String DAY_MONDAY = "Monday";
+  public static final String DAY_TUESDAY = "Tuesday";
+  public static final String DAY_WEDNESDAY = "Wednesday";
+  public static final String DAY_THURDAY = "Thursday";
+  public static final String DAY_FRIDAY = "Friday";
+
 }

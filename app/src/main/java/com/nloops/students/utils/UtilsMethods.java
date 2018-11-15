@@ -12,6 +12,7 @@ import com.skydoves.powermenu.MenuAnimation;
 import com.skydoves.powermenu.OnMenuItemClickListener;
 import com.skydoves.powermenu.PowerMenu;
 import com.skydoves.powermenu.PowerMenuItem;
+import java.util.Calendar;
 import java.util.List;
 
 public class UtilsMethods {
@@ -67,35 +68,31 @@ public class UtilsMethods {
     animation.start();
   }
 
-  /*public static void writeXLSFile() throws IOException {
-
-    String excelFileName = "C:/Test.xls";//name of excel file
-
-    String sheetName = "Sheet1";//name of sheet
-
-    HSSFWorkbook wb = new HSSFWorkbook();
-    HSSFSheet sheet = wb.createSheet(sheetName) ;
-
-    //iterating r number of rows
-    for (int r=0;r < 5; r++ )
-    {
-      HSSFRow row = sheet.createRow(r);
-
-      //iterating c number of columns
-      for (int c=0;c < 5; c++ )
-      {
-        HSSFCell cell = row.createCell(c);
-
-        cell.setCellValue("Cell "+r+" "+c);
-      }
+  /**
+   * Helper Method to pass DayName and Return it's number from Calendar
+   *
+   * @param dayName Name Of Week Day
+   * @return Calendar.WeekDay number.
+   */
+  public static int getDayNumber(String dayName) {
+    switch (dayName) {
+      case UtilsConstants.DAY_SUNDAY:
+        return Calendar.SUNDAY;
+      case UtilsConstants.DAY_MONDAY:
+        return Calendar.MONDAY;
+      case UtilsConstants.DAY_TUESDAY:
+        return Calendar.TUESDAY;
+      case UtilsConstants.DAY_WEDNESDAY:
+        return Calendar.WEDNESDAY;
+      case UtilsConstants.DAY_THURDAY:
+        return Calendar.THURSDAY;
+      case UtilsConstants.DAY_FRIDAY:
+        return Calendar.FRIDAY;
+      case UtilsConstants.DAY_SATURDAY:
+        return Calendar.SATURDAY;
+      default:
+        return -1;
     }
-
-    FileOutputStream fileOut = new FileOutputStream(excelFileName);
-
-    //write this workbook to an Outputstream.
-    wb.write(fileOut);
-    fileOut.flush();
-    fileOut.close();
-  }*/
+  }
 
 }

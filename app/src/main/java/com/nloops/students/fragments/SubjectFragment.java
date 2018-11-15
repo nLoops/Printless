@@ -28,8 +28,10 @@ import com.nloops.students.subjects.SubjectAddEdit;
 import com.nloops.students.subjects.SubjectPresenter;
 import com.nloops.students.subjects.SubjectPresenterContract;
 import com.nloops.students.subjects.SubjectPresenterContract.Presenter;
+import com.nloops.students.utils.SubjectModel;
 import com.nloops.students.utils.UtilsConstants;
 import com.nloops.students.utils.UtilsMethods;
+import com.nloops.students.views.PresetDateFragment;
 import com.skydoves.powermenu.OnMenuItemClickListener;
 import com.skydoves.powermenu.PowerMenu;
 import com.skydoves.powermenu.PowerMenuItem;
@@ -224,6 +226,14 @@ public class SubjectFragment extends Fragment implements
         SubjectEntity subject = mAdapter.getSubject(mSubjectPosition);
         // 3- delete from DB operation
         mPresenter.deleteSubject(subject);
+      } else if (item.getTitle().equals(getString(R.string.pop_menu_preset))) {
+        handlePopupVisibility();
+        SubjectEntity entity = mAdapter.getSubject(mSubjectPosition);
+        SubjectModel model = new SubjectModel(entity.getSubjectName(), entity.getSubjectID());
+        // call Preset Fragment
+        PresetDateFragment.newInstance(model)
+            .show(Objects.requireNonNull(getActivity())
+                .getSupportFragmentManager(), "presetfragment");
       }
     }
   };
