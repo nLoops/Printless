@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  >
+
+  <data>
+    <variable
+      name="listener"
+      type="com.nloops.students.views.PresetDateFragment.ScheduleDateListener"/>
+  </data>
+
+  <android.support.constraint.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+      android:id="@+id/txt_label_size"
+      style="@style/Widget.Label"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="@dimen/dimen_eight_dp"
+      android:layout_marginStart="@dimen/dimen_twentyfour_dp"
+      android:text="@string/label_date"
+      app:layout_constraintLeft_toLeftOf="parent"
+      app:layout_constraintTop_toTopOf="parent"
+      />
+
+    <TextView
+      android:id="@+id/txt_date1"
+      style="@style/Widget.DateTime"
+      android:layout_marginTop="@dimen/dimen_sixteen_dp"
+      android:onClick="@{listener::onDateSelected}"
+      android:text="@string/prefered_date_saturday"
+      app:layout_constraintEnd_toStartOf="@+id/txt_date2"
+      app:layout_constraintHorizontal_bias="0.5"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@id/txt_label_size"/>
+
+    <TextView
+      android:id="@+id/txt_date2"
+      style="@style/Widget.DateTime"
+      android:onClick="@{listener::onDateSelected}"
+      android:text="@string/prefered_date_sunday"
+      app:layout_constraintBottom_toBottomOf="@+id/txt_date1"
+      app:layout_constraintEnd_toStartOf="@+id/txt_date3"
+      app:layout_constraintHorizontal_bias="0.5"
+      app:layout_constraintStart_toEndOf="@+id/txt_date1"
+      app:layout_constraintTop_toTopOf="@+id/txt_date1"/>
+
+    <TextView
+      android:id="@+id/txt_date3"
+      style="@style/Widget.DateTime"
+      android:onClick="@{listener::onDateSelected}"
+      android:text="@string/prefered_date_monday"
+      app:layout_constraintBottom_toBottomOf="@+id/txt_date2"
+      app:layout_constraintEnd_toStartOf="@+id/txt_date4"
+      app:layout_constraintHorizontal_bias="0.5"
+      app:layout_constraintStart_toEndOf="@+id/txt_date2"
+      app:layout_constraintTop_toTopOf="@+id/txt_date2"/>
+
+    <TextView
+      android:id="@+id/txt_date4"
+      style="@style/Widget.DateTime"
+      android:onClick="@{listener::onDateSelected}"
+      android:text="@string/prefered_date_tuesday"
+      app:layout_constraintBottom_toBottomOf="@+id/txt_date3"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintHorizontal_bias="0.5"
+      app:layout_constraintStart_toEndOf="@+id/txt_date3"
+      app:layout_constraintTop_toTopOf="@+id/txt_date3"/>
+
+    <TextView
+      android:id="@+id/txt_date5"
+      style="@style/Widget.DateTime"
+      android:layout_marginTop="@dimen/dimen_sixteen_dp"
+      android:onClick="@{listener::onDateSelected}"
+      android:text="@string/prefered_date_wednesday"
+      app:layout_constraintLeft_toRightOf="@id/txt_date2"
+      app:layout_constraintRight_toLeftOf="@id/txt_date1"
+      app:layout_constraintTop_toBottomOf="@id/txt_date1"
+      />
+
+    <TextView
+      android:id="@+id/txt_date6"
+      style="@style/Widget.DateTime"
+      android:layout_marginTop="@dimen/dimen_sixteen_dp"
+      android:onClick="@{listener::onDateSelected}"
+      android:text="@string/prefered_date_thursday"
+      app:layout_constraintLeft_toRightOf="@id/txt_date3"
+      app:layout_constraintRight_toLeftOf="@id/txt_date2"
+      app:layout_constraintTop_toBottomOf="@id/txt_date2"/>
+
+    <TextView
+      android:id="@+id/txt_date7"
+      style="@style/Widget.DateTime"
+      android:layout_marginTop="@dimen/dimen_sixteen_dp"
+      android:onClick="@{listener::onDateSelected}"
+      android:text="@string/prefered_date_friday"
+      app:layout_constraintLeft_toRightOf="@id/txt_date4"
+      app:layout_constraintRight_toLeftOf="@id/txt_date3"
+      app:layout_constraintTop_toBottomOf="@id/txt_date3"
+      />
+
+  </android.support.constraint.ConstraintLayout>
+</layout>

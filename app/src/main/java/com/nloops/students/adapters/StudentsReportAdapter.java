@@ -81,7 +81,7 @@ public class StudentsReportAdapter extends Adapter<StudentReportVH> {
                 (R.string.report_absentee_percentage, percentage) + "%)";
             holder.mAbsenteePercentage.setText(strPercentage);
 
-            // add new StudentModel
+            // add new StudentReportModel
             mStudentModels
                 .add(new StudentReportModel(entity.getStudentName(), entity.getStudentUniID(),
                     String.valueOf(data.size()), String.valueOf(counter),

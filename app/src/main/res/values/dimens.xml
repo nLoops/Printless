@@ -12,5 +12,8 @@
   <dimen name="dimen_fortyfive_dp">45dp</dimen>
   <dimen name="dimen_fifty_dp">50dp</dimen>
   <dimen name="dimen_onefifty_dp">150dp</dimen>
+  <dimen name="dimen_fourtwenty_dp">420dp</dimen>
+
+  <dimen name="product_color_size">32dp</dimen>
 
 </resources>

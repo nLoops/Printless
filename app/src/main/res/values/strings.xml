@@ -16,6 +16,25 @@
   <string name="menu_reports_string">Reports</string>
   <string name="menu_settings_string">Settings</string>
   <string name="permissions_required">App requires WRITE_EXTERNAL_STORAGE to export excel reports</string>
+  <!--Preset Date-->
+  <string name="label_date">Preferred date</string>
+  <string name="prefered_date_saturday">Saturday</string>
+  <string name="prefered_date_sunday">Sunday</string>
+  <string name="prefered_date_monday">Monday</string>
+  <string name="prefered_date_tuesday">Tuesday</string>
+  <string name="prefered_date_wednesday">Wednesday</string>
+  <string name="prefered_date_thursday">Thursday</string>
+  <string name="prefered_date_friday">Friday</string>
+  <!--Preset Time-->
+  <string name="label_time">Preferred Time</string>
+  <string name="prefered_time_ten">10:00 AM</string>
+  <string name="prefered_time_one">01:00 PM</string>
+  <string name="prefered_time_three">03:00 PM</string>
+  <string name="prefered_time_seven">07:00 PM</string>
+  <!--Preset General Layout-->
+  <string name="btn_preset_okay">Confirm</string>
+  <string name="string_label_date">Date</string>
+  <string name="string_label_time">Time</string>
 
   <!--Subject Activity Strings-->
   <string name="subject_name_hint">Subject Name</string>
