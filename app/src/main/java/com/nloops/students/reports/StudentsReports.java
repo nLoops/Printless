@@ -1,9 +1,12 @@
 package com.nloops.students.reports;
 
+import android.Manifest;
+import android.annotation.TargetApi;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.annotation.NonNull;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -32,8 +35,10 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
+import pub.devrel.easypermissions.EasyPermissions;
 
-public class StudentsReports extends AppCompatActivity {
+public class StudentsReports extends AppCompatActivity implements
+    EasyPermissions.PermissionCallbacks {
 
   // bind views to class
   @BindView(R.id.rv_student_report_activity)
@@ -44,6 +49,8 @@ public class StudentsReports extends AppCompatActivity {
   TextView mToolBarTV;
   @BindView(R.id.student_report_toolbar)
   Toolbar mToolbar;
+
+  private static final int PERMISSION_REQ_CODE = 225;
 
   // ref of data adapter
   private StudentsReportAdapter mAdapter;
@@ -66,6 +73,8 @@ public class StudentsReports extends AppCompatActivity {
     setSupportActionBar(mToolbar);
     Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
     Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+    // get permissions
+    getPermissions();
     // get passed class ID
     if (getIntent().hasExtra(UtilsConstants.EXTRA_CLASS_TO_STUDENT_REPORT)) {
       passedClassID = getIntent().getIntExtra(UtilsConstants.EXTRA_CLASS_TO_STUDENT_REPORT, -1);
@@ -152,6 +161,7 @@ public class StudentsReports extends AppCompatActivity {
   }
 
   private void exportExcel() {
+    getPermissions();
     file = new File(getSDPath() + "/studentapp");
     makeDir(file);
     String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss",
@@ -190,6 +200,37 @@ public class StudentsReports extends AppCompatActivity {
     if (intent.resolveActivity(getPackageManager()) != null) {
       startActivity(intent);
     }
+  }
+
+  /**
+   * This Method will check if we have the required permissions to RECORD and SAVE files, if not we
+   * will alert USER to get the permissions.
+   */
+  @TargetApi(23)
+  private void getPermissions() {
+    String[] permissions = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE};
+    if (!EasyPermissions.hasPermissions(StudentsReports.this, permissions)) {
+      EasyPermissions.requestPermissions(this,
+          getString(R.string.permissions_required),
+          PERMISSION_REQ_CODE, permissions);
+    }
+  }
+
+  @TargetApi(23)
+  @Override
+  public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+      @NonNull int[] grantResults) {
+    EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
+  }
+
+  @Override
+  public void onPermissionsGranted(int requestCode, @NonNull List<String> perms) {
+    // will implemented soon
+  }
+
+  @Override
+  public void onPermissionsDenied(int requestCode, @NonNull List<String> perms) {
+    // TODO: 16/11/2018 implement the logic if user denied the perimissions
   }
 
 }
