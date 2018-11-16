@@ -87,5 +87,11 @@
   <string name="settings_absentee">Absenteeism Alert</string>
   <string name="settings_logout">Log Out</string>
 
+  <!--Notifications Channel-->
+  <string name="notification_channel_name">Students Channel</string>
+  <string name="notification_channel_desc">Main App Notifications channel for scheduled subjects</string>
+  <string name="notification_title">Scheduled Attendance Notification</string>
+  <string name="notify_action_take">Take Attendance</string>
+
 
 </resources>

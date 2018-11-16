@@ -1,5 +1,7 @@
 package com.nloops.students.classesdata;
 
+import android.app.NotificationManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -82,6 +84,19 @@ public class ClassesActivity extends AppCompatActivity implements ClassDataContr
     // Setup toolbar
     setSupportActionBar(mToolBar);
     Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
+    // if the intent has notification id we cancel it.
+    if (getIntent().hasExtra(UtilsConstants.NOTIFICATION_ID)) {
+      // define Notification Manager
+      NotificationManager manager = (NotificationManager)
+          getSystemService(Context.NOTIFICATION_SERVICE);
+      // get notification id value
+      int notificationID = getIntent().getIntExtra(UtilsConstants.NOTIFICATION_ID, -1);
+      // if not empty we cancel it.
+      if (notificationID != -1) {
+        assert manager != null;
+        manager.cancel(notificationID);
+      }
+    }
     if (getIntent().hasExtra(UtilsConstants.EXTRA_SUBJECT_NAME_TO_CLASS)) {
       mToolBarTV.setText(getIntent().getStringExtra(UtilsConstants.EXTRA_SUBJECT_NAME_TO_CLASS));
     }

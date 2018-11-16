@@ -12,6 +12,7 @@ import android.text.TextUtils.TruncateAt;
 import android.transition.Transition;
 import android.transition.TransitionInflater;
 import android.transition.TransitionManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,9 +21,12 @@ import com.nloops.students.R;
 import com.nloops.students.databinding.GeneralPresetLayoutBinding;
 import com.nloops.students.databinding.PresetDateLayoutBinding;
 import com.nloops.students.databinding.PresetTimeLayoutBinding;
+import com.nloops.students.reminder.AlarmScheduler;
 import com.nloops.students.utils.SubjectModel;
+import com.nloops.students.utils.UtilsMethods;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class PresetDateFragment extends BottomSheetDialogFragment {
 
@@ -255,6 +259,7 @@ public class PresetDateFragment extends BottomSheetDialogFragment {
 
   private void showFinishIV() {
     binding.viewSwitcher.setDisplayedChild(1);
+    presetSubject();
     Handler handler = new Handler();
     handler.postDelayed(() -> {
       Drawable drawable = binding.ivPresetFinish.getDrawable();
@@ -266,6 +271,17 @@ public class PresetDateFragment extends BottomSheetDialogFragment {
 
     Handler mHandler = new Handler();
     mHandler.postDelayed(() -> getDialog().dismiss(), 900);
+  }
+
+  private void presetSubject() {
+    for (String string : selectedDates) {
+      for (String time : selectedTime) {
+        AlarmScheduler
+            .scheduleAlarm(UtilsMethods.getDayNumber(string), UtilsMethods.getHourOfDay(time),
+                Objects.requireNonNull(getActivity()).getApplicationContext(), getSubjectModel());
+        Log.i("TESA", "presetSubject: " + UtilsMethods.getHourOfDay(time));
+      }
+    }
   }
 
 
