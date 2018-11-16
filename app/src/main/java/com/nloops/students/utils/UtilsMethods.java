@@ -95,4 +95,25 @@ public class UtilsMethods {
     }
   }
 
+  /**
+   * Return selected time by passing selected string.
+   *
+   * @param hourDay {@link String}
+   * @return {@link Integer} to schedule subject attendance.
+   */
+  public static int getHourOfDay(String hourDay) {
+    switch (hourDay) {
+      case UtilsConstants.HOUR_ONE:
+        return 13;
+      case UtilsConstants.HOUR_THREE:
+        return 15;
+      case UtilsConstants.HOUR_SEVEN:
+        return 19;
+      case UtilsConstants.HOUR_TEN:
+        return 10;
+      default:
+        return 9;
+    }
+  }
+
 }

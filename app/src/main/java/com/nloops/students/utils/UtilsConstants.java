@@ -41,4 +41,13 @@ public class UtilsConstants {
   public static final String DAY_THURDAY = "Thursday";
   public static final String DAY_FRIDAY = "Friday";
 
+  // hours
+  public static final String HOUR_TEN = "10:00 AM";
+  public static final String HOUR_ONE = "01:00 PM";
+  public static final String HOUR_THREE = "03:00 PM";
+  public static final String HOUR_SEVEN = "07:00 PM";
+
+  // for Notification ID
+  public static final String NOTIFICATION_ID = "notify_id";
+
 }
