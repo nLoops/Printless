@@ -59,7 +59,12 @@ dependencies {
     // Firebase dependencies
     implementation 'com.google.firebase:firebase-core:16.0.5'
     implementation 'com.google.firebase:firebase-auth:16.0.5'
-    implementation 'com.google.firebase:firebase-database:16.0.4'
+    implementation 'com.google.firebase:firebase-database:16.0.5'
+    // Implement Lovely Dialog
+    implementation 'com.yarolegovich:lovely-dialog:1.1.0'
+    // implement loading kits
+    //Spin Kit Loading Indicator
+    implementation 'com.github.ybq:Android-SpinKit:1.1.0'
     // test dependencies
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
