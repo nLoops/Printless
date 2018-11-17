@@ -16,6 +16,28 @@
     android:supportsRtl="true"
     android:theme="@style/AppTheme">
     <activity android:name=".subjects.SubjectActivity">
+    </activity>
+    <activity android:name=".subjects.SubjectAddEdit"/>
+    <activity android:name=".classesdata.ClassesActivity">
+      <meta-data
+        android:name="android.support.PARENT_ACTIVITY"
+        android:value=".subjects.SubjectActivity"/>
+    </activity>
+    <activity android:name=".classesdata.ClassAddEdit"/>
+    <activity android:name=".students.StudentEditActivity"/>
+    <activity android:name=".students.StudentActivity"/>
+    <activity android:name=".attendance.AttendanceActivity"/>
+    <activity android:name=".reports.ClassReports">
+      <meta-data
+        android:name="android.support.PARENT_ACTIVITY"
+        android:value=".subjects.SubjectActivity"/>
+    </activity>
+    <activity android:name=".reports.StudentsReports">
+      <meta-data
+        android:name="android.support.PARENT_ACTIVITY"
+        android:value=".reports.ClassReports"/>
+    </activity>
+    <activity android:name=".login.LaunchActivity">
       <intent-filter>
         <action android:name="android.intent.action.MAIN"/>
 
@@ -23,41 +45,15 @@
       </intent-filter>
     </activity>
 
-    <activity android:name=".subjects.SubjectAddEdit"/>
-
-    <activity android:name=".classesdata.ClassesActivity">
-      <meta-data
-        android:name="android.support.PARENT_ACTIVITY"
-        android:value=".subjects.SubjectActivity"/>
-    </activity>
-
-    <activity android:name=".classesdata.ClassAddEdit"/>
-
-    <activity android:name=".students.StudentEditActivity"/>
-
-    <activity android:name=".students.StudentActivity"/>
-
-    <activity android:name=".attendance.AttendanceActivity"/>
-
-    <activity android:name=".reports.ClassReports">
-      <meta-data
-        android:name="android.support.PARENT_ACTIVITY"
-        android:value=".subjects.SubjectActivity"/>
-    </activity>
-
-    <activity android:name=".reports.StudentsReports">
-      <meta-data
-        android:name="android.support.PARENT_ACTIVITY"
-        android:value=".reports.ClassReports"/>
-    </activity>
-
     <receiver
-      android:name=".reminder.AlarmReceiver"
-      android:enabled="false">
+      android:enabled="false"
+      android:name=".reminder.AlarmReceiver">
       <intent-filter>
         <action android:name="android.intent.action.BOOT_COMPLETED"/>
       </intent-filter>
     </receiver>
+
+
   </application>
 
 </manifest>
