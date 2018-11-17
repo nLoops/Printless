@@ -40,5 +40,12 @@
     <item name="android:padding">@dimen/dimen_eight_dp</item>
   </style>
 
+  <style name="TextInputStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+    <item name="android:layout_width">match_parent</item>
+    <item name="android:layout_height">wrap_content</item>
+    <item name="android:layout_marginStart">@dimen/dimen_twentyfour_dp</item>
+    <item name="android:layout_marginEnd">@dimen/dimen_twentyfour_dp</item>
+  </style>
+
 
 </resources>

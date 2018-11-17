@@ -50,4 +50,8 @@ public class UtilsConstants {
   // for Notification ID
   public static final String NOTIFICATION_ID = "notify_id";
 
+  // for Firebase
+  public static final String USERS_DATABASE_REFERENCE = "users";
+  public static final String ATTENDANCE_DATABASE_REFERENCE = "attendance";
+
 }

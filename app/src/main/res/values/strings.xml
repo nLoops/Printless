@@ -93,5 +93,28 @@
   <string name="notification_title">Scheduled Attendance Notification</string>
   <string name="notify_action_take">Take Attendance</string>
 
+  <!--Register Fragment-->
+  <string name="reg_email_hint">Email Address</string>
+  <string name="reg_password_hint">Password</string>
+  <string name="reg_retype_password_hint">Retype Password</string>
+  <string name="reg_button_action">Create</string>
+  <string name="str_msg_false">Register failed</string>
+  <string name="str_msg_email_exist">Email exist or weak password</string>
+  <string name="str_dialog_ok">ok</string>
+  <string name="str_login_sucess">Register and Login success</string>
+
+  <!--Login Fragment-->
+  <string name="log_button_acion">LOG IN</string>
+  <string name="log_forgot_password">I forgot my password</string>
+  <string name="str_login_process">Login</string>
+  <string name="str_login_failed">Login failed</string>
+  <string name="str_login_email_wrong">Email not exist or wrong password!</string>
+  <string name="str_login_reset">SEND</string>
+  <string name="login_reset_failed_msg">Invalid email address try again</string>
+  <string name="login_reset_success_msg">Reset email sent successfully</string>
+  <string name="login_failed_msg">Invalid email or wrong password, try again</string>
+  <string name="login_failed_operation_msg">Failed to log in, try again</string>
+  <string name="login_success_msg">Log in successfully</string>
+
 
 </resources>
