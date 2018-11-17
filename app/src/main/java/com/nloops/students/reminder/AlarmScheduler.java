@@ -19,6 +19,7 @@ import com.nloops.students.utils.UtilsConstants;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import timber.log.Timber;
 
 public class AlarmScheduler {
 
@@ -55,14 +56,22 @@ public class AlarmScheduler {
     classIntent.putExtra(UtilsConstants.EXTRA_SUBJECT_NAME_TO_CLASS, model.subjectName);
     classIntent.putExtra(UtilsConstants.EXTRA_SUBJECT_ID_TO_CLASSES, model.subjectID);
 
+    // create unique request ID
+    int requestID = (int) ((new Date().getTime() / 1000L) % Integer.MAX_VALUE);
+
     PendingIntent pendingIntent = PendingIntent.getBroadcast(context,
-        0, classIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        requestID, classIntent, PendingIntent.FLAG_UPDATE_CURRENT);
     // get AlarmManager
     AlarmManager alarmManager = AlarmManagerProvider.getAlarmManager(context);
     // Cancel previous Alarms
     alarmManager.cancel(pendingIntent);
+    // log calendar time
+    Timber.tag("Alarm");
+    Timber.d("The Day User choose is %s", dayOfWeek);
+    Timber.d("The Hour that user choose is %s", hourOfDay);
+    Timber.d("Scheduled time is %s", calendar.getTimeInMillis());
     // schedule new alarm
-    alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis()
+    alarmManager.setInexactRepeating(AlarmManager.RTC, calendar.getTimeInMillis()
         /*System.currentTimeMillis()*/,
         AlarmManager.INTERVAL_DAY * 7, pendingIntent);
   }

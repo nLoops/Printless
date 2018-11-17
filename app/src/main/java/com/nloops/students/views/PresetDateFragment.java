@@ -12,7 +12,6 @@ import android.text.TextUtils.TruncateAt;
 import android.transition.Transition;
 import android.transition.TransitionInflater;
 import android.transition.TransitionManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,9 +21,11 @@ import com.nloops.students.databinding.GeneralPresetLayoutBinding;
 import com.nloops.students.databinding.PresetDateLayoutBinding;
 import com.nloops.students.databinding.PresetTimeLayoutBinding;
 import com.nloops.students.reminder.AlarmScheduler;
+import com.nloops.students.utils.SharedPreferenceHelper;
 import com.nloops.students.utils.SubjectModel;
 import com.nloops.students.utils.UtilsMethods;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Objects;
 
@@ -274,14 +275,24 @@ public class PresetDateFragment extends BottomSheetDialogFragment {
   }
 
   private void presetSubject() {
+    ArrayList<Long> arrayList = new ArrayList<>();
+    Calendar calendar = Calendar.getInstance();
+
     for (String string : selectedDates) {
       for (String time : selectedTime) {
         AlarmScheduler
             .scheduleAlarm(UtilsMethods.getDayNumber(string), UtilsMethods.getHourOfDay(time),
                 Objects.requireNonNull(getActivity()).getApplicationContext(), getSubjectModel());
-        Log.i("TESA", "presetSubject: " + UtilsMethods.getHourOfDay(time));
+        calendar.set(Calendar.DAY_OF_WEEK, UtilsMethods.getDayNumber(string));
+        calendar.set(Calendar.HOUR_OF_DAY, UtilsMethods.getHourOfDay(time));
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        arrayList.add(calendar.getTimeInMillis());
       }
     }
+    // save selected dates to schedule them in case of device restart.
+    SharedPreferenceHelper.getInstance(getContext()).saveScheduled(arrayList,
+        String.valueOf(getSubjectModel().subjectID));
   }
 
 
