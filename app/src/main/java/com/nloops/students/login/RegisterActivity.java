@@ -71,11 +71,6 @@ public class RegisterActivity extends Fragment {
     initFirebase();
   }
 
-  @Override
-  public void onStart() {
-    super.onStart();
-    mAuth.addAuthStateListener(mAuthListener);
-  }
 
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -263,7 +258,7 @@ public class RegisterActivity extends Fragment {
       if (user != null) {
         // User is signed in
         // start subject home activity if we have registered account singed
-        startActivity(new Intent(getContext(), SubjectActivity.class));
+        startActivity(new Intent(getActivity(), SubjectActivity.class));
         Objects.requireNonNull(getActivity()).finish();
       }
     };
@@ -271,4 +266,15 @@ public class RegisterActivity extends Fragment {
     loadingDialog = new LoadingDialog();
   }
 
+  @Override
+  public void onResume() {
+    super.onResume();
+    mAuth.addAuthStateListener(mAuthListener);
+  }
+
+  @Override
+  public void onPause() {
+    super.onPause();
+    mAuth.removeAuthStateListener(mAuthListener);
+  }
 }
