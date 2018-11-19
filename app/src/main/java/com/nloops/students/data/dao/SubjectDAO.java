@@ -36,6 +36,9 @@ public interface SubjectDAO {
   void deleteSubject(SubjectEntity subjectEntity);
 
   // CRUD for Class Entity
+  @Query("SELECT * from class_table")
+  List<ClassEntity> loadAllClassesTable();
+
   @Query("SELECT * from class_table WHERE foreignSubjectID = :subjectID")
   List<ClassEntity> loadAllClasses(int subjectID);
 
@@ -52,6 +55,9 @@ public interface SubjectDAO {
   void deleteClass(ClassEntity classEntity);
 
   // CRUD for Student Entity
+  @Query("SELECT * from students")
+  List<StudentEntity> loadAllStudentsTable();
+
   @Query("SELECT * from students WHERE foreignClassID = :classID")
   List<StudentEntity> loadAllStudents(int classID);
 
