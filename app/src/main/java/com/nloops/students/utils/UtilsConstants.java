@@ -53,5 +53,6 @@ public class UtilsConstants {
   // for Firebase
   public static final String USERS_DATABASE_REFERENCE = "users";
   public static final String ATTENDANCE_DATABASE_REFERENCE = "attendance";
+  public static final String USER_EMAIL = "user_email";
 
 }
