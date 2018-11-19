@@ -26,6 +26,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.nloops.students.R;
 import com.nloops.students.subjects.SubjectActivity;
 import com.nloops.students.utils.LocalUser;
+import com.nloops.students.utils.SharedPreferenceHelper;
 import com.nloops.students.utils.UtilsConstants;
 import com.nloops.students.views.LoadingDialog;
 import java.util.Objects;
@@ -242,6 +243,7 @@ public class RegisterActivity extends Fragment {
     FirebaseDatabase.getInstance().getReference().child(UtilsConstants.USERS_DATABASE_REFERENCE)
         .child(user.getUid())
         .setValue(newLocalUser);
+    SharedPreferenceHelper.getInstance(getContext()).saveUserEmail(user.getEmail());
   }
 
   /**

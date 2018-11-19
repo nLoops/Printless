@@ -25,6 +25,7 @@ import com.nloops.students.adapters.StudentsReportAdapter;
 import com.nloops.students.data.mvp.StructureDataSource.LoadStudentsCallBack;
 import com.nloops.students.data.mvp.local.LocalDataSource;
 import com.nloops.students.data.tables.StudentEntity;
+import com.nloops.students.utils.SharedPreferenceHelper;
 import com.nloops.students.utils.StudentReportModel;
 import com.nloops.students.utils.UtilsConstants;
 import com.shidian.excel.ExcelUtils;
@@ -171,7 +172,8 @@ public class StudentsReports extends AppCompatActivity implements
     fileName = getSDPath() + "/studentapp" + filePath;
     ExcelUtils.writeObjListToExcel(getRecordData(), fileName, this);
     Uri mailUri = Uri.parse("file:///" + fileName);
-    String[] sendTo = new String[]{"a.elgammal112@gmail.com"};
+    String userEmail = SharedPreferenceHelper.getInstance(this).getUserEmail();
+    String[] sendTo = new String[]{userEmail};
     composeEmail(sendTo, "Students Report", mailUri);
   }
 

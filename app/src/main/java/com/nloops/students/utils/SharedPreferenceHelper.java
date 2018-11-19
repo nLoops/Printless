@@ -44,4 +44,16 @@ public class SharedPreferenceHelper {
         }.getType());
   }
 
+  public void saveUserEmail(String email) {
+    editor.remove(UtilsConstants.USER_EMAIL).commit();
+    editor.putString(UtilsConstants.USER_EMAIL, email).commit();
+    editor.commit();
+  }
+
+  public String getUserEmail() {
+    return preferences.getString(UtilsConstants.USER_EMAIL, "");
+  }
+
+
+
 }
