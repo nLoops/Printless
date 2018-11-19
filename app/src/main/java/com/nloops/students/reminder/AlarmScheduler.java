@@ -57,7 +57,7 @@ public class AlarmScheduler {
     classIntent.putExtra(UtilsConstants.EXTRA_SUBJECT_ID_TO_CLASSES, model.subjectID);
 
     // create unique request ID
-    int requestID = (int) ((new Date().getTime() / 1000L) % Integer.MAX_VALUE);
+    int requestID = (int) (System.currentTimeMillis() % Integer.MAX_VALUE);
 
     PendingIntent pendingIntent = PendingIntent.getBroadcast(context,
         requestID, classIntent, PendingIntent.FLAG_UPDATE_CURRENT);
@@ -70,6 +70,7 @@ public class AlarmScheduler {
     Timber.d("The Day User choose is %s", dayOfWeek);
     Timber.d("The Hour that user choose is %s", hourOfDay);
     Timber.d("Scheduled time is %s", calendar.getTimeInMillis());
+    Timber.d("Pending Intent req code %s", requestID);
     // schedule new alarm
     alarmManager.setInexactRepeating(AlarmManager.RTC, calendar.getTimeInMillis()
         /*System.currentTimeMillis()*/,
