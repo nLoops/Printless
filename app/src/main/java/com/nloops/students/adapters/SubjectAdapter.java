@@ -100,6 +100,20 @@ public class SubjectAdapter extends RecyclerView.Adapter<SubjectViewHolder> {
     return subjectEntityList.get(position);
   }
 
+  public void addItem(SubjectEntity entity) {
+    subjectEntityList.add(entity);
+    notifyDataSetChanged();
+  }
+
+  public void deleteItem(SubjectEntity entity) {
+    subjectEntityList.remove(entity);
+    notifyDataSetChanged();
+  }
+
+  public boolean isLastItem(int position) {
+    return getSubject(position) == subjectEntityList.get(subjectEntityList.size() - 1);
+  }
+
   /**
    * This helper method will takes holder position and retrieve {@link SubjectEntity} in this
    * position to get it's ID to allow us pass it to get Subject Details.

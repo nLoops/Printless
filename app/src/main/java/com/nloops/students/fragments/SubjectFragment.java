@@ -11,6 +11,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.RecyclerView.OnScrollListener;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,6 +55,8 @@ public class SubjectFragment extends Fragment implements
   RelativeLayout mRecyclerEmptyState;
   @BindView(R.id.subject_layout_container)
   CoordinatorLayout layoutContainer;
+  @BindView(R.id.subject_fab)
+  FloatingActionButton fab;
 
   // ref of context
   private Context mContext;
@@ -93,6 +96,17 @@ public class SubjectFragment extends Fragment implements
     View rootView = inflater.inflate(R.layout.activity_subject, container, false);
     ButterKnife.bind(this, rootView);
     setupPresenter();
+    mSubjectRV.addOnScrollListener(new OnScrollListener() {
+      @Override
+      public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+        super.onScrolled(recyclerView, dx, dy);
+        if (dy > 0) {
+          fab.hide();
+        } else if (dy < 0) {
+          fab.show();
+        }
+      }
+    });
     return rootView;
   }
 
@@ -100,6 +114,8 @@ public class SubjectFragment extends Fragment implements
   public void onResume() {
     super.onResume();
     mPresenter.start();
+    // make sure that fab is visible
+    fab.show();
   }
 
   private void setupPresenter() {
@@ -128,7 +144,7 @@ public class SubjectFragment extends Fragment implements
     // if menu is visible we hide it, if not we show it.
     handlePopupVisibility();
     // menu size and position.
-    powerMenu.showAsDropDown(view, -370, 0);
+    powerMenu.showAsDropDown(view, -370, -100);
   }
 
   @Override
@@ -224,8 +240,27 @@ public class SubjectFragment extends Fragment implements
         handlePopupVisibility();
         // 2- get Subject object using it's position into adapter
         SubjectEntity subject = mAdapter.getSubject(mSubjectPosition);
-        // 3- delete from DB operation
-        mPresenter.deleteSubject(subject);
+        // 3- temporarily hide the subject until get timeout,
+        // in case the user will hit UNDO.
+        mAdapter.deleteItem(subject);
+        // 4- show the message and wait until the time is out.
+        final Snackbar snackbar = Snackbar.make(Objects.requireNonNull(getView()),
+            getString(R.string.snack_deleted_success), Snackbar.LENGTH_LONG);
+        snackbar.setAction(getString(R.string.snackbar_action_undo), v -> {
+          mAdapter.addItem(subject);
+          snackbar.dismiss();
+        });
+        // 5- adding callback if the duration of the message end without any interacting,
+        // from the user then we delete the item from the database.
+        snackbar.addCallback(new Snackbar.Callback() {
+          @Override
+          public void onDismissed(Snackbar snackbar, int event) {
+            if (event == Snackbar.Callback.DISMISS_EVENT_TIMEOUT) {
+              mPresenter.deleteSubject(subject);
+            }
+          }
+        });
+        snackbar.show();
       } else if (item.getTitle().equals(getString(R.string.pop_menu_preset))) {
         handlePopupVisibility();
         SubjectEntity entity = mAdapter.getSubject(mSubjectPosition);

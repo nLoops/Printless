@@ -51,7 +51,6 @@ public class SubjectPresenter implements Presenter {
   public void deleteSubject(SubjectEntity subject) {
     mLocalDataSource.deleteSubject(subject);
     loadSubjects(refresh);
-    mView.showDeletedMessage();
   }
 
   @Override
