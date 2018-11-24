@@ -211,11 +211,13 @@ public class SubjectAddEdit extends AppCompatActivity implements
   @Override
   public void setSubjectName(String name) {
     mSubjectNameED.setText(name);
+    UtilsMethods.setCursorToEnd(mSubjectNameED);
   }
 
   @Override
   public void setSubjectSchool(String school) {
     mSchoolNameED.setText(school);
+    UtilsMethods.setCursorToEnd(mSchoolNameED);
   }
 
   @Override

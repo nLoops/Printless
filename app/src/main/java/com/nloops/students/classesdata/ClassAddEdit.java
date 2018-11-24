@@ -176,6 +176,7 @@ public class ClassAddEdit extends AppCompatActivity implements ClassEditContract
   @Override
   public void setClassName(String name) {
     mClassNameED.setText(name);
+    UtilsMethods.setCursorToEnd(mClassNameED);
   }
 
   @Override
