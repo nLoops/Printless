@@ -22,6 +22,10 @@ public interface StudentEditContract {
 
     void setStudentName(String name);
 
+    void setStudentUID(String studentUID);
+
+    void setStudentEntity(StudentEntity entity);
+
   }
 
 
@@ -29,7 +33,7 @@ public interface StudentEditContract {
 
     void insertStudent(StudentEntity studentEntity);
 
-    void updateStudent(String name);
+    void updateStudent(StudentEntity studentEntity);
 
     void populateData();
   }

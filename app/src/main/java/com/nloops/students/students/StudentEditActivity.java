@@ -11,7 +11,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import butterknife.BindView;
@@ -54,6 +53,8 @@ public class StudentEditActivity extends AppCompatActivity implements
   // flag to detect which mode we are in
   // is new Student, or Edit Mode.
   private boolean isEditMode = false;
+
+  private StudentEntity entity;
 
 
   @Override
@@ -123,10 +124,6 @@ public class StudentEditActivity extends AppCompatActivity implements
       }
       mPresenter = new StudentEditPresenter(LocalDataSource.getInstance(this),
           this, studentID);
-
-      if (!isEditMode) {
-        mStudentUidTL.setVisibility(View.VISIBLE);
-      }
     }
   }
 
@@ -151,13 +148,17 @@ public class StudentEditActivity extends AppCompatActivity implements
     // check if we are in edit mode then we will call update method, instead we will call
     // insert new student method.
     if (isEditMode) {
-      mPresenter.updateStudent(Objects.requireNonNull(mStudentName.getText()).toString());
+      if (entity != null) {
+        entity.setStudentName(Objects.requireNonNull(mStudentName.getText()).toString());
+        entity.setStudentUniID(Objects.requireNonNull(mStudentUID.getText()).toString());
+        mPresenter.updateStudent(entity);
+      }
     } else {
-      StudentEntity entity = new StudentEntity(
+      StudentEntity studentEntity = new StudentEntity(
           Objects.requireNonNull(mStudentName.getText()).toString(),
-          mStudentUID.getText().toString(),
+          Objects.requireNonNull(mStudentUID.getText()).toString(),
           classID, UtilsConstants.STUDENT_ABSENTEE_NO, subjectID);
-      mPresenter.insertStudent(entity);
+      mPresenter.insertStudent(studentEntity);
     }
   }
 
@@ -227,6 +228,18 @@ public class StudentEditActivity extends AppCompatActivity implements
   @Override
   public void setStudentName(String name) {
     mStudentName.setText(name);
+    UtilsMethods.setCursorToEnd(mStudentName);
+  }
+
+  @Override
+  public void setStudentUID(String studentUID) {
+    mStudentUID.setText(studentUID);
+    UtilsMethods.setCursorToEnd(mStudentUID);
+  }
+
+  @Override
+  public void setStudentEntity(StudentEntity entity) {
+    this.entity = entity;
   }
 
   @Override
