@@ -7,6 +7,8 @@ import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AlertDialog.Builder;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
@@ -135,30 +137,10 @@ public class StudentEditActivity extends AppCompatActivity implements
 
   @OnClick(R.id.btn_add_student)
   public void insertStudent(Button button) {
-    int classID = -1;
-    int subjectID = -1;
-    // get passed ClassID
-    if (getIntent().hasExtra(UtilsConstants.EXTRA_CLASS_TO_STUDENT_ID)) {
-      classID = getIntent().getIntExtra(UtilsConstants.EXTRA_CLASS_TO_STUDENT_ID, -1);
-    }
-    // get passed SubjectID
-    if (getIntent().hasExtra(UtilsConstants.EXTRA_SUBJECT_ID_CLASS_TO_STUDENT)) {
-      subjectID = getIntent().getIntExtra(UtilsConstants.EXTRA_SUBJECT_ID_CLASS_TO_STUDENT, -1);
-    }
-    // check if we are in edit mode then we will call update method, instead we will call
-    // insert new student method.
-    if (isEditMode) {
-      if (entity != null) {
-        entity.setStudentName(Objects.requireNonNull(mStudentName.getText()).toString());
-        entity.setStudentUniID(Objects.requireNonNull(mStudentUID.getText()).toString());
-        mPresenter.updateStudent(entity);
-      }
+    if (!isMissingData()) {
+      mPresenter.searchForUID(Objects.requireNonNull(mStudentUID.getText()).toString());
     } else {
-      StudentEntity studentEntity = new StudentEntity(
-          Objects.requireNonNull(mStudentName.getText()).toString(),
-          Objects.requireNonNull(mStudentUID.getText()).toString(),
-          classID, UtilsConstants.STUDENT_ABSENTEE_NO, subjectID);
-      mPresenter.insertStudent(studentEntity);
+      showMissingDataMessage();
     }
   }
 
@@ -243,7 +225,55 @@ public class StudentEditActivity extends AppCompatActivity implements
   }
 
   @Override
+  public void showStudentNameMsg(String studentName) {
+    AlertDialog builder = new Builder(StudentEditActivity.this)
+        .setMessage(getString(R.string.duplicate_students_msg, studentName))
+        .setPositiveButton(getString(R.string.duplicate_msg_okay),
+            (dialog, which) -> actionStudent())
+        .setNegativeButton(getString(R.string.duplicate_msg_cancel), (dialog, which) -> {
+          if (dialog != null) {
+            dialog.dismiss();
+          }
+        })
+        .show();
+
+  }
+
+  @Override
+  public void proceedStudentAction() {
+    actionStudent();
+  }
+
+  @Override
   public void setPresenter(Presenter presenter) {
     mPresenter = (StudentEditPresenter) presenter;
+  }
+
+  private void actionStudent() {
+    int classID = -1;
+    int subjectID = -1;
+    // get passed ClassID
+    if (getIntent().hasExtra(UtilsConstants.EXTRA_CLASS_TO_STUDENT_ID)) {
+      classID = getIntent().getIntExtra(UtilsConstants.EXTRA_CLASS_TO_STUDENT_ID, -1);
+    }
+    // get passed SubjectID
+    if (getIntent().hasExtra(UtilsConstants.EXTRA_SUBJECT_ID_CLASS_TO_STUDENT)) {
+      subjectID = getIntent().getIntExtra(UtilsConstants.EXTRA_SUBJECT_ID_CLASS_TO_STUDENT, -1);
+    }
+    // check if we are in edit mode then we will call update method, instead we will call
+    // insert new student method.
+    if (isEditMode) {
+      if (entity != null) {
+        entity.setStudentName(Objects.requireNonNull(mStudentName.getText()).toString());
+        entity.setStudentUniID(Objects.requireNonNull(mStudentUID.getText()).toString());
+        mPresenter.updateStudent(entity);
+      }
+    } else {
+      StudentEntity studentEntity = new StudentEntity(
+          Objects.requireNonNull(mStudentName.getText()).toString(),
+          Objects.requireNonNull(mStudentUID.getText()).toString(),
+          classID, UtilsConstants.STUDENT_ABSENTEE_NO, subjectID);
+      mPresenter.insertStudent(studentEntity);
+    }
   }
 }

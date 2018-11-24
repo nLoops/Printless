@@ -67,6 +67,9 @@ public interface SubjectDAO {
   @Query("SELECT * from students WHERE studentID = :id")
   StudentEntity loadSingleStudent(int id);
 
+  @Query("SELECT * from students WHERE studentUniID LIKE :searchKeyword")
+  List<StudentEntity> checkStudentUID(String searchKeyword);
+
   @Insert
   void insertStudent(StudentEntity studentEntity);
 

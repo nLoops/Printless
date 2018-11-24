@@ -109,6 +109,8 @@ public interface StructureDataSource {
 
   void getStudents(int classID, @NonNull LoadStudentsCallBack callBack);
 
+  void checkStudentsUID(String searchKeyword, @NonNull LoadStudentsCallBack callBack);
+
   void getStudentsBySubject(int subjectID, @NonNull LoadStudentsCallBack callBack);
 
   void getStudent(int studentID, @NonNull LoadSingleStudentCallBack callBack);

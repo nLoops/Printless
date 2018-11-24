@@ -2,8 +2,11 @@ package com.nloops.students.students;
 
 import android.support.annotation.NonNull;
 import com.nloops.students.data.mvp.StructureDataSource.LoadSingleStudentCallBack;
+import com.nloops.students.data.mvp.StructureDataSource.LoadStudentsCallBack;
 import com.nloops.students.data.mvp.local.LocalDataSource;
 import com.nloops.students.data.tables.StudentEntity;
+import java.util.List;
+import timber.log.Timber;
 
 public class StudentEditPresenter implements StudentEditContract.Presenter {
 
@@ -49,6 +52,26 @@ public class StudentEditPresenter implements StudentEditContract.Presenter {
       // notify the user that update success.
       mView.showUpdateMessage();
     }
+  }
+
+  @Override
+  public void searchForUID(String search) {
+    mDataSource.checkStudentsUID(search, new LoadStudentsCallBack() {
+      @Override
+      public void onStudentsLoaded(List<StudentEntity> data) {
+        if (data.size() > 1) {
+          mView.showStudentNameMsg("more than name");
+        } else {
+          mView.showStudentNameMsg(data.get(0).getStudentName());
+        }
+      }
+
+      @Override
+      public void onStudentsDataNotAvailable() {
+        mView.proceedStudentAction();
+        Timber.d("No Student under this UID go Ahead !");
+      }
+    });
   }
 
   @Override

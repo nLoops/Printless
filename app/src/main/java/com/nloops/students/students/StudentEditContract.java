@@ -26,6 +26,10 @@ public interface StudentEditContract {
 
     void setStudentEntity(StudentEntity entity);
 
+    void showStudentNameMsg(String studentName);
+
+    void proceedStudentAction();
+
   }
 
 
@@ -34,6 +38,8 @@ public interface StudentEditContract {
     void insertStudent(StudentEntity studentEntity);
 
     void updateStudent(StudentEntity studentEntity);
+
+    void searchForUID(String search);
 
     void populateData();
   }
