@@ -55,5 +55,15 @@ public class SharedPreferenceHelper {
   }
 
 
+  public void setPermissionsState(Boolean state) {
+    editor.remove(UtilsConstants.PERMISSIONS_GRANTED).commit();
+    editor.putBoolean(UtilsConstants.PERMISSIONS_GRANTED, state).commit();
+    editor.commit();
+  }
+
+  public boolean getPermissionsState() {
+    return preferences.getBoolean(UtilsConstants.PERMISSIONS_GRANTED, false);
+  }
+
 
 }

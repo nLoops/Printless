@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.v4.app.NavUtils;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AlertDialog.Builder;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -17,6 +19,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -74,8 +77,6 @@ public class StudentsReports extends AppCompatActivity implements
     setSupportActionBar(mToolbar);
     Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
     Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
-    // get permissions
-    getPermissions();
     // get passed class ID
     if (getIntent().hasExtra(UtilsConstants.EXTRA_CLASS_TO_STUDENT_REPORT)) {
       passedClassID = getIntent().getIntExtra(UtilsConstants.EXTRA_CLASS_TO_STUDENT_REPORT, -1);
@@ -162,19 +163,23 @@ public class StudentsReports extends AppCompatActivity implements
   }
 
   private void exportExcel() {
-    getPermissions();
-    file = new File(getSDPath() + "/studentapp");
-    makeDir(file);
-    String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss",
-        Locale.getDefault()).format(new Date());
-    String filePath = "/Report_" + timeStamp + ".xls";
-    ExcelUtils.initExcel(file.toString() + filePath, title);
-    fileName = getSDPath() + "/studentapp" + filePath;
-    ExcelUtils.writeObjListToExcel(getRecordData(), fileName, this);
-    Uri mailUri = Uri.parse("file:///" + fileName);
-    String userEmail = SharedPreferenceHelper.getInstance(this).getUserEmail();
-    String[] sendTo = new String[]{userEmail};
-    composeEmail(sendTo, "Students Report", mailUri);
+    boolean isPermissionsGranted = SharedPreferenceHelper.getInstance(this).getPermissionsState();
+    if (!isPermissionsGranted) {
+      getPermissions();
+    } else {
+      file = new File(getSDPath() + "/studentapp");
+      makeDir(file);
+      String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss",
+          Locale.getDefault()).format(new Date());
+      String filePath = "/Report_" + timeStamp + ".xls";
+      ExcelUtils.initExcel(file.toString() + filePath, title);
+      fileName = getSDPath() + "/studentapp" + filePath;
+      ExcelUtils.writeObjListToExcel(getRecordData(), fileName, this);
+      Uri mailUri = Uri.parse("file:///" + fileName);
+      String userEmail = SharedPreferenceHelper.getInstance(this).getUserEmail();
+      String[] sendTo = new String[]{userEmail};
+      composeEmail(sendTo, "Students Report", mailUri);
+    }
   }
 
   private ArrayList<ArrayList<String>> getRecordData() {
@@ -212,9 +217,7 @@ public class StudentsReports extends AppCompatActivity implements
   private void getPermissions() {
     String[] permissions = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE};
     if (!EasyPermissions.hasPermissions(StudentsReports.this, permissions)) {
-      EasyPermissions.requestPermissions(this,
-          getString(R.string.permissions_required),
-          PERMISSION_REQ_CODE, permissions);
+      getPermissionsMsg(permissions);
     }
   }
 
@@ -227,12 +230,35 @@ public class StudentsReports extends AppCompatActivity implements
 
   @Override
   public void onPermissionsGranted(int requestCode, @NonNull List<String> perms) {
-    // will implemented soon
+    SharedPreferenceHelper.getInstance(StudentsReports.this).setPermissionsState(true);
+    exportExcel();
   }
 
   @Override
   public void onPermissionsDenied(int requestCode, @NonNull List<String> perms) {
-    // TODO: 16/11/2018 implement the logic if user denied the perimissions
+    Toast.makeText(StudentsReports.this.getApplicationContext(),
+        getString(R.string.dialog_deny_msg), Toast.LENGTH_LONG).show();
+    finish();
+  }
+
+  private void getPermissionsMsg(String[] permissions) {
+    AlertDialog builder = new Builder(this)
+        .setMessage(getString(R.string.dialog_permission_msg))
+        .setNegativeButton(getString(R.string.dialog_per_cancel), (dialog, which) -> {
+          Toast.makeText(StudentsReports.this.getApplicationContext(),
+              getString(R.string.dialog_deny_msg), Toast.LENGTH_LONG).show();
+          if (dialog != null) {
+            dialog.dismiss();
+          }
+          finish();
+        })
+        .setPositiveButton(getString(R.string.dialog_per_ok), (dialog, which) -> {
+          EasyPermissions.requestPermissions(StudentsReports.this,
+              getString(R.string.permissions_required),
+              PERMISSION_REQ_CODE, permissions);
+          //
+        })
+        .show();
   }
 
 }

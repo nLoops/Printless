@@ -28,6 +28,8 @@ public class UtilsConstants {
   public static final int RESULT_EDIT_ITEM = 101;
   public static final int RESULT_DELETE_ITEM = 102;
 
+  public static final String PERMISSIONS_GRANTED = "permissions_stat";
+
   // for Student Model State
   public static final int STUDENT_ABSENTEE_OKAY = 1;
   public static final int STUDENT_ABSENTEE_NO = 0;
