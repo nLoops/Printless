@@ -24,6 +24,7 @@ import com.nloops.students.utils.ScheduleObject;
 import com.nloops.students.utils.SharedPreferenceHelper;
 import com.nloops.students.utils.SubjectModel;
 import com.nloops.students.utils.UtilsMethods;
+import io.paperdb.Paper;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Objects;
@@ -49,12 +50,14 @@ public class PresetClassDate extends BottomSheetDialogFragment {
   private ArrayList<String> mSelectedDate = new ArrayList<>();
   private static final String SEPARATOR = " , ";
   private static final String ARG_PRODUCT = "arg_product";
+  private static final String CLASS_ID = "classID";
   private String dateToDisplayString = "";
 
 
-  public static PresetClassDate newInstance(SubjectModel model) {
+  public static PresetClassDate newInstance(SubjectModel model, int classID) {
     final Bundle args = new Bundle();
     args.putSerializable(ARG_PRODUCT, model);
+    args.putInt(CLASS_ID, classID);
 
     final PresetClassDate presetClassDate = new PresetClassDate();
     presetClassDate.setArguments(args);
@@ -72,7 +75,9 @@ public class PresetClassDate extends BottomSheetDialogFragment {
       @Nullable Bundle savedInstanceState) {
     View view = inflater.inflate(R.layout.preset_class_schedule, container, false);
     ButterKnife.bind(this, view);
-    mScheduleDatesObjects = new ArrayList<>();
+    assert getArguments() != null;
+    mScheduleDatesObjects = Paper.book().read(String.valueOf(getArguments().getInt(CLASS_ID)),
+        new ArrayList<>());
     return view;
   }
 
@@ -173,8 +178,12 @@ public class PresetClassDate extends BottomSheetDialogFragment {
     }
 
     // save scheduled dates.
+    assert getArguments() != null;
     SharedPreferenceHelper.getInstance(getContext())
-        .saveScheduled(savedDates, String.valueOf(getSubjectModel().subjectID));
+        .saveScheduled(savedDates, String.valueOf(getArguments().getInt(CLASS_ID)));
+
+    // save list of objects to display on the list view
+    Paper.book().write(String.valueOf(getArguments().getInt(CLASS_ID)), mScheduleDatesObjects);
 
   }
 

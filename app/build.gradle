@@ -78,6 +78,8 @@ dependencies {
     // detect memory leaks.
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.6.2'
     releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.2'
+    // for small db operations
+    implementation 'io.paperdb:paperdb:2.6'
     // test dependencies
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'

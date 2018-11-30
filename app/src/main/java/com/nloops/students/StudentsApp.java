@@ -3,6 +3,7 @@ package com.nloops.students;
 import android.app.Application;
 import android.os.StrictMode;
 import com.squareup.leakcanary.LeakCanary;
+import io.paperdb.Paper;
 import timber.log.Timber;
 import timber.log.Timber.DebugTree;
 
@@ -25,6 +26,9 @@ public class StudentsApp extends Application {
     }
     StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
     StrictMode.setVmPolicy(builder.build());
+
+    // init Paper DB
+    Paper.init(this);
 
   }
 }

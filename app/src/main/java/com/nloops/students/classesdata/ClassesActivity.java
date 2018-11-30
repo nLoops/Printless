@@ -268,7 +268,7 @@ public class ClassesActivity extends AppCompatActivity implements ClassDataContr
         handlePopupVisibility();
         SubjectModel model = new SubjectModel(subjectName, passedSubjectID);
         // call Preset Fragment
-        PresetClassDate.newInstance(model)
+        PresetClassDate.newInstance(model, classID)
             .show(getSupportFragmentManager(), "presetdate");
       }
     }
