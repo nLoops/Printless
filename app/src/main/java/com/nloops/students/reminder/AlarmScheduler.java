@@ -30,7 +30,7 @@ public class AlarmScheduler {
     // private constructor to prevent init.
   }
 
-  public static void scheduleAlarm(int dayOfWeek, int hourOfDay, Context context,
+  public static void scheduleAlarm(int dayOfWeek, int hourOfDay, int minutes, Context context,
       SubjectModel model) {
 
     // Enable a receiver
@@ -43,7 +43,7 @@ public class AlarmScheduler {
     Calendar calendar = Calendar.getInstance();
     calendar.set(Calendar.DAY_OF_WEEK, dayOfWeek);
     calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
-    calendar.set(Calendar.MINUTE, 0);
+    calendar.set(Calendar.MINUTE, minutes);
     calendar.set(Calendar.SECOND, 0);
 
     // Accept the change here at this line to avoid skipping of current week.

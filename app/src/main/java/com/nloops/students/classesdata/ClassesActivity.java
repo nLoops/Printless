@@ -26,8 +26,10 @@ import com.nloops.students.classesdata.ClassDataContract.ClassPresenter;
 import com.nloops.students.data.mvp.local.LocalDataSource;
 import com.nloops.students.data.tables.ClassEntity;
 import com.nloops.students.students.StudentActivity;
+import com.nloops.students.utils.SubjectModel;
 import com.nloops.students.utils.UtilsConstants;
 import com.nloops.students.utils.UtilsMethods;
+import com.nloops.students.views.PresetClassDate;
 import com.skydoves.powermenu.OnMenuItemClickListener;
 import com.skydoves.powermenu.PowerMenu;
 import com.skydoves.powermenu.PowerMenuItem;
@@ -72,6 +74,8 @@ public class ClassesActivity extends AppCompatActivity implements ClassDataContr
 
   private String className;
 
+  private String subjectName;
+
   private boolean isZeroStudents = false;
 
 
@@ -98,7 +102,8 @@ public class ClassesActivity extends AppCompatActivity implements ClassDataContr
       }
     }
     if (getIntent().hasExtra(UtilsConstants.EXTRA_SUBJECT_NAME_TO_CLASS)) {
-      mToolBarTV.setText(getIntent().getStringExtra(UtilsConstants.EXTRA_SUBJECT_NAME_TO_CLASS));
+      subjectName = getIntent().getStringExtra(UtilsConstants.EXTRA_SUBJECT_NAME_TO_CLASS);
+      mToolBarTV.setText(subjectName);
     }
     // get passed subjectID
     if (getIntent().hasExtra(UtilsConstants.EXTRA_SUBJECT_ID_TO_CLASSES)) {
@@ -185,6 +190,7 @@ public class ClassesActivity extends AppCompatActivity implements ClassDataContr
   @Override
   public void setupPopupMenu() {
     List<PowerMenuItem> items = new ArrayList<>();
+    items.add(new PowerMenuItem(getString(R.string.pop_menu_preset), false));
     items.add(new PowerMenuItem(getString(R.string.pop_menu_new_att), false));
     items.add(new PowerMenuItem(getString(R.string.pop_menu_edit_att), false));
     items.add(new PowerMenuItem(getString(R.string.pop_menu_delete), false));
@@ -258,6 +264,12 @@ public class ClassesActivity extends AppCompatActivity implements ClassDataContr
           handlePopupVisibility();
           showResultMessage(getString(R.string.cannot_open_attendance));
         }
+      } else if (item.getTitle().equals(getString(R.string.pop_menu_preset))) {
+        handlePopupVisibility();
+        SubjectModel model = new SubjectModel(subjectName, passedSubjectID);
+        // call Preset Fragment
+        PresetClassDate.newInstance(model)
+            .show(getSupportFragmentManager(), "presetdate");
       }
     }
   };

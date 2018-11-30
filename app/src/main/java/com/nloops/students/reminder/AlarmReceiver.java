@@ -38,7 +38,7 @@ public class AlarmReceiver extends BroadcastReceiver {
                 SubjectModel model = new SubjectModel(entity.getSubjectName(),
                     entity.getSubjectID());
                 AlarmScheduler.scheduleAlarm(calendar.get(Calendar.DAY_OF_WEEK),
-                    calendar.get(Calendar.HOUR_OF_DAY),
+                    calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE),
                     context, model);
               }
             }
