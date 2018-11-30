@@ -44,6 +44,7 @@
   <string name="list_view_empty_state">No date scheduled for this class</string>
   <string name="date_action_btn_save">Save New Schedule</string>
   <string name="date_action_btn_schedule">Schedule New Date</string>
+  <string name="date_btn_back">back to list of dates button</string>
   <!--Preset General Layout-->
   <string name="btn_preset_okay">Confirm</string>
   <string name="string_label_date">Date</string>
