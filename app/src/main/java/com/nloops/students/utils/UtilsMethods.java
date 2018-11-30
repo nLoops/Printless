@@ -3,6 +3,7 @@ package com.nloops.students.utils;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
+import android.support.design.widget.TextInputEditText;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.animation.Animation;
@@ -14,6 +15,7 @@ import com.skydoves.powermenu.PowerMenu;
 import com.skydoves.powermenu.PowerMenuItem;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Objects;
 
 public class UtilsMethods {
 
@@ -114,6 +116,11 @@ public class UtilsMethods {
       default:
         return 9;
     }
+  }
+
+  public static void setCursorToEnd(TextInputEditText editText) {
+    editText.setSelection
+        (Objects.requireNonNull(editText.getText()).length());
   }
 
 }

@@ -27,10 +27,23 @@
   <string name="prefered_date_friday">Friday</string>
   <!--Preset Time-->
   <string name="label_time">Preferred Time</string>
-  <string name="prefered_time_ten">10:00 AM</string>
-  <string name="prefered_time_one">01:00 PM</string>
-  <string name="prefered_time_three">03:00 PM</string>
-  <string name="prefered_time_seven">07:00 PM</string>
+  <string name="prefered_time_one">01:00</string>
+  <string name="prefered_time_two">02:00</string>
+  <string name="prefered_time_three">03:00</string>
+  <string name="prefered_time_four">04:00</string>
+  <string name="prefered_time_five">05:00</string>
+  <string name="prefered_time_six">06:00</string>
+  <string name="prefered_time_seven">07:00</string>
+  <string name="prefered_time_eight">08:00</string>
+  <string name="prefered_time_nine">09:00</string>
+  <string name="prefered_time_ten">10:00</string>
+  <string name="prefered_time_eleven">11:00</string>
+  <string name="prefered_time_twelve">12:00</string>
+  <string name="prefered_time_am">AM</string>
+  <string name="prefered_time_pm">PM</string>
+  <string name="list_view_empty_state">No date scheduled for this class</string>
+  <string name="date_action_btn_save">Save New Schedule</string>
+  <string name="date_action_btn_schedule">Schedule New Date</string>
   <!--Preset General Layout-->
   <string name="btn_preset_okay">Confirm</string>
   <string name="string_label_date">Date</string>
@@ -42,6 +55,7 @@
   <string name="subject_add_edit_error_msg">Cannot reload data please try again.</string>
   <string name="subject_add_edit_missing_date">Missing fields need to fill.</string>
   <string name="zero_classes">Classes (0)</string>
+  <string name="snackbar_action_undo">UNDO</string>
   <!--Subject ToolBar Tabs-->
   <string name="toolbar_subjects">All Subjects</string>
   <string name="toolbar_reports">Reports</string>
@@ -60,6 +74,9 @@
   <string name="student_name_hint">Student Name</string>
   <string name="zero_students">Students (0)</string>
   <string name="export_report_string">EXPORT REPORT</string>
+  <string name="duplicate_students_msg">This student id assigned to ( %1$s ), do you need to proceed ? </string>
+  <string name="duplicate_msg_okay">Okay</string>
+  <string name="duplicate_msg_cancel">Cancel</string>
   <!--Student Toolbar Tabs-->
   <string name="toolbar_new_student">Add New Student</string>
   <string name="toolbar_edit_student">Edit Student Info</string>
@@ -68,7 +85,7 @@
   <!--Popup menu strings-->
   <string name="pop_menu_rename">Rename</string>
   <string name="pop_menu_delete">Delete</string>
-  <string name="pop_menu_preset">Preset Schedule</string>
+  <string name="pop_menu_preset">Set Schedule Date</string>
   <string name="pop_menu_new_att">Take New Attendance</string>
   <string name="pop_menu_edit_att">Edit Previous Attendance</string>
 
@@ -115,6 +132,12 @@
   <string name="login_failed_msg">Invalid email or wrong password, try again</string>
   <string name="login_failed_operation_msg">Failed to log in, try again</string>
   <string name="login_success_msg">Log in successfully</string>
+
+  <!--Permissions Strings-->
+  <string name="dialog_permission_msg">The App will ask you for WRITE_DATA permission to export excel reports</string>
+  <string name="dialog_per_ok">OK</string>
+  <string name="dialog_per_cancel">Cancel</string>
+  <string name="dialog_deny_msg">The app cannot function without permissions</string>
 
 
 </resources>
