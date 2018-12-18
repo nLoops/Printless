@@ -15,6 +15,7 @@ import com.nloops.students.fragments.HomeFragmentsAdapter;
 import com.nloops.students.fragments.ReportsFragment;
 import com.nloops.students.fragments.SettingsFragment;
 import com.nloops.students.fragments.SubjectFragment;
+import com.nloops.students.views.StudentsViewPager;
 import java.util.Objects;
 
 
@@ -23,7 +24,7 @@ public class SubjectActivity extends AppCompatActivity {
   @BindView(R.id.bottom_navigation)
   BottomNavigationView bottomNavigation;
   @BindView(R.id.viewpager)
-  ViewPager viewPager;
+  StudentsViewPager viewPager;
   @BindView(R.id.home_toolbar)
   Toolbar mToolBar;
   @BindView(R.id.tv_home_toolbar)
@@ -93,6 +94,8 @@ public class SubjectActivity extends AppCompatActivity {
         //
       }
     });
+
+    viewPager.setPagingEnabled(false);
 
     setupViewPager(viewPager);
   }
