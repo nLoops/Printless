@@ -67,19 +67,19 @@ public class SubjectAdapter extends RecyclerView.Adapter<SubjectViewHolder> {
     SubjectEntity currentSubject = subjectEntityList.get(i);
     // assign UI views Values
     holder.mSubjectTV.setText(currentSubject.getSubjectName());
-    holder.mClassTV.setText(currentSubject.getSchoolName());
+    holder.mSchoolTV.setText(currentSubject.getSchoolName());
     // calculate total of classes under this subject
     LocalDataSource.getInstance(mContext).getClasses(currentSubject.getSubjectID(),
         new LoadClassesCallBack() {
           @Override
           public void onClassesLoaded(List<ClassEntity> data) {
             String count = "Classes " + "(" + data.size() + ")";
-            holder.mSchoolTV.setText(count);
+            holder.mClassTV.setText(count);
           }
 
           @Override
           public void onClassesDataNotAvailable() {
-            holder.mSchoolTV.setText(mContext.getString(R.string.zero_classes));
+            holder.mClassTV.setText(mContext.getString(R.string.zero_classes));
           }
         });
 
