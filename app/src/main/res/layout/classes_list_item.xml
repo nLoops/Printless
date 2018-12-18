@@ -5,14 +5,15 @@
   xmlns:tools="http://schemas.android.com/tools"
   android:layout_width="match_parent"
   android:layout_height="wrap_content"
-  android:padding="@dimen/dimen_eight_dp">
+  android:layout_marginTop="@dimen/dimen_four_dp"
+  >
 
   <TextView
     android:id="@+id/tv_class_name"
     android:layout_width="0dp"
     android:layout_height="wrap_content"
     android:textColor="@color/colorTextView"
-    android:textSize="@dimen/text_general_size"
+    style="@style/MainTextStyle"
     app:layout_constraintLeft_toLeftOf="parent"
     app:layout_constraintRight_toLeftOf="@id/ib_class_overflow"
     app:layout_constraintTop_toTopOf="parent"
@@ -23,8 +24,7 @@
     android:id="@+id/tv_students_count"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:textColor="@color/colorTextView"
-    android:textSize="@dimen/text_body_size"
+    style="@style/SecondryTextStyle"
     app:layout_constraintLeft_toLeftOf="@id/tv_class_name"
     app:layout_constraintTop_toBottomOf="@id/tv_class_name"
     tools:text="Students (35)"
@@ -34,6 +34,7 @@
     android:layout_width="match_parent"
     android:layout_height="2dp"
     android:layout_marginTop="@dimen/dimen_sixteen_dp"
+    style="@style/lineMargin"
     android:background="@color/colorRecyclerSeparator"
     app:layout_constraintLeft_toLeftOf="@id/tv_class_name"
     app:layout_constraintRight_toRightOf="parent"
@@ -47,9 +48,10 @@
     android:background="?attr/selectableItemBackgroundBorderless"
     android:src="@drawable/ic_overflow"
     android:layout_marginEnd="@dimen/dimen_eight_dp"
-    app:layout_constraintBottom_toTopOf="@id/tv_subject_name"
+    style="@style/viewMargin"
+    app:layout_constraintBottom_toTopOf="@id/tv_class_name"
     app:layout_constraintRight_toRightOf="parent"
-    app:layout_constraintTop_toBottomOf="@id/tv_subject_name"
+    app:layout_constraintTop_toBottomOf="@id/tv_class_name"
     />
 
 </android.support.constraint.ConstraintLayout>
