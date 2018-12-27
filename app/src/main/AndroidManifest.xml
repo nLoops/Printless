@@ -15,29 +15,75 @@
     android:roundIcon="@mipmap/ic_app_launch"
     android:supportsRtl="true"
     android:theme="@style/AppTheme">
-    <activity android:name=".subjects.SubjectActivity">
+    <activity
+      android:name=".subjects.SubjectActivity"
+      android:launchMode="singleTop"
+      >
     </activity>
-    <activity android:name=".subjects.SubjectAddEdit"/>
-    <activity android:name=".classesdata.ClassesActivity">
+    <activity
+      android:name=".subjects.SubjectAddEdit"
+      android:launchMode="singleTop"
+      >
       <meta-data
         android:name="android.support.PARENT_ACTIVITY"
         android:value=".subjects.SubjectActivity"/>
     </activity>
-    <activity android:name=".classesdata.ClassAddEdit"/>
-    <activity android:name=".students.StudentEditActivity"/>
-    <activity android:name=".students.StudentActivity"/>
-    <activity android:name=".attendance.AttendanceActivity"/>
-    <activity android:name=".reports.ClassReports">
+    <activity
+      android:name=".classesdata.ClassesActivity"
+      android:launchMode="singleTop"
+      >
       <meta-data
         android:name="android.support.PARENT_ACTIVITY"
         android:value=".subjects.SubjectActivity"/>
     </activity>
-    <activity android:name=".reports.StudentsReports">
+    <activity
+      android:name=".classesdata.ClassAddEdit"
+      android:launchMode="singleTop"
+      >
+      <meta-data
+        android:name="android.support.PARENT_ACTIVITY"
+        android:value=".classesdata.ClassesActivity"/>
+    </activity>
+    <activity
+      android:name=".students.StudentEditActivity"
+      android:launchMode="singleTop"
+      >
+      <meta-data
+        android:name="android.support.PARENT_ACTIVITY"
+        android:value=".students.StudentActivity"/>
+    </activity>
+    <activity
+      android:name=".students.StudentActivity"
+      android:launchMode="singleTop"
+      >
+      <meta-data
+        android:name="android.support.PARENT_ACTIVITY"
+        android:value=".classesdata.ClassesActivity"/>
+    </activity>
+    <activity
+      android:name=".attendance.AttendanceActivity"
+      android:launchMode="singleTop"
+      />
+    <activity
+      android:name=".reports.ClassReports"
+      android:launchMode="singleTop"
+      >
+      <meta-data
+        android:name="android.support.PARENT_ACTIVITY"
+        android:value=".subjects.SubjectActivity"/>
+    </activity>
+    <activity
+      android:name=".reports.StudentsReports"
+      android:launchMode="singleTop"
+      >
       <meta-data
         android:name="android.support.PARENT_ACTIVITY"
         android:value=".reports.ClassReports"/>
     </activity>
-    <activity android:name=".login.LaunchActivity">
+    <activity
+      android:name=".login.LaunchActivity"
+      android:launchMode="singleTop"
+      >
       <intent-filter>
         <action android:name="android.intent.action.MAIN"/>
 

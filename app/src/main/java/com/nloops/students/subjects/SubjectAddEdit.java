@@ -67,6 +67,7 @@ public class SubjectAddEdit extends AppCompatActivity implements
     // Setup toolbar
     setSupportActionBar(mToolBar);
     Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
+    Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
     // setup presenter
     setupPresenter();
     // force keyboard to show

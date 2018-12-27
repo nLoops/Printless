@@ -8,10 +8,12 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -88,6 +90,7 @@ public class ClassesActivity extends AppCompatActivity implements ClassDataContr
     // Setup toolbar
     setSupportActionBar(mToolBar);
     Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
+    Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
     // if the intent has notification id we cancel it.
     if (getIntent().hasExtra(UtilsConstants.NOTIFICATION_ID)) {
       // define Notification Manager
@@ -308,5 +311,16 @@ public class ClassesActivity extends AppCompatActivity implements ClassDataContr
       powerMenu.dismiss();
       return;
     }
+  }
+
+  @Override
+  public boolean onOptionsItemSelected(MenuItem item) {
+    switch (item.getItemId()) {
+      // Respond to the action bar's Up/Home button
+      case android.R.id.home:
+        NavUtils.navigateUpFromSameTask(this);
+        return true;
+    }
+    return super.onOptionsItemSelected(item);
   }
 }
