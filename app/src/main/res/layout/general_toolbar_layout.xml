@@ -16,7 +16,8 @@
       android:layout_height="wrap_content"
       android:text="@string/toolbar_subjects"
       android:textColor="@color/colorToolbarText"
-      android:textSize="@dimen/text_toolbar_size"
+      android:textSize="24sp"
+      android:ellipsize="end"
       android:paddingEnd="@dimen/dimen_sixteen_dp"
       android:paddingStart="@dimen/dimen_sixteen_dp"
       />

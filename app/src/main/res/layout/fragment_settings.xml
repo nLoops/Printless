@@ -7,49 +7,15 @@
   android:padding="@dimen/dimen_five_dp"
   >
 
-  <TextView
-    android:id="@+id/tv_settings_password"
-    android:drawableStart="@drawable/ic_lock"
-    android:drawablePadding="@dimen/dimen_eight_dp"
-    android:drawableEnd="@drawable/ic_arrow"
-    android:text="@string/settings_password"
-    app:layout_constraintLeft_toLeftOf="parent"
-    app:layout_constraintTop_toTopOf="parent"
-    style="@style/settingsTVstyle"
-    />
-
-  <TextView
-    android:id="@+id/tv_settings_email"
-    android:drawableStart="@drawable/ic_email"
-    android:drawablePadding="@dimen/dimen_eight_dp"
-    android:drawableEnd="@drawable/ic_arrow"
-    android:text="@string/settings_email"
-    app:layout_constraintLeft_toLeftOf="parent"
-    app:layout_constraintTop_toBottomOf="@id/tv_settings_password"
-    style="@style/settingsTVstyle"
-    />
-
-  <TextView
-    android:id="@+id/tv_settings_absentee"
-    android:drawableStart="@drawable/ic_alert"
-    android:drawablePadding="@dimen/dimen_eight_dp"
-    android:drawableEnd="@drawable/ic_arrow"
-    android:text="@string/settings_absentee"
-    app:layout_constraintLeft_toLeftOf="parent"
-    app:layout_constraintTop_toBottomOf="@id/tv_settings_email"
-    style="@style/settingsTVstyle"
-    />
-
-  <TextView
-    android:id="@+id/tv_settings_logout"
-    style="@style/settingsTVstyle"
-    android:layout_marginBottom="@dimen/dimen_twentyfour_dp"
-    android:drawableStart="@drawable/ic_logout"
-    android:drawablePadding="@dimen/dimen_eight_dp"
-    android:text="@string/settings_logout"
-    android:textSize="@dimen/text_body_size"
+  <FrameLayout
+    android:id="@+id/fragment_pref_container"
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
     app:layout_constraintBottom_toBottomOf="parent"
-    app:layout_constraintLeft_toLeftOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
     />
+
 
 </android.support.constraint.ConstraintLayout>

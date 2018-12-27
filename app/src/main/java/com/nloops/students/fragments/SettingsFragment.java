@@ -1,6 +1,5 @@
 package com.nloops.students.fragments;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -8,20 +7,11 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-import com.google.firebase.auth.FirebaseAuth;
 import com.nloops.students.R;
-import com.nloops.students.cloud.CloudOperations;
-import com.nloops.students.login.LaunchActivity;
-import java.util.Objects;
+import com.nloops.students.utils.StudentsPrefFragment;
 
 public class SettingsFragment extends Fragment {
 
-  @BindView(R.id.tv_settings_logout)
-  TextView mLogOut;
 
   public SettingsFragment() {
     // required by system
@@ -32,10 +22,12 @@ public class SettingsFragment extends Fragment {
   public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
       @Nullable Bundle savedInstanceState) {
     View rootView = inflater.inflate(R.layout.fragment_settings, container, false);
-    ButterKnife.bind(this, rootView);
+    //ButterKnife.bind(this, rootView);
+    getFragmentManager().beginTransaction()
+        .replace(R.id.fragment_pref_container, new StudentsPrefFragment()).commit();
     return rootView;
   }
-
+/*
   @OnClick(R.id.tv_settings_logout)
   public void logOut(TextView textView) {
     FirebaseAuth.getInstance().signOut();
@@ -51,6 +43,7 @@ public class SettingsFragment extends Fragment {
         (Objects.requireNonNull(getActivity()).getApplicationContext(),
             getActivity().getSupportFragmentManager()).syncData();
   }
+*/
 
 
 }

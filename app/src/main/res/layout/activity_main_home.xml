@@ -10,20 +10,11 @@
     android:layout_height="wrap_content"
     android:background="@color/colorFakeWhite">
 
-    <android.support.v7.widget.Toolbar
-      android:id="@+id/home_toolbar"
+    <include
+      android:id="@+id/toolbar_holder"
       android:layout_width="match_parent"
-      android:layout_height="?android:attr/actionBarSize">
-
-      <TextView
-        android:id="@+id/tv_home_toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/toolbar_subjects"
-        android:textColor="@color/colorToolbarText"
-        android:textSize="@dimen/text_toolbar_size"
-        />
-    </android.support.v7.widget.Toolbar>
+      android:layout_height="wrap_content"
+      layout="@layout/general_toolbar_layout"/>
 
   </android.support.design.widget.AppBarLayout>
 

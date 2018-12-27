@@ -25,9 +25,9 @@ public class SubjectActivity extends AppCompatActivity {
   BottomNavigationView bottomNavigation;
   @BindView(R.id.viewpager)
   StudentsViewPager viewPager;
-  @BindView(R.id.home_toolbar)
+  @BindView(R.id.general_toolbar)
   Toolbar mToolBar;
-  @BindView(R.id.tv_home_toolbar)
+  @BindView(R.id.tv_general_toolbar)
   TextView mToolBarTV;
 
   private MenuItem prevMenuItem;

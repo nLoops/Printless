@@ -47,7 +47,7 @@
 
   <Button
     android:id="@+id/export_excel_bt"
-    android:layout_width="280dp"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="center_horizontal|bottom"
     android:layout_marginBottom="@dimen/dimen_sixteen_dp"
@@ -56,6 +56,8 @@
     android:focusable="true"
     android:textColor="@android:color/white"
     android:elevation="@dimen/dimen_six_dp"
+    android:layout_marginStart="@dimen/dimen_twenty_dp"
+    android:layout_marginEnd="@dimen/dimen_twenty_dp"
     android:background="@drawable/add_btn_background"
     />
 
