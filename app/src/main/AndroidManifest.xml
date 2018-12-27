@@ -90,13 +90,25 @@
     </receiver>
 
     <activity
-      android:name=".SettingsActivity"
       android:launchMode="singleTop"
+      android:name=".SettingsActivity"
       >
       <meta-data
         android:name="android.support.PARENT_ACTIVITY"
         android:value=".subjects.SubjectActivity"/>
     </activity>
+
+    <service
+      android:exported="false"
+      android:name=".cloud.TasksFirebaseJobService"
+      >
+      <intent-filter>
+        <action android:name="com.firebase.jobdispatcher.ACTION_EXECUTE"/>
+      </intent-filter>
+
+    </service>
+
+
   </application>
 
 </manifest>

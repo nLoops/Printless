@@ -1,28 +1,39 @@
 package com.nloops.students.subjects;
 
+import android.Manifest;
+import android.annotation.TargetApi;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AlertDialog.Builder;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.TextView;
+import android.widget.Toast;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.nloops.students.R;
 import com.nloops.students.SettingsActivity;
+import com.nloops.students.cloud.CloudOperations;
 import com.nloops.students.fragments.HomeFragmentsAdapter;
 import com.nloops.students.fragments.ReportsFragment;
 import com.nloops.students.fragments.SettingsFragment;
 import com.nloops.students.fragments.SubjectFragment;
+import com.nloops.students.utils.SharedPreferenceHelper;
 import com.nloops.students.views.StudentsViewPager;
+import java.util.List;
 import java.util.Objects;
+import pub.devrel.easypermissions.EasyPermissions;
 
 
-public class SubjectActivity extends AppCompatActivity {
+public class SubjectActivity extends AppCompatActivity implements
+    EasyPermissions.PermissionCallbacks {
 
   @BindView(R.id.bottom_navigation)
   BottomNavigationView bottomNavigation;
@@ -36,6 +47,8 @@ public class SubjectActivity extends AppCompatActivity {
   private MenuItem prevMenuItem;
 
   HomeFragmentsAdapter adapter;
+
+  private static final int PERMISSION_REQ_CODE = 225;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -132,5 +145,63 @@ public class SubjectActivity extends AppCompatActivity {
         return true;
     }
     return super.onOptionsItemSelected(item);
+  }
+
+  @Override
+  protected void onResume() {
+    super.onResume();
+    getPermissions();
+  }
+
+  /**
+   * This Method will check if we have the required permissions to RECORD and SAVE files, if not we
+   * will alert USER to get the permissions.
+   */
+  @TargetApi(23)
+  private void getPermissions() {
+    String[] permissions = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE};
+    if (!EasyPermissions.hasPermissions(SubjectActivity.this, permissions)) {
+      getPermissionsMsg(permissions);
+    }
+  }
+
+  @TargetApi(23)
+  @Override
+  public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+      @NonNull int[] grantResults) {
+    EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
+  }
+
+  @Override
+  public void onPermissionsGranted(int requestCode, @NonNull List<String> perms) {
+    SharedPreferenceHelper.getInstance(SubjectActivity.this).setPermissionsState(true);
+    CloudOperations.getInstance(this).initialize();
+  }
+
+  @Override
+  public void onPermissionsDenied(int requestCode, @NonNull List<String> perms) {
+    Toast.makeText(SubjectActivity.this.getApplicationContext(),
+        getString(R.string.dialog_deny_msg), Toast.LENGTH_LONG).show();
+    finish();
+  }
+
+  private void getPermissionsMsg(String[] permissions) {
+    AlertDialog builder = new Builder(this)
+        .setMessage(getString(R.string.dialog_permission_msg))
+        .setNegativeButton(getString(R.string.dialog_per_cancel), (dialog, which) -> {
+          Toast.makeText(SubjectActivity.this.getApplicationContext(),
+              getString(R.string.dialog_deny_msg), Toast.LENGTH_LONG).show();
+          if (dialog != null) {
+            dialog.dismiss();
+          }
+          finish();
+        })
+        .setPositiveButton(getString(R.string.dialog_per_ok), (dialog, which) -> {
+          EasyPermissions.requestPermissions(SubjectActivity.this,
+              getString(R.string.permissions_required),
+              PERMISSION_REQ_CODE, permissions);
+          //
+        })
+        .show();
   }
 }
