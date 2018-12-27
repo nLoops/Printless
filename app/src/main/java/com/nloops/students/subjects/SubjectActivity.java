@@ -1,16 +1,19 @@
 package com.nloops.students.subjects;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.nloops.students.R;
+import com.nloops.students.SettingsActivity;
 import com.nloops.students.fragments.HomeFragmentsAdapter;
 import com.nloops.students.fragments.ReportsFragment;
 import com.nloops.students.fragments.SettingsFragment;
@@ -45,22 +48,19 @@ public class SubjectActivity extends AppCompatActivity {
     Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
     // onBottomNavigation item selected
     bottomNavigation.setOnNavigationItemSelectedListener(
-        new BottomNavigationView.OnNavigationItemSelectedListener() {
-          @Override
-          public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-            switch (item.getItemId()) {
-              case R.id.action_home:
-                viewPager.setCurrentItem(0);
-                break;
-              case R.id.action_report:
-                viewPager.setCurrentItem(1);
-                break;
-              case R.id.action_settings:
-                viewPager.setCurrentItem(2);
-                break;
-            }
-            return false;
+        item -> {
+          switch (item.getItemId()) {
+            case R.id.action_home:
+              viewPager.setCurrentItem(0);
+              break;
+            case R.id.action_report:
+              viewPager.setCurrentItem(1);
+              break;
+            case R.id.action_settings:
+              viewPager.setCurrentItem(2);
+              break;
           }
+          return false;
         });
 
     viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -116,5 +116,21 @@ public class SubjectActivity extends AppCompatActivity {
     viewPager.setAdapter(adapter);
   }
 
+  @Override
+  public boolean onCreateOptionsMenu(Menu menu) {
+    MenuInflater inflater = getMenuInflater();
+    inflater.inflate(R.menu.main_menu, menu);
+    return true;
+  }
 
+  @Override
+  public boolean onOptionsItemSelected(MenuItem item) {
+    switch (item.getItemId()) {
+      // Respond to the action bar's Up/Home button
+      case R.id.home_action_settings:
+        startActivity(new Intent(SubjectActivity.this, SettingsActivity.class));
+        return true;
+    }
+    return super.onOptionsItemSelected(item);
+  }
 }

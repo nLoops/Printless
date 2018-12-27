@@ -144,6 +144,9 @@
   <string name="absnteem_key">absnteem</string>
   <string name="absnteem_default">50</string>
 
+  <string name="report_cat_key">reports</string>
+  <string name="report_cat_title">Reports</string>
+
   <string name="settings_sync_time_label">Backup Time</string>
   <string name="settings_sync_time_key" translatable="false">backup_time</string>
 

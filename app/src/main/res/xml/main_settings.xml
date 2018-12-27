@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+  <PreferenceCategory
+    android:key="@string/report_cat_key"
+    android:title="@string/report_cat_title"
+    />
+
+  <EditTextPreference
+    android:defaultValue="@string/absnteem_default"
+    android:inputType="number"
+    android:key="@string/absnteem_key"
+    android:title="@string/settings_absentee"
+    />
+
+  <PreferenceCategory
+    android:key="@string/settings_cat_sync_key"
+    android:title="@string/settings_cat_sync_label">
+
+    <ListPreference
+      android:defaultValue="@string/settings_sync_time_default"
+      android:entries="@array/settings_time_labels"
+      android:entryValues="@array/settings_time_values"
+      android:key="@string/settings_sync_time_key"
+      android:title="@string/settings_sync_time_label"/>
+  </PreferenceCategory>
+
+</PreferenceScreen>

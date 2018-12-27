@@ -8,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import com.nloops.students.R;
-import com.nloops.students.utils.StudentsPrefFragment;
 
 public class SettingsFragment extends Fragment {
 
@@ -23,8 +22,6 @@ public class SettingsFragment extends Fragment {
       @Nullable Bundle savedInstanceState) {
     View rootView = inflater.inflate(R.layout.fragment_settings, container, false);
     //ButterKnife.bind(this, rootView);
-    getFragmentManager().beginTransaction()
-        .replace(R.id.fragment_pref_container, new StudentsPrefFragment()).commit();
     return rootView;
   }
 /*

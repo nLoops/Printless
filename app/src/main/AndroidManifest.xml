@@ -16,74 +16,64 @@
     android:supportsRtl="true"
     android:theme="@style/AppTheme">
     <activity
-      android:name=".subjects.SubjectActivity"
       android:launchMode="singleTop"
-      >
+      android:name=".subjects.SubjectActivity">
     </activity>
     <activity
-      android:name=".subjects.SubjectAddEdit"
       android:launchMode="singleTop"
-      >
+      android:name=".subjects.SubjectAddEdit">
       <meta-data
         android:name="android.support.PARENT_ACTIVITY"
         android:value=".subjects.SubjectActivity"/>
     </activity>
     <activity
-      android:name=".classesdata.ClassesActivity"
       android:launchMode="singleTop"
-      >
+      android:name=".classesdata.ClassesActivity">
       <meta-data
         android:name="android.support.PARENT_ACTIVITY"
         android:value=".subjects.SubjectActivity"/>
     </activity>
     <activity
-      android:name=".classesdata.ClassAddEdit"
       android:launchMode="singleTop"
-      >
+      android:name=".classesdata.ClassAddEdit">
       <meta-data
         android:name="android.support.PARENT_ACTIVITY"
         android:value=".classesdata.ClassesActivity"/>
     </activity>
     <activity
-      android:name=".students.StudentEditActivity"
       android:launchMode="singleTop"
-      >
+      android:name=".students.StudentEditActivity">
       <meta-data
         android:name="android.support.PARENT_ACTIVITY"
         android:value=".students.StudentActivity"/>
     </activity>
     <activity
-      android:name=".students.StudentActivity"
       android:launchMode="singleTop"
-      >
+      android:name=".students.StudentActivity">
       <meta-data
         android:name="android.support.PARENT_ACTIVITY"
         android:value=".classesdata.ClassesActivity"/>
     </activity>
     <activity
-      android:name=".attendance.AttendanceActivity"
       android:launchMode="singleTop"
-      />
+      android:name=".attendance.AttendanceActivity"/>
     <activity
-      android:name=".reports.ClassReports"
       android:launchMode="singleTop"
-      >
+      android:name=".reports.ClassReports">
       <meta-data
         android:name="android.support.PARENT_ACTIVITY"
         android:value=".subjects.SubjectActivity"/>
     </activity>
     <activity
-      android:name=".reports.StudentsReports"
       android:launchMode="singleTop"
-      >
+      android:name=".reports.StudentsReports">
       <meta-data
         android:name="android.support.PARENT_ACTIVITY"
         android:value=".reports.ClassReports"/>
     </activity>
     <activity
-      android:name=".login.LaunchActivity"
       android:launchMode="singleTop"
-      >
+      android:name=".login.LaunchActivity">
       <intent-filter>
         <action android:name="android.intent.action.MAIN"/>
 
@@ -99,7 +89,14 @@
       </intent-filter>
     </receiver>
 
-
+    <activity
+      android:name=".SettingsActivity"
+      android:launchMode="singleTop"
+      >
+      <meta-data
+        android:name="android.support.PARENT_ACTIVITY"
+        android:value=".subjects.SubjectActivity"/>
+    </activity>
   </application>
 
 </manifest>
