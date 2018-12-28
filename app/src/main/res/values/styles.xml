@@ -67,7 +67,23 @@
   <style name="SecondryTextStyle" parent="viewMargin">
     <item name="android:color">@color/colorSubTextView</item>
     <item name="android:textSize">@dimen/text_body_size</item>
+  </style>
 
+  <style name="SettingsTextView">
+    <item name="android:layout_width">match_parent</item>
+    <item name="android:layout_height">@dimen/dimen_fifty_dp</item>
+    <item name="android:layout_marginTop">@dimen/dimen_eight_dp</item>
+    <item name="android:layout_marginStart">@dimen/dimen_eight_dp</item>
+    <item name="android:layout_marginEnd">@dimen/dimen_eight_dp</item>
+    <item name="android:foreground">?android:attr/selectableItemBackground</item>
+    <item name="android:paddingStart">@dimen/dimen_eight_dp</item>
+    <item name="android:paddingEnd">@dimen/dimen_eight_dp</item>
+    <item name="android:drawableEnd">@drawable/ic_arrow</item>
+    <item name="android:background">@drawable/settings_tv_bg</item>
+    <item name="android:textAppearance">@style/TextAppearance.MaterialComponents.Body2</item>
+    <item name="android:gravity">start|center</item>
+    <item name="android:clickable">true</item>
+    <item name="android:focusable">true</item>
   </style>
 
 

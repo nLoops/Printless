@@ -16,6 +16,12 @@
   <string name="menu_reports_string">Reports</string>
   <string name="menu_settings_string">Settings</string>
   <string name="permissions_required">App requires WRITE_EXTERNAL_STORAGE to export excel reports</string>
+  <string name="account_content">Account Image</string>
+  <string name="frag_setting_activity">Alerts &amp; Backup</string>
+  <string name="change_password_str">Change Password</string>
+  <string name="log_out">Sign out</string>
+
+
   <!--Preset Date-->
   <string name="label_date">Preferred date</string>
   <string name="prefered_date_saturday">Saturday</string>
@@ -163,5 +169,10 @@
 
   <string name="settings_sync_week_label">Every Week</string>
   <string name="settings_sync_week_key" translatable="false">week_time</string>
+
+  <!--Change Password-->
+  <string name="current_password">Current Password</string>
+  <string name="new_password">New Password</string>
+  <string name="confirm_password">Confirm</string>
 
 </resources>

@@ -6,6 +6,7 @@
   <dimen name="text_button_size">17sp</dimen>
   <dimen name="text_time_size">14sp</dimen>
 
+  <dimen name="dimen_one_dp">1dp</dimen>
   <dimen name="dimen_two_dp">2dp</dimen>
   <dimen name="dimen_five_dp">5dp</dimen>
   <dimen name="dimen_four_dp">4dp</dimen>

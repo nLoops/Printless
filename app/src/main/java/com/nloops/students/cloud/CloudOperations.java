@@ -3,6 +3,7 @@ package com.nloops.students.cloud;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import com.firebase.jobdispatcher.Constraint;
 import com.firebase.jobdispatcher.Driver;
 import com.firebase.jobdispatcher.FirebaseJobDispatcher;
@@ -20,7 +21,6 @@ import com.nloops.students.data.tables.StudentEntity;
 import com.nloops.students.data.tables.SubjectEntity;
 import com.nloops.students.utils.UtilsConstants;
 import java.util.List;
-import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 public class CloudOperations {
@@ -52,10 +52,16 @@ public class CloudOperations {
   }
 
   public void syncDataWithServer() {
-    FirebaseDatabase.getInstance().getReference()
-        .child(UtilsConstants.ATTENDANCE_DATABASE_REFERENCE)
-        .child(Objects.requireNonNull(FirebaseAuth.getInstance().getUid()))
-        .setValue(getDataModel());
+    try {
+      assert FirebaseAuth.getInstance().getCurrentUser() != null;
+      FirebaseDatabase.getInstance().getReference()
+          .child(UtilsConstants.ATTENDANCE_DATABASE_REFERENCE)
+          .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+          .setValue(getDataModel());
+    } catch (Exception e) {
+      Log.d(TAG, "Cannot push data to the server \n" + e.getMessage());
+    }
+
   }
 
   private static CloudModel getDataModel() {

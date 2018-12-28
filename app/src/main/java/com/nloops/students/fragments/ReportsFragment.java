@@ -1,6 +1,5 @@
 package com.nloops.students.fragments;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -33,8 +32,6 @@ public class ReportsFragment extends Fragment implements OnSubjectReportClickLis
   RecyclerView mReportsRV;
   @BindView(R.id.reports_rv_empty_state)
   RelativeLayout mEmptyState;
-  // ref of context
-  private Context mContext;
   // ref of data adapter
   private ReportSubjectAdapter mAdapter;
 
@@ -45,7 +42,6 @@ public class ReportsFragment extends Fragment implements OnSubjectReportClickLis
   @Override
   public void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    mContext = Objects.requireNonNull(getContext()).getApplicationContext();
   }
 
   @Nullable
@@ -54,39 +50,34 @@ public class ReportsFragment extends Fragment implements OnSubjectReportClickLis
       @Nullable Bundle savedInstanceState) {
     View rootView = inflater.inflate(R.layout.fragment_reports, container, false);
     ButterKnife.bind(this, rootView);
+    displayData();
     return rootView;
   }
 
-  @Override
-  public void onResume() {
-    super.onResume();
-    displayDate();
+  private void displayData() {
+    LocalDataSource.getInstance(Objects.requireNonNull(getContext()))
+        .getSubjects(new LoadSubjectsCallBack() {
+          @Override
+          public void onSubjectsLoaded(List<SubjectEntity> subjects) {
+            mEmptyState.setVisibility(View.INVISIBLE);
+            mReportsRV.setVisibility(View.VISIBLE);
+            mReportsRV.setLayoutManager(new LinearLayoutManager(getContext()));
+            mReportsRV.setHasFixedSize(true);
+            mAdapter = new ReportSubjectAdapter(subjects, getContext(), ReportsFragment.this);
+            mReportsRV.setAdapter(mAdapter);
+          }
+
+          @Override
+          public void onSubjectDataNotAvailable() {
+            mEmptyState.setVisibility(View.VISIBLE);
+            mReportsRV.setVisibility(View.INVISIBLE);
+          }
+        });
   }
-
-  private void displayDate() {
-    LocalDataSource.getInstance(mContext).getSubjects(new LoadSubjectsCallBack() {
-      @Override
-      public void onSubjectsLoaded(List<SubjectEntity> subjects) {
-        mEmptyState.setVisibility(View.INVISIBLE);
-        mReportsRV.setVisibility(View.VISIBLE);
-        mReportsRV.setLayoutManager(new LinearLayoutManager(mContext));
-        mReportsRV.setHasFixedSize(true);
-        mAdapter = new ReportSubjectAdapter(subjects, mContext, ReportsFragment.this);
-        mReportsRV.setAdapter(mAdapter);
-      }
-
-      @Override
-      public void onSubjectDataNotAvailable() {
-        mEmptyState.setVisibility(View.VISIBLE);
-        mReportsRV.setVisibility(View.INVISIBLE);
-      }
-    });
-  }
-
 
   @Override
   public void onSubjectClicked(int subjectID, String subjectName) {
-    Intent intent = new Intent(mContext, ClassReports.class);
+    Intent intent = new Intent(getContext(), ClassReports.class);
     intent.putExtra(UtilsConstants.EXTRA_SUBJECT_TO_CLASS_REPORT, subjectID);
     intent.putExtra(UtilsConstants.EXTRA_SUBJECT_NAME_TO_CLASS_REPORT, subjectName);
     startActivity(intent);

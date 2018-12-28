@@ -1,5 +1,6 @@
 package com.nloops.students.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -7,10 +8,21 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+import com.google.firebase.auth.FirebaseAuth;
 import com.nloops.students.R;
+import com.nloops.students.SettingsActivity;
+import com.nloops.students.login.LaunchActivity;
+import com.nloops.students.views.ChangePasswordDialog;
+import java.util.Objects;
 
 public class SettingsFragment extends Fragment {
 
+  @BindView(R.id.tv_sett_name)
+  TextView mNameTV;
 
   public SettingsFragment() {
     // required by system
@@ -21,26 +33,39 @@ public class SettingsFragment extends Fragment {
   public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
       @Nullable Bundle savedInstanceState) {
     View rootView = inflater.inflate(R.layout.fragment_settings, container, false);
-    //ButterKnife.bind(this, rootView);
+    ButterKnife.bind(this, rootView);
+    mNameTV.setText(getUsername());
     return rootView;
   }
-/*
-  @OnClick(R.id.tv_settings_logout)
-  public void logOut(TextView textView) {
+
+  private String getUsername() {
+    String separator = "@";
+    String userEmail = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser())
+        .getEmail();
+    assert userEmail != null;
+    return userEmail.substring(0, userEmail.indexOf(separator));
+  }
+
+  @OnClick(R.id.tv_sett_activity)
+  public void launchSettings(TextView tv) {
+    assert getActivity() != null;
+    startActivity(new Intent(getContext(), SettingsActivity.class));
+    getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+  }
+
+  @OnClick(R.id.tv_sett_signout)
+  public void signOutEmail(TextView tv) {
+    assert getActivity() != null;
     FirebaseAuth.getInstance().signOut();
-    Intent intent = new Intent(getContext(), LaunchActivity.class);
-    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-    startActivity(intent);
-    Objects.requireNonNull(getActivity()).finish();
+    startActivity(new Intent(getContext(), LaunchActivity.class));
+    getActivity().finish();
   }
 
-  @OnClick(R.id.tv_settings_absentee)
-  public void syncData(TextView textView) {
-    CloudOperations.getInstance
-        (Objects.requireNonNull(getActivity()).getApplicationContext(),
-            getActivity().getSupportFragmentManager()).syncData();
+  @OnClick(R.id.tv_sett_password)
+  public void changePassword(TextView tv) {
+    assert getActivity() != null;
+    ChangePasswordDialog.newInstance()
+        .show(getActivity().getSupportFragmentManager(), "change_password");
   }
-*/
-
 
 }

@@ -2,20 +2,77 @@
 <android.support.constraint.ConstraintLayout
   xmlns:android="http://schemas.android.com/apk/res/android"
   xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:tools="http://schemas.android.com/tools"
   android:layout_width="match_parent"
   android:layout_height="match_parent"
   android:padding="@dimen/dimen_five_dp"
   >
 
-  <FrameLayout
-    android:id="@+id/fragment_pref_container"
-    android:layout_width="match_parent"
-    android:layout_height="0dp"
-    app:layout_constraintBottom_toBottomOf="parent"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toTopOf="parent"
+  <android.support.constraint.Guideline
+    android:id="@+id/guideline"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    app:layout_constraintGuide_begin="60dp"/>
+
+  <View
+    android:id="@+id/iv_background"
+    android:layout_width="@dimen/dimen_onefifty_dp"
+    android:layout_height="@dimen/dimen_onefifty_dp"
+    android:background="@drawable/account_iv_bg"
+    app:layout_constraintEnd_toStartOf="parent"
+    app:layout_constraintStart_toEndOf="parent"
+    app:layout_constraintTop_toBottomOf="@id/guideline"/>
+
+  <ImageView
+    android:layout_width="56dp"
+    android:layout_height="56dp"
+    android:contentDescription="@string/account_content"
+    android:src="@drawable/ic_account"
+    android:tint="@color/colorAccent"
+    app:layout_constraintBottom_toTopOf="@id/iv_background"
+    app:layout_constraintEnd_toStartOf="@id/iv_background"
+    app:layout_constraintStart_toEndOf="@id/iv_background"
+    app:layout_constraintTop_toBottomOf="@id/iv_background"
     />
 
+  <TextView
+    android:id="@+id/tv_sett_name"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/dimen_eight_dp"
+    android:gravity="center"
+    android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+    app:layout_constraintTop_toBottomOf="@id/iv_background"
+    tools:text="Ahmed Ibrahim"
+    />
+
+  <TextView
+    android:id="@+id/tv_sett_activity"
+    style="@style/SettingsTextView"
+    android:text="@string/frag_setting_activity"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@id/tv_sett_name"
+    />
+
+  <TextView
+    android:id="@+id/tv_sett_password"
+    style="@style/SettingsTextView"
+    android:text="@string/change_password_str"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@id/tv_sett_activity"
+    />
+
+  <TextView
+    android:id="@+id/tv_sett_signout"
+    style="@style/SettingsTextView"
+    android:drawableEnd="@drawable/ic_logout"
+    android:text="@string/log_out"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@id/tv_sett_password"
+    />
 
 </android.support.constraint.ConstraintLayout>

@@ -23,6 +23,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     tools:text="Total Lectures Given (10)"
+    android:visibility="gone"
     style="@style/SecondryTextStyle"
     app:layout_constraintTop_toBottomOf="@id/report_list_class_name"
     app:layout_constraintLeft_toLeftOf="@id/report_list_class_name"/>

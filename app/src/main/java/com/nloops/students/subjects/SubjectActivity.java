@@ -2,7 +2,6 @@ package com.nloops.students.subjects;
 
 import android.Manifest;
 import android.annotation.TargetApi;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -11,15 +10,12 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AlertDialog.Builder;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.nloops.students.R;
-import com.nloops.students.SettingsActivity;
 import com.nloops.students.cloud.CloudOperations;
 import com.nloops.students.fragments.HomeFragmentsAdapter;
 import com.nloops.students.fragments.ReportsFragment;
@@ -130,24 +126,6 @@ public class SubjectActivity extends AppCompatActivity implements
   }
 
   @Override
-  public boolean onCreateOptionsMenu(Menu menu) {
-    MenuInflater inflater = getMenuInflater();
-    inflater.inflate(R.menu.main_menu, menu);
-    return true;
-  }
-
-  @Override
-  public boolean onOptionsItemSelected(MenuItem item) {
-    switch (item.getItemId()) {
-      // Respond to the action bar's Up/Home button
-      case R.id.home_action_settings:
-        startActivity(new Intent(SubjectActivity.this, SettingsActivity.class));
-        return true;
-    }
-    return super.onOptionsItemSelected(item);
-  }
-
-  @Override
   protected void onResume() {
     super.onResume();
     getPermissions();
@@ -175,7 +153,7 @@ public class SubjectActivity extends AppCompatActivity implements
   @Override
   public void onPermissionsGranted(int requestCode, @NonNull List<String> perms) {
     SharedPreferenceHelper.getInstance(SubjectActivity.this).setPermissionsState(true);
-    CloudOperations.getInstance(this).initialize();
+    CloudOperations.getInstance(getApplicationContext()).initialize();
   }
 
   @Override
