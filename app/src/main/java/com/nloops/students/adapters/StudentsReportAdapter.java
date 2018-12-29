@@ -16,6 +16,7 @@ import com.nloops.students.data.mvp.StructureDataSource.LoadAbsenteeCallBack;
 import com.nloops.students.data.mvp.local.LocalDataSource;
 import com.nloops.students.data.tables.AbsenteeEntity;
 import com.nloops.students.data.tables.StudentEntity;
+import com.nloops.students.utils.SharedPreferenceHelper;
 import com.nloops.students.utils.StudentReportModel;
 import java.util.ArrayList;
 import java.util.List;
@@ -68,8 +69,10 @@ public class StudentsReportAdapter extends Adapter<StudentReportVH> {
               }
             }
             // calculate percentage
+            int perc = Integer
+                .valueOf(SharedPreferenceHelper.getInstance(mContext).getAbsnteemPerc());
             int percentage = (int) (counter * 100.0f) / data.size();
-            if (percentage >= 50) {
+            if (percentage >= perc) {
               holder.mAbsenteeCount.setTextColor
                   (mContext.getResources().getColor(R.color.colorRed));
               holder.mAbsenteePercentage.setTextColor

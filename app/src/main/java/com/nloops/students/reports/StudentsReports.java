@@ -109,7 +109,8 @@ public class StudentsReports extends AppCompatActivity implements
             mReportsRV.setVisibility(View.VISIBLE);
             mReportsRV.setLayoutManager(new LinearLayoutManager(StudentsReports.this));
             mReportsRV.setHasFixedSize(true);
-            mAdapter = new StudentsReportAdapter(data, StudentsReports.this, passedClassID);
+            mAdapter = new StudentsReportAdapter(data, StudentsReports.this.getApplicationContext(),
+                passedClassID);
             mReportsRV.setAdapter(mAdapter);
           }
 

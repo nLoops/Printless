@@ -2,8 +2,11 @@ package com.nloops.students.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
+import android.util.Log;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.nloops.students.R;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,6 +17,7 @@ public class SharedPreferenceHelper {
   private static SharedPreferences.Editor editor;
   private static Gson gson;
   private static final String SCHEDULE_SUBJECT_ATTENDANCE = "schedule_attendance";
+  private static Context mContext;
 
   private SharedPreferenceHelper() {
   }
@@ -21,6 +25,7 @@ public class SharedPreferenceHelper {
 
   public static SharedPreferenceHelper getInstance(Context context) {
     if (instance == null) {
+      mContext = context;
       instance = new SharedPreferenceHelper();
       preferences = context.getSharedPreferences(SCHEDULE_SUBJECT_ATTENDANCE, Context.MODE_PRIVATE);
       editor = preferences.edit();
@@ -63,6 +68,13 @@ public class SharedPreferenceHelper {
 
   public boolean getPermissionsState() {
     return preferences.getBoolean(UtilsConstants.PERMISSIONS_GRANTED, false);
+  }
+
+  public String getAbsnteemPerc() {
+    SharedPreferences mPreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
+    String perc = mPreferences.getString(mContext.getString(R.string.absnteem_key), "50");
+    Log.d("TESA", perc);
+    return perc;
   }
 
 
