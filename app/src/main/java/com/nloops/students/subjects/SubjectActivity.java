@@ -44,7 +44,7 @@ public class SubjectActivity extends AppCompatActivity implements
 
   HomeFragmentsAdapter adapter;
 
-  private static final int PERMISSION_REQ_CODE = 225;
+  private static final int PERMISSION_REQ_CODE = 101;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +55,7 @@ public class SubjectActivity extends AppCompatActivity implements
     // Setup toolbar
     setSupportActionBar(mToolBar);
     Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
+    getPermissions();
     // onBottomNavigation item selected
     bottomNavigation.setOnNavigationItemSelectedListener(
         item -> {
@@ -125,12 +126,6 @@ public class SubjectActivity extends AppCompatActivity implements
     viewPager.setAdapter(adapter);
   }
 
-  @Override
-  protected void onResume() {
-    super.onResume();
-    getPermissions();
-  }
-
   /**
    * This Method will check if we have the required permissions to RECORD and SAVE files, if not we
    * will alert USER to get the permissions.
@@ -175,10 +170,12 @@ public class SubjectActivity extends AppCompatActivity implements
           finish();
         })
         .setPositiveButton(getString(R.string.dialog_per_ok), (dialog, which) -> {
+          if (dialog != null) {
+            dialog.dismiss();
+          }
           EasyPermissions.requestPermissions(SubjectActivity.this,
               getString(R.string.permissions_required),
               PERMISSION_REQ_CODE, permissions);
-          //
         })
         .show();
   }

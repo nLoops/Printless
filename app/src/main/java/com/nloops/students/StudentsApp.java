@@ -2,7 +2,9 @@ package com.nloops.students;
 
 import android.app.Application;
 import android.os.StrictMode;
+import com.crashlytics.android.Crashlytics;
 import com.squareup.leakcanary.LeakCanary;
+import io.fabric.sdk.android.Fabric;
 import io.paperdb.Paper;
 import timber.log.Timber;
 import timber.log.Timber.DebugTree;
@@ -12,6 +14,7 @@ public class StudentsApp extends Application {
   @Override
   public void onCreate() {
     super.onCreate();
+    Fabric.with(this, new Crashlytics());
 
     if (LeakCanary.isInAnalyzerProcess(this)) {
       // This process is dedicated to LeakCanary for heap analysis.
