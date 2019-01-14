@@ -12,7 +12,6 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.Toast;
@@ -51,7 +50,7 @@ public class ChangePasswordDialog extends BottomSheetDialogFragment {
       @Nullable Bundle savedInstanceState) {
     View view = inflater.inflate(R.layout.frag_change_password_layout, container, false);
     //set to adjust screen height automatically, when soft keyboard appears on screen
-    getDialog().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+    //getDialog().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
     new KeyboardUtil(getActivity(), view);
     ButterKnife.bind(this, view);
     return view;

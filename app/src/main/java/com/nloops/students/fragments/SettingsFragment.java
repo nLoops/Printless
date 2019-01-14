@@ -8,7 +8,9 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -66,6 +68,13 @@ public class SettingsFragment extends Fragment {
     assert getActivity() != null;
     ChangePasswordDialog.newInstance()
         .show(getActivity().getSupportFragmentManager(), "change_password");
+  }
+
+  @OnClick(R.id.profile_iv)
+  public void onImageClicked(ImageView iv) {
+    assert getActivity() != null;
+    Toast.makeText(getActivity().getApplicationContext(),
+        "Adding profile upcoming for the next update", Toast.LENGTH_SHORT).show();
   }
 
 }

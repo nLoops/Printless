@@ -25,6 +25,7 @@
     app:layout_constraintTop_toBottomOf="@id/guideline"/>
 
   <ImageView
+    android:id="@+id/profile_iv"
     android:layout_width="56dp"
     android:layout_height="56dp"
     android:contentDescription="@string/account_content"
@@ -51,6 +52,7 @@
     android:id="@+id/tv_sett_activity"
     style="@style/SettingsTextView"
     android:text="@string/frag_setting_activity"
+    android:layout_marginTop="@dimen/dimen_twentyfour_dp"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toBottomOf="@id/tv_sett_name"

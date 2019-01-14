@@ -1,6 +1,6 @@
 <resources>
   <!--General Strings-->
-  <string name="app_name">students</string>
+  <string name="app_name">CheckBook</string>
   <string name="empty_state_content_description">Empty State Image</string>
   <string name="empty_state_text_view">Tap (+) to add new item</string>
   <string name="button_add_new">ADD</string>
