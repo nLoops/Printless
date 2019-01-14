@@ -74,7 +74,7 @@ public class ReportSubjectAdapter extends Adapter<ReportSubjectVH> {
           @Override
           public void onAbsenteeLoaded(List<AbsenteeEntity> data) {
             holder.mAbsenteeCount.setText
-                (mContext.getString(R.string.report_absentee_count, data.size()));
+                (mContext.getString(R.string.report_absentee_total_lect, data.size()));
           }
 
           @Override

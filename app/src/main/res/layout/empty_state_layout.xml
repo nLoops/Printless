@@ -17,12 +17,12 @@
     android:src="@drawable/ic_empty"
     />
   <TextView
+    android:id="@+id/empty_tv"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="@dimen/dimen_twentyfour_dp"
     android:layout_below="@id/iv_subject_state"
     android:layout_centerHorizontal="true"
     android:gravity="center"
-    android:text="@string/empty_state_text_view"
     />
 </RelativeLayout>

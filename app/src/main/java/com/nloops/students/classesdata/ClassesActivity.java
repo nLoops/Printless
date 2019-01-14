@@ -47,6 +47,8 @@ public class ClassesActivity extends AppCompatActivity implements ClassDataContr
   RecyclerView mRecyclerView;
   @BindView(R.id.subject_rv_empty_state)
   RelativeLayout mRecyclerEmptyState;
+  @BindView(R.id.empty_tv)
+  TextView mEmptyTV;
   @BindView(R.id.classes_layout_container)
   CoordinatorLayout mLayoutContainer;
   @BindView(R.id.general_toolbar)
@@ -148,6 +150,7 @@ public class ClassesActivity extends AppCompatActivity implements ClassDataContr
   public void showEmptyState() {
     mRecyclerView.setVisibility(View.INVISIBLE);
     mRecyclerEmptyState.setVisibility(View.VISIBLE);
+    mEmptyTV.setText(getString(R.string.empty_state_add_class));
   }
 
   @Override

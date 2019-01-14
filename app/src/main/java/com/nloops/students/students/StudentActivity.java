@@ -41,6 +41,8 @@ public class StudentActivity extends AppCompatActivity implements
   RecyclerView mStudentRV;
   @BindView(R.id.subject_rv_empty_state)
   RelativeLayout mRecyclerViewEmptyView;
+  @BindView(R.id.empty_tv)
+  TextView mEmptyTV;
   @BindView(R.id.student_layout_container)
   CoordinatorLayout mLayoutContainer;
   @BindView(R.id.general_toolbar)
@@ -130,6 +132,7 @@ public class StudentActivity extends AppCompatActivity implements
   public void showEmptyState() {
     mStudentRV.setVisibility(View.INVISIBLE);
     mRecyclerViewEmptyView.setVisibility(View.VISIBLE);
+    mEmptyTV.setText(getString(R.string.empty_state_add_student));
   }
 
   @Override

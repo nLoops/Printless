@@ -3,6 +3,9 @@
   <string name="app_name">CheckBook</string>
   <string name="empty_state_content_description">Empty State Image</string>
   <string name="empty_state_text_view">Tap (+) to add new item</string>
+  <string name="empty_state_add_subject">Add a subject you teach</string>
+  <string name="empty_state_add_class">Add classes under your subject</string>
+  <string name="empty_state_add_student">Add students to this class</string>
   <string name="button_add_new">ADD</string>
   <string name="button_cancel_new">Cancel</string>
   <string name="button_update_current">UPDATE</string>
@@ -100,9 +103,10 @@
   <string name="attendance_save_btn">Save &amp; Exit</string>
 
   <!--Reports Fragment-->
-  <string name="report_student_count">Total Students (%1$d)</string>
-  <string name="report_absentee_count">Number of Absenteeism (%1$d)</string>
-  <string name="report_absentee_percentage">Percentage of Absenteeism (%1$d</string>
+  <string name="report_student_count">Student Total (%1$d)</string>
+  <string name="report_absentee_count">Absence total (%1$d)</string>
+  <string name="report_absentee_total_lect">Lecture total (%1$d)</string>
+  <string name="report_absentee_percentage">Absence percentage to lectures opened (%1$d</string>
   <string name="report_empty_state_msg">Still no generated reports data to display</string>
 
   <!--Settings Activity Strings-->

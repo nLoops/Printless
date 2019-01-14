@@ -16,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -51,6 +52,8 @@ public class SubjectFragment extends Fragment implements
   RecyclerView mSubjectRV;
   @BindView(R.id.subject_rv_empty_state)
   RelativeLayout mRecyclerEmptyState;
+  @BindView(R.id.empty_tv)
+  TextView mEmptyTV;
   @BindView(R.id.subject_layout_container)
   CoordinatorLayout layoutContainer;
   @BindView(R.id.subject_fab)
@@ -161,6 +164,7 @@ public class SubjectFragment extends Fragment implements
   public void showEmptyState() {
     mSubjectRV.setVisibility(View.INVISIBLE);
     mRecyclerEmptyState.setVisibility(View.VISIBLE);
+    mEmptyTV.setText(getString(R.string.empty_state_add_subject));
   }
 
   @Override
