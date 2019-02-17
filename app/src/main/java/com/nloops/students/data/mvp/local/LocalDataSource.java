@@ -1,15 +1,18 @@
 package com.nloops.students.data.mvp.local;
 
 import android.content.Context;
+import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import com.nloops.students.data.AppDatabase;
 import com.nloops.students.data.AppExecutors;
+import com.nloops.students.data.dao.SubjectDAO;
 import com.nloops.students.data.mvp.StructureDataSource;
 import com.nloops.students.data.tables.AbsenteeEntity;
 import com.nloops.students.data.tables.ClassEntity;
 import com.nloops.students.data.tables.StudentEntity;
 import com.nloops.students.data.tables.SubjectEntity;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 /**
  * This Class will implement {@link StructureDataSource} to feed functions with local operations
@@ -512,5 +515,31 @@ public class LocalDataSource implements StructureDataSource {
 
     AppExecutors.getInstance().diskIO().execute(runnable);
   }
+
+  /**
+   * Async Loading Students using UID, help us in Attendance Situations.
+   *
+   * @return List of {@link StudentEntity}
+   */
+  public StudentEntity getStudentByUID(Integer studentUID)
+      throws ExecutionException, InterruptedException {
+    return new getAllStudents(mDB.subjectDAO()).execute(studentUID).get();
+  }
+
+  private static class getAllStudents extends AsyncTask<Integer, Void, StudentEntity> {
+
+    private SubjectDAO mAsyncDao;
+
+    getAllStudents(SubjectDAO dao) {
+      this.mAsyncDao = dao;
+    }
+
+
+    @Override
+    protected StudentEntity doInBackground(Integer... integers) {
+      return mAsyncDao.loadSingleStudent(integers[0]);
+    }
+  }
+
 
 }

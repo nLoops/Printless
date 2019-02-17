@@ -8,6 +8,7 @@ import com.nloops.students.data.mvp.local.LocalDataSource;
 import com.nloops.students.data.tables.AbsenteeEntity;
 import com.nloops.students.data.tables.StudentEntity;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 import timber.log.Timber;
 
 public class AttendancePresenter implements AttendanceContract.Presenter {
@@ -57,7 +58,7 @@ public class AttendancePresenter implements AttendanceContract.Presenter {
     mDataSource.getAbsenteeByDate(dateValue, classID, new LoadingAbsenteeByDateCallBack() {
       @Override
       public void onAbsenteeLoaded(AbsenteeEntity entity) {
-        mView.showStudentsList(entity.getStudentsList());
+        mView.showStudentsList(updateStudents(entity.getStudentsList()));
         mView.showAbsenteeList(entity);
       }
 
@@ -88,5 +89,20 @@ public class AttendancePresenter implements AttendanceContract.Presenter {
   @Override
   public void start() {
     loadStudents();
+  }
+
+  private List<StudentEntity> updateStudents(List<StudentEntity> entities) {
+    for (StudentEntity student : entities) {
+      try {
+        StudentEntity currentEntity = mDataSource.getStudentByUID(student.getStudentID());
+        student.setStudentName(currentEntity.getStudentName());
+        student.setStudentUniID(currentEntity.getStudentUniID());
+      } catch (ExecutionException e) {
+        e.printStackTrace();
+      } catch (InterruptedException e) {
+        e.printStackTrace();
+      }
+    }
+    return entities;
   }
 }

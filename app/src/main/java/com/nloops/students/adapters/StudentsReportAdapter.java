@@ -20,6 +20,7 @@ import com.nloops.students.utils.SharedPreferenceHelper;
 import com.nloops.students.utils.StudentReportModel;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 public class StudentsReportAdapter extends Adapter<StudentReportVH> {
 
@@ -60,7 +61,7 @@ public class StudentsReportAdapter extends Adapter<StudentReportVH> {
           public void onAbsenteeLoaded(List<AbsenteeEntity> data) {
             int counter = 0;
             for (int i = 0; i < data.size(); i++) {
-              List<StudentEntity> entities = data.get(i).getStudentsList();
+              List<StudentEntity> entities = updateStudents(data.get(i).getStudentsList());
               for (StudentEntity studentEntity : entities) {
                 if (studentEntity.getStudentID() == entity.getStudentID()
                     && studentEntity.isAttendanceOkay()) {
@@ -102,6 +103,22 @@ public class StudentsReportAdapter extends Adapter<StudentReportVH> {
   @Override
   public int getItemCount() {
     return mStudentsData == null ? 0 : mStudentsData.size();
+  }
+
+  private List<StudentEntity> updateStudents(List<StudentEntity> entities) {
+    LocalDataSource dataSource = LocalDataSource.getInstance(mContext);
+    for (StudentEntity student : entities) {
+      try {
+        StudentEntity currentEntity = dataSource.getStudentByUID(student.getStudentID());
+        student.setStudentName(currentEntity.getStudentName());
+        student.setStudentUniID(currentEntity.getStudentUniID());
+      } catch (ExecutionException e) {
+        e.printStackTrace();
+      } catch (InterruptedException e) {
+        e.printStackTrace();
+      }
+    }
+    return entities;
   }
 
   public StudentEntity getStudentEntity(int position) {
