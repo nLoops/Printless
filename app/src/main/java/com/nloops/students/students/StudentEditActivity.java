@@ -273,7 +273,7 @@ public class StudentEditActivity extends AppCompatActivity implements
       StudentEntity studentEntity = new StudentEntity(
           Objects.requireNonNull(mStudentName.getText()).toString(),
           Objects.requireNonNull(mStudentUID.getText()).toString(),
-          classID, UtilsConstants.STUDENT_ABSENTEE_NO, subjectID);
+          classID, UtilsConstants.STUDENT_ABSENTEE_NO, subjectID, UtilsMethods.getUserUID());
       mPresenter.insertStudent(studentEntity);
     }
   }

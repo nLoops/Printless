@@ -23,11 +23,14 @@ public class ClassEntity {
   // this variable will holds the parent subject id to allow query all classes under this id from DB
   private int foreignSubjectID;
 
+  private String userUID;
 
-  public ClassEntity(int classID, String className, int foreignSubjectID) {
+
+  public ClassEntity(int classID, String className, int foreignSubjectID, String userUID) {
     this.classID = classID;
     this.className = className;
     this.foreignSubjectID = foreignSubjectID;
+    this.userUID = userUID;
   }
 
   /**
@@ -36,11 +39,15 @@ public class ClassEntity {
    * @param className {@link #className}
    */
   @Ignore
-  public ClassEntity(String className, int subjectID) {
+  public ClassEntity(String className, int subjectID, String userUID) {
     this.className = className;
     this.foreignSubjectID = subjectID;
+    this.userUID = userUID;
   }
 
+  @Ignore
+  public ClassEntity() {
+  }
 
   // Getters and Setters for Class variables.
   public int getClassID() {
@@ -65,5 +72,13 @@ public class ClassEntity {
 
   public void setForeignSubjectID(int foreignSubjectID) {
     this.foreignSubjectID = foreignSubjectID;
+  }
+
+  public String getUserUID() {
+    return userUID;
+  }
+
+  public void setUserUID(String userUID) {
+    this.userUID = userUID;
   }
 }

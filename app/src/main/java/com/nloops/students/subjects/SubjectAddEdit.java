@@ -137,7 +137,7 @@ public class SubjectAddEdit extends AppCompatActivity implements
   @OnClick(R.id.btn_add_subject)
   public void insertSubject(Button button) {
     SubjectEntity entity = new SubjectEntity(mSubjectNameED.getText().toString()
-        , mSchoolNameED.getText().toString());
+        , mSchoolNameED.getText().toString(), UtilsMethods.getUserUID());
     if (isEditMode) {
       mPresenter.updateSubject(entity);
     } else {

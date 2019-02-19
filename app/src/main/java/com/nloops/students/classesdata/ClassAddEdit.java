@@ -111,7 +111,7 @@ public class ClassAddEdit extends AppCompatActivity implements ClassEditContract
           (UtilsConstants.EXTRA_CLASS_TO_EDIT_SUBJECT_ID, -1);
       // Create new Class Entity.
       ClassEntity classEntity = new ClassEntity(mClassNameED.getText().toString(),
-          parentSubjectID);
+          parentSubjectID, UtilsMethods.getUserUID());
       if (isEditMode) {
         mPresenter.updateClass(classEntity);
       } else {

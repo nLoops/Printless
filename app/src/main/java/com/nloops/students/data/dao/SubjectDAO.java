@@ -20,13 +20,13 @@ import java.util.List;
 @Dao
 public interface SubjectDAO {
 
-  @Query("SELECT * from subjects")
-  List<SubjectEntity> loadAllSubjects();
+  @Query("SELECT * from subjects WHERE userUID = :userUID")
+  List<SubjectEntity> loadAllSubjects(String userUID);
 
   @Query("SELECT * from subjects WHERE subjectID = :id")
   SubjectEntity loadSingleSubject(int id);
 
-  @Insert
+  @Insert(onConflict = OnConflictStrategy.REPLACE)
   void insertSubject(SubjectEntity subjectEntity);
 
   @Update(onConflict = OnConflictStrategy.REPLACE)
@@ -36,16 +36,16 @@ public interface SubjectDAO {
   void deleteSubject(SubjectEntity subjectEntity);
 
   // CRUD for Class Entity
-  @Query("SELECT * from class_table")
-  List<ClassEntity> loadAllClassesTable();
+  @Query("SELECT * from class_table WHERE userUID = :userUID")
+  List<ClassEntity> loadAllClassesTable(String userUID);
 
-  @Query("SELECT * from class_table WHERE foreignSubjectID = :subjectID")
-  List<ClassEntity> loadAllClasses(int subjectID);
+  @Query("SELECT * from class_table WHERE foreignSubjectID = :subjectID AND userUID = :userUID")
+  List<ClassEntity> loadAllClasses(int subjectID, String userUID);
 
   @Query("SELECT * from class_table WHERE classID = :id")
   ClassEntity loadSingleClass(int id);
 
-  @Insert
+  @Insert(onConflict = OnConflictStrategy.REPLACE)
   void insertClass(ClassEntity classEntity);
 
   @Update(onConflict = OnConflictStrategy.REPLACE)
@@ -55,14 +55,14 @@ public interface SubjectDAO {
   void deleteClass(ClassEntity classEntity);
 
   // CRUD for Student Entity
-  @Query("SELECT * from students")
-  List<StudentEntity> loadAllStudentsTable();
+  @Query("SELECT * from students WHERE userUID = :userUID")
+  List<StudentEntity> loadAllStudentsTable(String userUID);
 
-  @Query("SELECT * from students WHERE foreignClassID = :classID")
-  List<StudentEntity> loadAllStudents(int classID);
+  @Query("SELECT * from students WHERE foreignClassID = :classID AND userUID = :userUID")
+  List<StudentEntity> loadAllStudents(int classID, String userUID);
 
-  @Query("SELECT * from students WHERE foreignSubjectID = :subjectID")
-  List<StudentEntity> loadAllStudentsBySubject(int subjectID);
+  @Query("SELECT * from students WHERE foreignSubjectID = :subjectID AND userUID = :userUID")
+  List<StudentEntity> loadAllStudentsBySubject(int subjectID, String userUID);
 
   @Query("SELECT * from students WHERE studentID = :id")
   StudentEntity loadSingleStudent(int id);
@@ -70,7 +70,7 @@ public interface SubjectDAO {
   @Query("SELECT * from students WHERE studentUniID LIKE :searchKeyword")
   List<StudentEntity> checkStudentUID(String searchKeyword);
 
-  @Insert
+  @Insert(onConflict = OnConflictStrategy.REPLACE)
   void insertStudent(StudentEntity studentEntity);
 
   @Update(onConflict = OnConflictStrategy.REPLACE)
@@ -83,22 +83,22 @@ public interface SubjectDAO {
   void deleteStudent(StudentEntity studentEntity);
 
   // CRUD for Absentee Entity
-  @Query("SELECT * from absentees")
-  List<AbsenteeEntity> loadAllAbsentee();
+  @Query("SELECT * from absentees WHERE userUID = :userUID")
+  List<AbsenteeEntity> loadAllAbsentee(String userUID);
 
-  @Query("SELECT * from absentees WHERE foreignAttSubjectID = :subjectID")
-  List<AbsenteeEntity> loadAllAbsenteeBySubject(int subjectID);
+  @Query("SELECT * from absentees WHERE foreignAttSubjectID = :subjectID AND userUID = :userUID")
+  List<AbsenteeEntity> loadAllAbsenteeBySubject(int subjectID, String userUID);
 
-  @Query("SELECT * from absentees WHERE foreignAttClassID = :classID")
-  List<AbsenteeEntity> loadAllAbsenteeByClass(int classID);
+  @Query("SELECT * from absentees WHERE foreignAttClassID = :classID AND userUID = :userUID")
+  List<AbsenteeEntity> loadAllAbsenteeByClass(int classID, String userUID);
 
-  @Query("SELECT * from absentees WHERE absenteeID = :id AND foreignAttClassID = :classID")
-  AbsenteeEntity loadSingleAbsentee(int id, int classID);
+  @Query("SELECT * from absentees WHERE absenteeID = :id AND foreignAttClassID = :classID AND userUID = :userUID")
+  AbsenteeEntity loadSingleAbsentee(int id, int classID, String userUID);
 
-  @Query("SELECT * from absentees WHERE absenteeDate = :dateValue AND foreignAttClassID = :classID ")
-  AbsenteeEntity getAbsenteeByDate(long dateValue, int classID);
+  @Query("SELECT * from absentees WHERE absenteeDate = :dateValue AND foreignAttClassID = :classID AND userUID = :userUID ")
+  AbsenteeEntity getAbsenteeByDate(long dateValue, int classID, String userUID);
 
-  @Insert
+  @Insert(onConflict = OnConflictStrategy.REPLACE)
   void insertAbsentee(AbsenteeEntity absenteeEntity);
 
   @Update(onConflict = OnConflictStrategy.REPLACE)

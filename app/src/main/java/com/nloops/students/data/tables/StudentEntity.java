@@ -35,33 +35,42 @@ public class StudentEntity {
 
   private int foreignSubjectID;
 
+  private String userUID;
+
   public StudentEntity(int studentID, String studentName, String studentUniID, int foreignClassID,
-      int attendanceState, int foreignSubjectID) {
+      int attendanceState, int foreignSubjectID, String userUID) {
     this.studentID = studentID;
     this.studentName = studentName;
     this.studentUniID = studentUniID;
     this.foreignClassID = foreignClassID;
     this.attendanceState = attendanceState;
     this.foreignSubjectID = foreignSubjectID;
+    this.userUID = userUID;
   }
 
   @Ignore
   public StudentEntity(String studentName, String studentUniID, int foreignClassID,
-      int attendanceState, int foreignSubjectID) {
+      int attendanceState, int foreignSubjectID, String userUID) {
     this.studentName = studentName;
     this.studentUniID = studentUniID;
     this.foreignClassID = foreignClassID;
     this.attendanceState = attendanceState;
     this.foreignSubjectID = foreignSubjectID;
+    this.userUID = userUID;
   }
 
   @Ignore
   public StudentEntity(String studentName, int foreignClassID,
-      int attendanceState, int foreignSubjectID) {
+      int attendanceState, int foreignSubjectID, String userUID) {
     this.studentName = studentName;
     this.foreignClassID = foreignClassID;
     this.attendanceState = attendanceState;
     this.foreignSubjectID = foreignSubjectID;
+    this.userUID = userUID;
+  }
+
+  @Ignore
+  public StudentEntity() {
   }
 
   public int getStudentID() {
@@ -114,5 +123,13 @@ public class StudentEntity {
 
   public void setForeignSubjectID(int foreignSubjectID) {
     this.foreignSubjectID = foreignSubjectID;
+  }
+
+  public String getUserUID() {
+    return userUID;
+  }
+
+  public void setUserUID(String userUID) {
+    this.userUID = userUID;
   }
 }

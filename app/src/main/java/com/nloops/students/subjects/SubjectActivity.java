@@ -10,19 +10,29 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AlertDialog.Builder;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.nloops.students.R;
+import com.nloops.students.cloud.CloudModel;
 import com.nloops.students.cloud.CloudOperations;
+import com.nloops.students.data.mvp.local.LocalDataSource;
 import com.nloops.students.fragments.HomeFragmentsAdapter;
 import com.nloops.students.fragments.ReportsFragment;
 import com.nloops.students.fragments.SettingsFragment;
 import com.nloops.students.fragments.SubjectFragment;
 import com.nloops.students.utils.SharedPreferenceHelper;
+import com.nloops.students.utils.UtilsConstants;
 import com.nloops.students.views.StudentsViewPager;
+import io.paperdb.Paper;
 import java.util.List;
 import java.util.Objects;
 import pub.devrel.easypermissions.EasyPermissions;
@@ -179,4 +189,45 @@ public class SubjectActivity extends AppCompatActivity implements
         })
         .show();
   }
+
+  @Override
+  protected void onResume() {
+    super.onResume();
+    if (FirebaseAuth.getInstance().getCurrentUser() != null) {
+      syncDataWithDatabase();
+      boolean isScheduled = Paper.book().read(UtilsConstants.CLOUD_SCHEDULED, false);
+      Log.d("TESA", "onResume1: ");
+      if (!isScheduled) {
+        CloudOperations.getInstance(this).initialize();
+        Paper.book().write(UtilsConstants.CLOUD_SCHEDULED, true);
+        Log.d("TESA", "onResume2: ");
+      }
+    }
+  }
+
+  private void syncDataWithDatabase() {
+    if (FirebaseAuth.getInstance().getCurrentUser() != null) {
+      // get DataSource Instance
+      LocalDataSource dataSource = LocalDataSource.getInstance(this);
+      // get CloudPath in database and query data.
+      FirebaseDatabase.getInstance().getReference()
+          .child(UtilsConstants.ATTENDANCE_DATABASE_REFERENCE)
+          .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+          .addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+              if (dataSnapshot.exists()) {
+                CloudModel model = dataSnapshot.getValue(CloudModel.class);
+                dataSource.syncDataWithRoom(model);
+              }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+              Log.d("tesa", "onCancelled: ");
+            }
+          });
+    }
+  }
+
 }

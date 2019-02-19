@@ -20,20 +20,27 @@ public class SubjectEntity {
   private String subjectName;
   @ColumnInfo(name = "school_name")
   private String schoolName;
+  private String userUID;
 
   // this constructor will automatically used by Room in this object construction.
-  public SubjectEntity(int subjectID, String subjectName, String schoolName) {
+  public SubjectEntity(int subjectID, String subjectName, String schoolName, String userUID) {
     this.subjectID = subjectID;
     this.subjectName = subjectName;
     this.schoolName = schoolName;
+    this.userUID = userUID;
   }
 
   // marked this constructor with @Ignore annotation because we will use it in our
   // CRUD operations (insert,update,delete etc...)
   @Ignore
-  public SubjectEntity(String subjectName, String schoolName) {
+  public SubjectEntity(String subjectName, String schoolName, String userUID) {
     this.subjectName = subjectName;
     this.schoolName = schoolName;
+    this.userUID = userUID;
+  }
+
+  @Ignore
+  public SubjectEntity() {
   }
 
   // object getters and setters.
@@ -59,5 +66,13 @@ public class SubjectEntity {
 
   public void setSchoolName(String schoolName) {
     this.schoolName = schoolName;
+  }
+
+  public String getUserUID() {
+    return userUID;
+  }
+
+  public void setUserUID(String userUID) {
+    this.userUID = userUID;
   }
 }

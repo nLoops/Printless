@@ -35,22 +35,31 @@ public class AbsenteeEntity {
 
   private int foreignAttSubjectID;
 
+  private String userUID;
+
   public AbsenteeEntity(int absenteeID, long absenteeDate,
-      List<StudentEntity> studentsList, int foreignAttClassID, int foreignAttSubjectID) {
+      List<StudentEntity> studentsList, int foreignAttClassID, int foreignAttSubjectID,
+      String userUID) {
     this.absenteeID = absenteeID;
     this.absenteeDate = absenteeDate;
     this.studentsList = studentsList;
     this.foreignAttClassID = foreignAttClassID;
     this.foreignAttSubjectID = foreignAttSubjectID;
+    this.userUID = userUID;
   }
 
   @Ignore
   public AbsenteeEntity(long absenteeDate,
-      List<StudentEntity> students, int classID, int foreignAttSubjectID) {
+      List<StudentEntity> students, int classID, int foreignAttSubjectID, String userUID) {
     this.absenteeDate = absenteeDate;
     this.studentsList = students;
     this.foreignAttClassID = classID;
     this.foreignAttSubjectID = foreignAttSubjectID;
+    this.userUID = userUID;
+  }
+
+  @Ignore
+  public AbsenteeEntity() {
   }
 
   public int getAbsenteeID() {
@@ -91,5 +100,13 @@ public class AbsenteeEntity {
 
   public void setForeignAttSubjectID(int foreignAttSubjectID) {
     this.foreignAttSubjectID = foreignAttSubjectID;
+  }
+
+  public String getUserUID() {
+    return userUID;
+  }
+
+  public void setUserUID(String userUID) {
+    this.userUID = userUID;
   }
 }

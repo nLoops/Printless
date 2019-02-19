@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import com.google.firebase.auth.FirebaseAuth;
 import com.nloops.students.R;
 import com.skydoves.powermenu.MenuAnimation;
 import com.skydoves.powermenu.OnMenuItemClickListener;
@@ -121,6 +122,14 @@ public class UtilsMethods {
   public static void setCursorToEnd(TextInputEditText editText) {
     editText.setSelection
         (Objects.requireNonNull(editText.getText()).length());
+  }
+
+  public static String getUserUID() {
+    String uid = "";
+    if (FirebaseAuth.getInstance().getCurrentUser() != null) {
+      uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+    }
+    return uid;
   }
 
 }

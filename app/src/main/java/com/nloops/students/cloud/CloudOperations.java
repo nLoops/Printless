@@ -2,6 +2,7 @@ package com.nloops.students.cloud;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import com.firebase.jobdispatcher.Constraint;
@@ -20,7 +21,9 @@ import com.nloops.students.data.tables.ClassEntity;
 import com.nloops.students.data.tables.StudentEntity;
 import com.nloops.students.data.tables.SubjectEntity;
 import com.nloops.students.utils.UtilsConstants;
+import com.nloops.students.utils.UtilsMethods;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
 public class CloudOperations {
@@ -29,9 +32,9 @@ public class CloudOperations {
   private static AppDatabase mDB;
 
   private static final String TAG = CloudOperations.class.getSimpleName();
-  private static final int TWELVE_HOURS = 12;
-  private static final int DAY_HOURS = 24;
-  private static final int WEEK_HOURS = 168;
+  private static final int TWELVE_HOURS = 11;
+  private static final int DAY_HOURS = 23;
+  private static final int WEEK_HOURS = 165;
   private static final int FLEXTIME_MULTIPLIER = 3;
   private static final String TASKS_TAG = "sync-tasks";
   private static int SYNC_INTERVAL_HOURS;
@@ -58,6 +61,7 @@ public class CloudOperations {
           .child(UtilsConstants.ATTENDANCE_DATABASE_REFERENCE)
           .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
           .setValue(getDataModel());
+      Log.d(TAG, "syncDataWithServer: Done");
     } catch (Exception e) {
       Log.d(TAG, "Cannot push data to the server \n" + e.getMessage());
     }
@@ -65,10 +69,14 @@ public class CloudOperations {
   }
 
   private static CloudModel getDataModel() {
-    List<SubjectEntity> subjectEntities = mDB.subjectDAO().loadAllSubjects();
-    List<AbsenteeEntity> absenteeEntities = mDB.subjectDAO().loadAllAbsentee();
-    List<ClassEntity> classEntities = mDB.subjectDAO().loadAllClassesTable();
-    List<StudentEntity> studentEntities = mDB.subjectDAO().loadAllStudentsTable();
+    List<SubjectEntity> subjectEntities = mDB.subjectDAO()
+        .loadAllSubjects(UtilsMethods.getUserUID());
+    List<AbsenteeEntity> absenteeEntities = mDB.subjectDAO()
+        .loadAllAbsentee(UtilsMethods.getUserUID());
+    List<ClassEntity> classEntities = mDB.subjectDAO()
+        .loadAllClassesTable(UtilsMethods.getUserUID());
+    List<StudentEntity> studentEntities = mDB.subjectDAO()
+        .loadAllStudentsTable(UtilsMethods.getUserUID());
     return new CloudModel(subjectEntities, classEntities, studentEntities, absenteeEntities);
   }
 
@@ -139,6 +147,28 @@ public class CloudOperations {
         .build();
     /* Schedule the Job with the dispatcher */
     dispatcher.schedule(tasksJob);
+  }
+
+  public static CloudModel loadModelsData() throws ExecutionException, InterruptedException {
+    return new CloudDataLoader().execute().get();
+  }
+
+  ;
+
+  private static class CloudDataLoader extends AsyncTask<Void, Void, CloudModel> {
+
+    @Override
+    protected CloudModel doInBackground(Void... voids) {
+      List<SubjectEntity> subjectEntities = mDB.subjectDAO()
+          .loadAllSubjects(UtilsMethods.getUserUID());
+      List<AbsenteeEntity> absenteeEntities = mDB.subjectDAO()
+          .loadAllAbsentee(UtilsMethods.getUserUID());
+      List<ClassEntity> classEntities = mDB.subjectDAO()
+          .loadAllClassesTable(UtilsMethods.getUserUID());
+      List<StudentEntity> studentEntities = mDB.subjectDAO()
+          .loadAllStudentsTable(UtilsMethods.getUserUID());
+      return new CloudModel(subjectEntities, classEntities, studentEntities, absenteeEntities);
+    }
   }
 
 }

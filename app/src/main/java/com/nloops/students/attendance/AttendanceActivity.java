@@ -113,7 +113,7 @@ public class AttendanceActivity extends AppCompatActivity implements
       mPresenter.updateAttendance(absenteeEntity);
     } else {
       AbsenteeEntity entity = new AbsenteeEntity(getAttendanceDate(), mAdapter.getStudentEntity(),
-          classID, passedSubjectID);
+          classID, passedSubjectID, UtilsMethods.getUserUID());
       mPresenter.insertAttendance(entity);
     }
     FragmentManager fm = getSupportFragmentManager();
@@ -147,7 +147,7 @@ public class AttendanceActivity extends AppCompatActivity implements
           data.get(i).getStudentName(), data.get(i).getStudentUniID(),
           data.get(i).getForeignClassID(),
           data.get(i).getAttendanceState(),
-          data.get(i).getForeignSubjectID());
+          data.get(i).getForeignSubjectID(), UtilsMethods.getUserUID());
       studentEntities.add(entity);
     }
     mAdapter.setStudentData(studentEntities);

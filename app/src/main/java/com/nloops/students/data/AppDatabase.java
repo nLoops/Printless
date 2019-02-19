@@ -18,7 +18,7 @@ import timber.log.Timber;
  */
 @Database(entities = {SubjectEntity.class, ClassEntity.class, StudentEntity.class,
     AbsenteeEntity.class,
-    StudentAbsJoin.class}, version = 1, exportSchema = false)
+    StudentAbsJoin.class}, version = 2, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
 
   // Declare local variables
@@ -35,6 +35,7 @@ public abstract class AppDatabase extends RoomDatabase {
         Timber.d("Creating New Database Instance");
         sInstance = Room.databaseBuilder(context.getApplicationContext(),
             AppDatabase.class, AppDatabase.DATABASE_NAME)
+            //.fallbackToDestructiveMigration()
             .build();
       }
     }
