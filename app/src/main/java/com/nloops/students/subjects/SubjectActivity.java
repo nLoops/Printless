@@ -35,6 +35,7 @@ import com.nloops.students.views.StudentsViewPager;
 import io.paperdb.Paper;
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.ExecutionException;
 import pub.devrel.easypermissions.EasyPermissions;
 
 
@@ -195,12 +196,12 @@ public class SubjectActivity extends AppCompatActivity implements
     super.onResume();
     if (FirebaseAuth.getInstance().getCurrentUser() != null) {
       syncDataWithDatabase();
+      String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+      Paper.book().write(UtilsConstants.LAST_FIREBASE_UID, uid);
       boolean isScheduled = Paper.book().read(UtilsConstants.CLOUD_SCHEDULED, false);
-      Log.d("TESA", "onResume1: ");
       if (!isScheduled) {
         CloudOperations.getInstance(this).initialize();
         Paper.book().write(UtilsConstants.CLOUD_SCHEDULED, true);
-        Log.d("TESA", "onResume2: ");
       }
     }
   }
@@ -209,24 +210,32 @@ public class SubjectActivity extends AppCompatActivity implements
     if (FirebaseAuth.getInstance().getCurrentUser() != null) {
       // get DataSource Instance
       LocalDataSource dataSource = LocalDataSource.getInstance(this);
-      // get CloudPath in database and query data.
-      FirebaseDatabase.getInstance().getReference()
-          .child(UtilsConstants.ATTENDANCE_DATABASE_REFERENCE)
-          .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-          .addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-              if (dataSnapshot.exists()) {
-                CloudModel model = dataSnapshot.getValue(CloudModel.class);
-                dataSource.syncDataWithRoom(model);
-              }
-            }
+      try {
+        if (dataSource.isSyncNeeded()) {
+          // get CloudPath in database and query data.
+          FirebaseDatabase.getInstance().getReference()
+              .child(UtilsConstants.ATTENDANCE_DATABASE_REFERENCE)
+              .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+              .addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                  if (dataSnapshot.exists()) {
+                    CloudModel model = dataSnapshot.getValue(CloudModel.class);
+                    dataSource.syncDataWithRoom(model);
+                  }
+                }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-              Log.d("tesa", "onCancelled: ");
-            }
-          });
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+                  Log.d("tesa", "onCancelled: ");
+                }
+              });
+        }
+      } catch (ExecutionException e) {
+        e.printStackTrace();
+      } catch (InterruptedException e) {
+        e.printStackTrace();
+      }
     }
   }
 

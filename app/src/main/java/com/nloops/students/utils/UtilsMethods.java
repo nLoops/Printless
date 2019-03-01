@@ -14,6 +14,7 @@ import com.skydoves.powermenu.MenuAnimation;
 import com.skydoves.powermenu.OnMenuItemClickListener;
 import com.skydoves.powermenu.PowerMenu;
 import com.skydoves.powermenu.PowerMenuItem;
+import io.paperdb.Paper;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Objects;
@@ -128,6 +129,8 @@ public class UtilsMethods {
     String uid = "";
     if (FirebaseAuth.getInstance().getCurrentUser() != null) {
       uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+    } else {
+      Paper.book().read(UtilsConstants.LAST_FIREBASE_UID, "");
     }
     return uid;
   }

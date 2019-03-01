@@ -30,6 +30,7 @@ public class UtilsConstants {
 
   public static final String PERMISSIONS_GRANTED = "permissions_stat";
   public static final String CLOUD_SCHEDULED = "cloud_synced";
+  public static final String LAST_FIREBASE_UID = "last_uid";
 
   // for Student Model State
   public static final int STUDENT_ABSENTEE_OKAY = 1;

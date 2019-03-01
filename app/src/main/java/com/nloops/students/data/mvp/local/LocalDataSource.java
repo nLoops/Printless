@@ -431,5 +431,27 @@ public class LocalDataSource implements StructureDataSource {
     }
   }
 
+  public boolean isSyncNeeded() throws ExecutionException, InterruptedException {
+    return checkSubjects().size() <= 0;
+  }
+
+  private List<SubjectEntity> checkSubjects() throws ExecutionException, InterruptedException {
+    return new SubjectDataLoader(mDB.subjectDAO()).execute().get();
+  }
+
+  private static class SubjectDataLoader extends AsyncTask<Void, Void, List<SubjectEntity>> {
+
+    private SubjectDAO mAsyncDao;
+
+    SubjectDataLoader(SubjectDAO dao) {
+      this.mAsyncDao = dao;
+    }
+
+    @Override
+    protected List<SubjectEntity> doInBackground(Void... voids) {
+      return mAsyncDao.loadAllSubjects(UtilsMethods.getUserUID());
+    }
+  }
+
 
 }
