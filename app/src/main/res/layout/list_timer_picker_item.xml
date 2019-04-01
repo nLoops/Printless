@@ -23,4 +23,11 @@
     android:textSize="@dimen/text_time_size"
     tools:text="@string/prefered_time_one"/>
 
+  <View
+    style="@style/lineMargin"
+    android:layout_width="match_parent"
+    android:layout_height="2dp"
+    android:layout_marginTop="@dimen/dimen_eight_dp"
+    android:background="@color/colorRecyclerSeparator"/>
+
 </LinearLayout>

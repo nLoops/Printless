@@ -60,7 +60,7 @@ public class AlarmScheduler {
     int requestID = (int) (System.currentTimeMillis() % Integer.MAX_VALUE);
 
     PendingIntent pendingIntent = PendingIntent.getBroadcast(context,
-        requestID, classIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        0, classIntent, PendingIntent.FLAG_UPDATE_CURRENT);
     // get AlarmManager
     AlarmManager alarmManager = AlarmManagerProvider.getAlarmManager(context);
     // Cancel previous Alarms
@@ -129,6 +129,21 @@ public class AlarmScheduler {
 
 
     }
+
+  }
+
+  public static void cancelAlarm(Context context, SubjectModel model) {
+    // Need to add SubjectID , SubjectName.
+    Intent classIntent = new Intent(context, AlarmReceiver.class);
+    classIntent.putExtra(UtilsConstants.EXTRA_SUBJECT_NAME_TO_CLASS, model.subjectName);
+    classIntent.putExtra(UtilsConstants.EXTRA_SUBJECT_ID_TO_CLASSES, model.subjectID);
+
+    PendingIntent pendingIntent = PendingIntent.getBroadcast(context,
+        0, classIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+    // get AlarmManager
+    AlarmManager alarmManager = AlarmManagerProvider.getAlarmManager(context);
+    // Cancel previous Alarms
+    alarmManager.cancel(pendingIntent);
 
   }
 

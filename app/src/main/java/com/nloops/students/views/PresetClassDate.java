@@ -87,6 +87,13 @@ public class PresetClassDate extends BottomSheetDialogFragment {
     mAdapter = new ScheduleAdapter(Objects.requireNonNull(getContext()), mScheduleDatesObjects);
     mListView.setAdapter(mAdapter);
     mListView.setEmptyView(mEmptyListView);
+    mListView.setOnItemLongClickListener((parent, view1, position, id) -> {
+      mAdapter.removeSchedule(position);
+      AlarmScheduler.cancelAlarm(getContext(), getSubjectModel());
+      Paper.book()
+          .write(String.valueOf(getArguments().getInt(CLASS_ID)), mAdapter.getScheduleObjects());
+      return true;
+    });
   }
 
   @OnClick(R.id.pre_class_action_button)

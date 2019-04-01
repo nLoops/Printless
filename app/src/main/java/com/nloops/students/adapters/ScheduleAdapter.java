@@ -14,9 +14,12 @@ import java.util.ArrayList;
 
 public class ScheduleAdapter extends ArrayAdapter<ScheduleObject> {
 
+  private ArrayList<ScheduleObject> scheduleObjects;
+
   public ScheduleAdapter(
       @NonNull Context context, @NonNull ArrayList<ScheduleObject> scheduleObjects) {
     super(context, 0, scheduleObjects);
+    this.scheduleObjects = scheduleObjects;
   }
 
 
@@ -37,5 +40,14 @@ public class ScheduleAdapter extends ArrayAdapter<ScheduleObject> {
     dateTV.setText(scheduleObject.getmDateString());
     timeTV.setText(scheduleObject.getmTimeString());
     return convertView;
+  }
+
+  public void removeSchedule(int position) {
+    scheduleObjects.remove(position);
+    notifyDataSetChanged();
+  }
+
+  public ArrayList<ScheduleObject> getScheduleObjects() {
+    return scheduleObjects;
   }
 }
